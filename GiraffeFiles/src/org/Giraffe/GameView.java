@@ -1,6 +1,8 @@
 package org.Giraffe;
 
 
+import java.util.LinkedList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,18 +15,18 @@ import android.os.Handler;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	GameThread gameThread;
-	int G_y1;
-	int G_y2;
-	int G_x1;
-	int G_x2;
-	int b_round;
+	int width;
+	int height;
+	GameModel gameModel;
+	GiraffeEntity ourGiraffe;
+	
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		//lets us stay updated about changes.
@@ -33,13 +35,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		
 		//calls the inner class
 		gameThread=new GameThread(holder, context,new Handler());
-       
-		G_y1=150;
-        G_y2=450;
-        G_x1=0;
-        G_x2=150;
+
         setFocusable(true);
-		
 	}
 	
 	class GameThread extends Thread{
@@ -47,12 +44,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		Handler G_handler;
 		Context G_context;
 		Bitmap background;
-		Drawable giraffe;
-		Rect rectangle;
 		int w_adapt;
 		int h_adapt;
 		boolean G_run;
 		long time;
+		long timeIn;
 		
 		
 		   public GameThread(SurfaceHolder surfaceHolder, Context context,
@@ -60,39 +56,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			   G_surface=surfaceHolder;
 			   G_context=context;
 			   G_handler=handler;
-			   b_round=0;
 			   Resources res = G_context.getResources();
-	            giraffe = context.getResources().getDrawable(
-	                    R.drawable.giraffe);
-	            background=BitmapFactory.decodeResource(res, R.drawable.a);	
+			   gameModel=new GameModel(G_context);
+			   gameModel.loadLevel(1);
+			   background=gameModel.getBackgrounds();
+	           
+	           ourGiraffe=new GiraffeEntity(G_context, 0);
 	            setFocusable(true);
 	            
 		   }
+		   protected void onSizeChanged(int w, int h, int oldw, int oldh){
+			   
+		   }
 		public void doDraw(Canvas canvas){
-			Resources res = G_context.getResources();	
-			canvas.drawBitmap(background, 0, 0, null);
-			giraffe.setBounds(G_x1, G_y1, G_x2, G_y2);
-			giraffe.draw(canvas);
-			canvas.save();
+			canvas.drawBitmap(background ,gameModel.getBChange(), 0, null);
+			canvas.drawBitmap(background,gameModel.getB2Change(), 0, null);
+			Drawable g_raff=ourGiraffe.getImage();
+			g_raff.setBounds(ourGiraffe.x1, ourGiraffe.y1, ourGiraffe.x2, ourGiraffe.y2);
+			g_raff.draw(canvas);
+			ourGiraffe.move();
 			
-			if(b_round==0){
-				 background=BitmapFactory.decodeResource(res, R.drawable.a);
-				 giraffe = G_context.getResources().getDrawable(
-		                    R.drawable.giraffe2);
-			 }else if(b_round==1){
-				 background=BitmapFactory.decodeResource(res, R.drawable.a3);
-				 giraffe = G_context.getResources().getDrawable(
-		                    R.drawable.giraffe);
-			 }else if(b_round==2){
-				 background=BitmapFactory.decodeResource(res, R.drawable.a2);
-			 }else{
-				 Log.d("change", "Background");
-			 }
-			 time=System.currentTimeMillis();
-			 while(time+500>System.currentTimeMillis()){
-			 }
+			for(int x=0; x<gameModel.getEntityDraw().size(); x++){
+				Drawable f=gameModel.getEntityDraw().get(x).getImage();
+				f.setBounds(gameModel.getEntityDraw().get(x).getX(),
+						gameModel.getEntityDraw().get(x).getY(),
+						gameModel.getEntityDraw().get(x).getX2(),
+						gameModel.getEntityDraw().get(x).getY2());
+				gameModel.getEntityDraw().get(x).move();
+				f.draw(canvas);
+			}
 			
-			canvas.restore();
 			
 		}
 		 
@@ -100,10 +93,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             synchronized (G_surface) {
                 w_adapt = width;
                 h_adapt = height;
-
+                Log.d("TAG", "setSurfaceSize...");
                 // don't forget to resize the background image
                 background = background.createScaledBitmap(
-                        background, width, height, true);
+                       background, width, height, true);
             }
 			
 		}
@@ -113,15 +106,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		}
 		 public void run() {
 			 	while (G_run) {
-	                time=System.currentTimeMillis();
-			 		Canvas c = null;
+			 		Log.d("TAG", "RUn...");
+	                Canvas c = null;
 	                try {
 	                    c = G_surface.lockCanvas(null);
 	                    synchronized (G_surface) {
-	                    	if(b_round==2){
-	                    		b_round=-1;
-	                    	}
-	                    	b_round++;
+	                    	gameModel.alternateBackground();
+	                    	gameModel.updateLevel();
+	                    	gameModel.alternateEntity();
 	                    	doDraw(c);
 	                    } 
 	                } finally {
@@ -134,43 +126,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	                }
 	            }
 	        }
-		 private void changeBackground(int x){
-			 Resources res = G_context.getResources();	
-			 if(x==0){
-				background=BitmapFactory.decodeResource(res, R.drawable.a2);
-			 }else if(x==1){
-				 background=BitmapFactory.decodeResource(res, R.drawable.a2);
-				 invalidate();
-			 }else if(x==2){
-				 background=BitmapFactory.decodeResource(res, R.drawable.a3);
-			 }else{
-				 Log.d("change", "Background");
-			 }
-		}
 	}
  
 	
-public boolean onKeyUp(int keyCode, KeyEvent msg) {
-	    if(keyCode==KeyEvent.KEYCODE_DPAD_UP){
-	    	try {
-				jump(G_y1, G_y2);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction()== MotionEvent.ACTION_DOWN)
+		{
+		
+		/*try {
+		  //jump(G_y1, G_y2);
+		 } catch (InterruptedException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+		 }  
+		}
+		*/
 			}
-	    }
-	    return false;
-	    
-	}
+		return false;
+		}
+	
  public boolean jumping=false;
  long cTime;//current time
  long timer;//the timer as it goes along.
- public void down(int y1, int y2){
-	 G_y1=y1+10;
-	 G_y2=y2+10;
-	 invalidate();
- }
-
-	 public void jump(int y1, int y2) throws InterruptedException{
+/*	 
+ public void jump(int y1, int y2) throws InterruptedException{
 		 //redraws
 		 invalidate();
 
@@ -200,13 +179,15 @@ public boolean onKeyUp(int keyCode, KeyEvent msg) {
 	      invalidate();
 	     
 	 }
-	 
+	 */
 	public GameThread getThread(){
 		return gameThread;
 	}
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		gameThread.setSurfaceSize(width, height);
+		this.width=width;
+		this.height=height;
 	}
 
 
