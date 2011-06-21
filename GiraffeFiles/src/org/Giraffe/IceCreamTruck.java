@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 
 public class IceCreamTruck extends Entity{
-	
+	Context context;
 	public IceCreamTruck(Context context, long time) {
 		super(context, time);
-		//this.timeIn=time;
+		this.context=context;
 		Resources res = context.getResources();
 
 		this.x1=800;
@@ -16,17 +16,22 @@ public class IceCreamTruck extends Entity{
 		this.y2=400;
 		this.image=context.getResources().getDrawable(
                 R.drawable.creamtruck);
-		
-
 	}	
 	public void move() {
-		this.x1-=1;
-		this.x2-=1;
+		this.x1-=5;
+		this.x2-=5;
 	}
 
-	public boolean collidesWith(Collidable otherEntity) {
-		// TODO Auto-generated method stub
-		return false;
+	@Override
+	public void collided(Entity otherEntity) {
+		if(otherEntity.toString().equals("giraffe")){
+			image=context.getResources().getDrawable(R.drawable.helicopter);
+			this.setDraw(false);
+		}
+		
+	}
+	public String toString(){
+		return "icecream";
 	}
 
 

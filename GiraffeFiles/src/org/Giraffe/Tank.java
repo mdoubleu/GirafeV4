@@ -33,11 +33,7 @@ public class Tank extends Enemy
 	}
 	//At a certain time, the tank will fire
 
-	@Override
-	public boolean collidesWith(Collidable otherEntity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	@Override
 	public void hit() {
 		// TODO Auto-generated method stub
@@ -45,6 +41,14 @@ public class Tank extends Enemy
 	}
 	@Override
 	public void defeated() {
+		// TODO Auto-generated method stub
+		
+	}
+	public String toString(){
+		return "tank";
+	}
+	@Override
+	public void collided(Entity otherEntity) {
 		// TODO Auto-generated method stub
 		
 	}

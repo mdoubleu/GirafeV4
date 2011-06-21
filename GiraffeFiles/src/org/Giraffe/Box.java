@@ -23,11 +23,7 @@ public class Box extends Entity {
                 R.drawable.icecream);
 	}
 
-	@Override
-	public boolean collidesWith(Collidable otherEntity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public void move() {
@@ -40,6 +36,12 @@ public class Box extends Entity {
 	public long getTime() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void collided(Entity otherEntity) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

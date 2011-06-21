@@ -1,24 +1,17 @@
 package org.Giraffe;
 
 
-import java.util.LinkedList;
-
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 import android.os.Handler;
-import android.text.format.Time;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	GameThread gameThread;
@@ -56,7 +49,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			   G_surface=surfaceHolder;
 			   G_context=context;
 			   G_handler=handler;
-			   Resources res = G_context.getResources();
 			   gameModel=new GameModel(G_context);
 			   gameModel.loadLevel(1);
 			   background=gameModel.getBackgrounds();
@@ -71,19 +63,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		public void doDraw(Canvas canvas){
 			canvas.drawBitmap(background ,gameModel.getBChange(), 0, null);
 			canvas.drawBitmap(background,gameModel.getB2Change(), 0, null);
-			Drawable g_raff=ourGiraffe.getImage();
-			g_raff.setBounds(ourGiraffe.x1, ourGiraffe.y1, ourGiraffe.x2, ourGiraffe.y2);
+			GiraffeEntity graff=(GiraffeEntity) gameModel.getLevel().get(0);
+			
+			Drawable g_raff=gameModel.getLevel().get(0).getImage();
+			g_raff.setBounds(graff.x1, graff.y1, graff.x2, graff.y2);
 			g_raff.draw(canvas);
-			ourGiraffe.move();
+			graff.move();
 			
 			for(int x=0; x<gameModel.getEntityDraw().size(); x++){
-				Drawable f=gameModel.getEntityDraw().get(x).getImage();
-				f.setBounds(gameModel.getEntityDraw().get(x).getX(),
+				if(gameModel.getEntityDraw().get(x).doDraw()){
+					Drawable f=gameModel.getEntityDraw().get(x).getImage();
+					f.setBounds(gameModel.getEntityDraw().get(x).getX(),
 						gameModel.getEntityDraw().get(x).getY(),
 						gameModel.getEntityDraw().get(x).getX2(),
 						gameModel.getEntityDraw().get(x).getY2());
-				gameModel.getEntityDraw().get(x).move();
-				f.draw(canvas);
+					gameModel.getEntityDraw().get(x).move();
+					f.draw(canvas);
+				}
 			}
 			
 			
@@ -106,14 +102,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		}
 		 public void run() {
 			 	while (G_run) {
-			 		Log.d("TAG", "RUn...");
 	                Canvas c = null;
 	                try {
 	                    c = G_surface.lockCanvas(null);
 	                    synchronized (G_surface) {
 	                    	gameModel.alternateBackground();
 	                    	gameModel.updateLevel();
-	                    	gameModel.alternateEntity();
+	                    	gameModel.jump();
 	                    	doDraw(c);
 	                    } 
 	                } finally {
@@ -132,7 +127,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction()== MotionEvent.ACTION_DOWN)
 		{
-		
+			Log.d("TREU?", "TOUHCEVENENENVENT");
+			gameModel.setJump(true);
 		/*try {
 		  //jump(G_y1, G_y2);
 		 } catch (InterruptedException e) {

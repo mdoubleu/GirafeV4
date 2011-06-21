@@ -20,13 +20,20 @@ public class Helicopter extends Entity{
 
 	}	
 	public void move() {
-		this.x1-=1;
-		this.x2-=1;
+		this.x1-=5;
+		this.x2-=5;
 	}
 
 	public boolean collidesWith(Collidable otherEntity) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public void collided(Entity otherEntity) {
+		
+	}
+	public String toString(){
+		return "helicopter";
 	}
 
 

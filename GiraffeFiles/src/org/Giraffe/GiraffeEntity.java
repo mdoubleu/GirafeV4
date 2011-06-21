@@ -11,7 +11,7 @@ public class GiraffeEntity extends Entity{
 		this.context=context;
 		Resources res = context.getResources();
 
-		this.x1=0;
+		this.x1=1;
 		this.x2=150;
 		this.y1=150;
 		this.y2=450;
@@ -30,15 +30,15 @@ public class GiraffeEntity extends Entity{
 			legsMove=0;
 		}
 		
-		
-	}
-	public void moveFeet(){
-		
 	}
 
-	public boolean collidesWith(Collidable otherEntity) {
+	@Override
+	public void collided(Entity otherEntity) {
+		// TODO Auto-generated method stub
 		
-		return false;
+	}
+	public String toString(){
+		return "giraffe";
 	}
 }
 

@@ -1,24 +1,16 @@
 package org.Giraffe;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
+
+import android.util.Log;
 
 public class CollisionManager {
 
-	List<Collidable> entities;
+	LinkedList<Entity> entities;
  
-	public CollisionManager() {
-	    entities = new ArrayList<Collidable>();
-	}
- 
-	public CollisionManager(Collidable ... entities) {
-	    this();
-	    addEntities(entities);
-	}
- 
-	public void addEntities(Collidable[] entities) {
-	    this.entities.addAll(Arrays.asList(entities));
+	public CollisionManager(LinkedList<Entity> entities) {
+	    this.entities = entities;
+	    this.searchForCollision();
 	}
  
 	/**
@@ -27,22 +19,22 @@ public class CollisionManager {
 	 * 
 	 * @return if a collision occurred
 	 */
-	public boolean searchForCollision() {
-	    for (Collidable entity : entities) {
-		for (Collidable otherEntity : entities) {
-		    if (entity == otherEntity)
-			continue;
- 
-		    if (entity.canCollide() && entity.collidesWith(otherEntity)) {
-			System.out.println(entity.getClass().getSimpleName()
-				+ " collided with "
-				+ otherEntity.getClass().getSimpleName());
-			entity.collided(otherEntity);
-			otherEntity.collided(entity);
-			return true;
-		    }
-		}
+	public void searchForCollision() {
+	    for (Entity entity : entities) {
+		for (Entity otherEntity : entities) {
+			if(!entity.toString().equals(otherEntity.toString())){
+				//entity.getX()!=otherEntity.getX()&&entity.getX2()!=otherEntity.getX2()){
+				
+				if (entity.collidesWith(otherEntity)) {
+					if(entity.toString().equals("giraffe")){
+						Log.d("GiraffeCRASH", "CRASH");
+					}
+					entity.collided(otherEntity);
+					otherEntity.collided(entity);
+					}
+				}
+
+			}
 	    }
-	    return false;
 	}
-    }
+}

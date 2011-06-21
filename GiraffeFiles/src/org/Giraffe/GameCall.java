@@ -17,12 +17,9 @@ public class GameCall extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game);
-        Log.d("TAG", "GameCall");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
         theGame=(GameView) findViewById(R.id.game1);
-        Log.d("TAG", "GameCall2");
         gameThread=theGame.getThread();
-        Log.d("TAG", "GameCall3");
        
     }
 
