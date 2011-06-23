@@ -1,14 +1,12 @@
 package org.Giraffe;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 public class IceCreamTruck extends Entity{
 	Context context;
 	public IceCreamTruck(Context context, long time) {
 		super(context, time);
 		this.context=context;
-		Resources res = context.getResources();
 
 		this.x1=800;
 		this.x2=950;
@@ -24,7 +22,7 @@ public class IceCreamTruck extends Entity{
 
 	@Override
 	public void collided(Entity otherEntity) {
-		if(otherEntity.toString().equals("giraffe")){
+		if(otherEntity.toString().equals("body")){
 			image=context.getResources().getDrawable(R.drawable.helicopter);
 			this.setDraw(false);
 		}

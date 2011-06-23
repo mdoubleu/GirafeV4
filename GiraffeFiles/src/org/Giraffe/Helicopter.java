@@ -1,14 +1,11 @@
 package org.Giraffe;
 
 import android.content.Context;
-import android.content.res.Resources;
-
 public class Helicopter extends Entity{
-	
+	Context context;
 	public Helicopter(Context context, long time) {
 		super(context, time);
-		//this.timeIn=time;
-		Resources res = context.getResources();
+		this.context=context;
 
 		this.x1=800;
 		this.x2=950;
@@ -30,7 +27,10 @@ public class Helicopter extends Entity{
 	}
 	@Override
 	public void collided(Entity otherEntity) {
-		
+		if(otherEntity.toString().equals("body")){
+			image=context.getResources().getDrawable(R.drawable.helicopter);
+			this.setDraw(false);
+		}
 	}
 	public String toString(){
 		return "helicopter";

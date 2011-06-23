@@ -61,14 +61,6 @@ public abstract class Entity  extends View implements Collidable{
 		  double cY1= ((y1+y2)/2);
 		  double cX2= ((o.x1+o.x2)/2);
 		  double cY2= ((o.y1+o.y2)/2); 
-		 if(this.toString().equals("giraffe")){
-			 Log.d("X", ((r1+r2)*(r1+r2)) +"  " + (cX1-cX2)*(cX1-cX2)+(cY1-cY2)*(cY1-cY2));
-		 }
-		 double check1=((r1+r2)*(r1+r2));
-		 double check2=(cX1-cX2)*(cX1-cX2)+(cY1-cY2)*(cY1-cY2);
-		 if(check1>check2){
-			 Log.d("WORKKKK!", "WORK GIRAFFE");
-		 }
 		 
 		  //double eDistanceX= (disk1.getX()-disk2.getX());
 		  //width is the same as height for a square
@@ -76,11 +68,11 @@ public abstract class Entity  extends View implements Collidable{
 		  //double eDistanceX= (cX1-cX2);
 		  //double eDistanceY= (cY1-cY2);
 		 		 
-		  if(((r1+r2)*(r1+r2))>((cX1-cX2)*(cX1-cX2)+(cY1-cY2)*(cY1-cY2)))
+		  if(((r1+r2)*(r1+r2))/4>((cX1-cX2)*(cX1-cX2)+(cY1-cY2)*(cY1-cY2)))
 		  {
 		  // this.x1=90;
 		   //this.x2=300;
-			  Log.d("LOOOK HEREE",this.toString()+ "  This has collided with "+ o.toString() );
+			  //Log.d("LOOOK HEREE",this.toString()+ "  This has collided with "+ o.toString() );
 		   return true;
 		  }
 

@@ -18,20 +18,31 @@ public class GameModel extends View {
 	Context context;
 	long timeIn;
 	GiraffeEntity ourGiraffe;
+	GBody gBody;
 	Bitmap background;
 	CollisionManager colisionCheck;
-	public static final float GRAVITY=-9.8f;
+	public static final float ACCELERATION=-.0075f;
+	public static final float INITVELOCITY=7f;
 	public boolean jumping;
-	long time;
-	double tempY1;
-	double tempY2;
+	private long time;
+	private int gVel;
+	boolean isJumping;
+	int state;
+	float deg=0f;
+	public int[] rotate=new int[3];
+	
 	public GameModel(Context context) {
 		super(context);
 		this.context=context;
         b_change=0;
         b2_change=800;
         ourGiraffe=new GiraffeEntity(context, 0);
-		// TODO Auto-generated constructor stub
+        gBody=new GBody(context,0);
+        isJumping=false;
+        state=1;
+        rotate[0]=0;
+        rotate[1]=100; 
+        rotate[2]=100;
 	}
 	public Bitmap getBackgrounds(){
 		Resources res = context.getResources();	
@@ -39,6 +50,7 @@ public class GameModel extends View {
 	}
 	
 	public void updateLevel(){
+		//ourGiraffe.move();
 		colisionCheck=new CollisionManager(entities);
 		entityDraw.clear();
 		timeIn=System.currentTimeMillis();
@@ -65,8 +77,8 @@ public class GameModel extends View {
 			b_change=0;
 			b2_change=800;
 		}
-		b_change-=10;
-		b2_change-=10;
+		b_change-=5;
+		b2_change-=5;
 		
 	}
 
@@ -82,6 +94,7 @@ public class GameModel extends View {
         level= new LevelMaker(levels.getLevel(), context);
         entities=level.getLevel();
         entities.addFirst(ourGiraffe);
+        entities.add(gBody);
 	}
 	
 	public LinkedList<Entity> getLevel(){
@@ -89,36 +102,67 @@ public class GameModel extends View {
 	}
 	
 	public void jump(){
-		double gVel;
-		long timeSec=0;
+		long timeMil=0;
 		
 		if(getJump()){
+			this.setCurrentJump(true);
+			timeMil=System.currentTimeMillis()-time;
+		
+			gVel=(int)(INITVELOCITY+(ACCELERATION*timeMil));
 			
-			timeSec=(System.currentTimeMillis()-time)/1000;
-			//gVel=1+(GRAVITY*timeSec);
-			gVel=(1*timeSec)+(.5*GRAVITY*Math.pow(timeSec, 2))+450;
-			Log.d("Ok", "gVel= "+gVel+ " time="+timeSec+ "   \n"+ ourGiraffe.y1+ "      "+ ourGiraffe.y2);
-			ourGiraffe.y1=(int) (tempY1+gVel);
-			ourGiraffe.y2=(int) (tempY2+gVel);
+			ourGiraffe.y1= (ourGiraffe.y1-gVel);
+			ourGiraffe.y2= (ourGiraffe.y2-gVel);
+			gBody.y1=(gBody.y1-gVel);
+			gBody.y2=(gBody.y2-gVel);
 			
-			if(ourGiraffe.y2>450&&ourGiraffe.y1>=0){
+
+			//Log.d("Ok", "gVel= "+gVel+ " time="+timeMil+" tempY1: "+ tempY1 +"  ACCELERATION"+ACCELERATION+"   INIT"+INITVELOCITY+
+				//	"   \n"+ ourGiraffe.y1+ "      "+ ourGiraffe.y2);
+			
+			
+			if(ourGiraffe.y2>=450){
 				setJump(false);
+				this.setCurrentJump(false);
 			}
 		}
 			
 	}
+	//setJumping sets whether the giraffe is currently jumping or not.
+	public void setCurrentJump(boolean isJumping){
+		this.isJumping=isJumping;
+	}
+	//is jumping returns whethere the giraffe is currently jumping;
+	public boolean currentlyJumping(){
+		return isJumping;
+	}
+	//sets the giraffe to start jump
 	public void setJump(boolean canJ){
 		time=System.currentTimeMillis()+0;
-		tempY1=ourGiraffe.y1;
-		tempY2=ourGiraffe.y2;
 		jumping=canJ;
 	}
+	//checks if the giraffe can jump.
 	public boolean getJump(){
 		return jumping;
 	}
 	
-	public void updatePhysics(){
-		
+	public void rotateNeck(int state){
+		Log.d("TEST","REACHED ROTATENECK");
+		switch(state) {
+
+        case 2:
+        	rotate[0]=90;
+        	rotate[1]=130;
+        	rotate[2]=350;
+        break;
+        case 3:
+          	rotate[0]=(int)deg;
+        	rotate[1]=140;
+        	rotate[2]=350;
+        break;
+        }
+	}
+	public int[] getRotate(){
+		return rotate;
 	}
 	
 }

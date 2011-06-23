@@ -3,7 +3,6 @@ package org.Giraffe;
 import org.Giraffe.About;
 import org.Giraffe.HTP;
 import org.Giraffe.GameCall;
-import org.Giraffe.GameView.GameThread;
 
 import android.app.Activity;
 import android.os.Bundle;

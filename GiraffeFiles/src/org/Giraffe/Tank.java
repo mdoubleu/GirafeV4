@@ -1,7 +1,6 @@
 package org.Giraffe;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
 public class Tank extends Enemy
@@ -16,7 +15,6 @@ public class Tank extends Enemy
 	public Tank (Context context, long time){
 		super(context, time);
 		this.time=time;
-		Resources res = context.getResources();
 		tank = context.getResources().getDrawable(
                 R.drawable.giraffe);
 

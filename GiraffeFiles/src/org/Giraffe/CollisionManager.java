@@ -25,10 +25,8 @@ public class CollisionManager {
 			if(!entity.toString().equals(otherEntity.toString())){
 				//entity.getX()!=otherEntity.getX()&&entity.getX2()!=otherEntity.getX2()){
 				
+				
 				if (entity.collidesWith(otherEntity)) {
-					if(entity.toString().equals("giraffe")){
-						Log.d("GiraffeCRASH", "CRASH");
-					}
 					entity.collided(otherEntity);
 					otherEntity.collided(entity);
 					}

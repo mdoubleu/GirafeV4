@@ -18,7 +18,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	int width;
 	int height;
 	GameModel gameModel;
-	GiraffeEntity ourGiraffe;
+	GameController gestureL;
 	
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -52,8 +52,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			   gameModel=new GameModel(G_context);
 			   gameModel.loadLevel(1);
 			   background=gameModel.getBackgrounds();
-	           
-	           ourGiraffe=new GiraffeEntity(G_context, 0);
+			   gestureL=new GameController(gameModel);
+
 	            setFocusable(true);
 	            
 		   }
@@ -61,17 +61,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			   
 		   }
 		public void doDraw(Canvas canvas){
+			//background stuff
 			canvas.drawBitmap(background ,gameModel.getBChange(), 0, null);
 			canvas.drawBitmap(background,gameModel.getB2Change(), 0, null);
+			
+			
+			//giraffeStuff
 			GiraffeEntity graff=(GiraffeEntity) gameModel.getLevel().get(0);
 			
-			Drawable g_raff=gameModel.getLevel().get(0).getImage();
-			g_raff.setBounds(graff.x1, graff.y1, graff.x2, graff.y2);
-			g_raff.draw(canvas);
-			graff.move();
+			//rotate neck
+			Drawable g_neck=graff.getNeck();
+			g_neck.setBounds(graff.neck_x1,graff.neck_y1,graff.neck_x2,graff.neck_y2);
+			g_neck.draw(canvas);
 			
+			canvas.save();
+			gameModel.getRotate();
+			//canvas.rotate(gameModel.getRotate()[0],gameModel.getRotate()[1],gameModel.getRotate()[2]);
+			g_neck.draw(canvas);
+			canvas.restore();
+			
+			//draw body
+			Drawable g_body=gameModel.getLevel().get(0).getImage();
+			g_body.setBounds(graff.x1, graff.y1, graff.x2, graff.y2);
+			g_body.draw(canvas);
+			
+
+			//Obstacles Stuff
 			for(int x=0; x<gameModel.getEntityDraw().size(); x++){
-				if(gameModel.getEntityDraw().get(x).doDraw()){
+				if(gameModel.getEntityDraw().get(x).doDraw()&&!gameModel.getEntityDraw().get(x).toString().equals("giraffe")){
 					Drawable f=gameModel.getEntityDraw().get(x).getImage();
 					f.setBounds(gameModel.getEntityDraw().get(x).getX(),
 						gameModel.getEntityDraw().get(x).getY(),
@@ -81,8 +98,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 					f.draw(canvas);
 				}
 			}
-			
-			
 		}
 		 
 		public void setSurfaceSize(int width, int height) {
@@ -109,7 +124,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	                    	gameModel.alternateBackground();
 	                    	gameModel.updateLevel();
 	                    	gameModel.jump();
+	                    	Log.d("TEST","RUNNING BEFORE GESTURE");
+	                    	new GameController(gameModel);
 	                    	doDraw(c);
+	                    	
 	                    } 
 	                } finally {
 	                    // do this in a finally so that if an exception is thrown
@@ -124,7 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
  
 	
-	public boolean onTouchEvent(MotionEvent event) {
+	/*public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction()== MotionEvent.ACTION_DOWN)
 		{
 			Log.d("TREU?", "TOUHCEVENENENVENT");
@@ -136,46 +154,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		  e.printStackTrace();
 		 }  
 		}
-		*/
+		
 			}
 		return false;
-		}
-	
- public boolean jumping=false;
- long cTime;//current time
- long timer;//the timer as it goes along.
-/*	 
- public void jump(int y1, int y2) throws InterruptedException{
-		 //redraws
-		 invalidate();
+		}*/
 
-		 jumping = true;
-	      cTime = System.currentTimeMillis();
-	      timer=System.currentTimeMillis();
 
-	      //Giraffe Jump Part1
-	      while((cTime+1000) > timer){  //moves 20 pixils up     
-	          timer = System.currentTimeMillis(); //updates 
-	          G_y1-=10;
-	          G_y2-=10;
-	          gameThread.sleep(50);
-	          invalidate();
-	      }
-	          cTime = System.currentTimeMillis();
-	      
-	      while((cTime+1000) > timer){  //moves 20 pixils up      
-	          timer = System.currentTimeMillis();
-	          G_y1+=10;
-	          G_y2+=10;
-	          gameThread.sleep(50);
-	          invalidate();
-	           
-	      }
-	      jumping = false;
-	      invalidate();
-	     
-	 }
-	 */
 	public GameThread getThread(){
 		return gameThread;
 	}

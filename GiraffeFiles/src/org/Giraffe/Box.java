@@ -1,7 +1,6 @@
 package org.Giraffe;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 public class Box extends Entity {
 
@@ -13,8 +12,6 @@ public class Box extends Entity {
 	public Box(Context context, long time) {
 		super(context, time);
 		this.timeIn=time;
-		Resources res = context.getResources();
-
 		this.x1=300;
 		this.x2=450;
 		this.y1=225;
