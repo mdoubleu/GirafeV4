@@ -1,9 +1,10 @@
 package org.Giraffe;
 
 
-import org.Giraffe.GameView.GameThread;
+import org.Giraffe.GameViewOld.GameThread;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -12,11 +13,12 @@ import android.view.SurfaceView;
 
 public class GameCall extends Activity{
 
-	GameView view;
+	GameViewOld view;
 	SurfaceView surface;
 	SurfaceHolder holder;
 	GameController controller;
 	GameModel model;
+	Context context;
 	
 	
 	//tims stuff
@@ -34,17 +36,16 @@ public class GameCall extends Activity{
         setContentView(R.layout.game);
         
         surface=(SurfaceView)findViewById(R.id.gSurface);
+        context=surface.getContext();
         holder=surface.getHolder();
         
         controller= new GameController(model);
         surface.setOnTouchListener(controller);
         
-        view=new GameView(controller, holder, model);
+        view=new GameView(controller, holder, model, context);
         surface.getHolder().addCallback(view);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
-        
-
        
     }
 

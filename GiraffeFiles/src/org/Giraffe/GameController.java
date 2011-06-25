@@ -19,6 +19,9 @@ public GameController(GameModel gameModel){
 		state=1;
 		
 	}
+	public void setSize(int w, int h){
+		
+	}
 	   
 	public boolean onDown(MotionEvent event) {
 		Log.d("TEST","REACHED ONDOWN");
