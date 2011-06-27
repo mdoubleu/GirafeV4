@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 
 public class GameCall extends Activity{
@@ -40,8 +41,8 @@ public class GameCall extends Activity{
         
         view=new GameView(controller, holder, model, context);
         surface.getHolder().addCallback(view);
-        
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
        
     }
     //overrides the back button

@@ -9,8 +9,8 @@ public class Helicopter extends Entity{
 
 		this.x1=800;
 		this.x2=950;
-		this.y1=6;
-		this.y2=66;
+		this.y1=6+GameModel.p;
+		this.y2=66+GameModel.p;
 		this.image=context.getResources().getDrawable(
                 R.drawable.helicopter);
 		

@@ -8,8 +8,8 @@ public class GBody extends Entity {
 		super(context, time, width, height);
 		this.x1=1;
 		this.x2=150;
-		this.y1=300;
-		this.y2=400;
+		this.y1=300+GameModel.p;
+		this.y2=400+GameModel.p;
 		this.setDraw(false);
 	}
 

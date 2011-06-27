@@ -9,8 +9,8 @@ public class GiraffeEntity extends Entity{
 	
 	int neck_x1=57;
 	int neck_x2=220;
-	int neck_y1=110;
-   int neck_y2=295;
+	int neck_y1=110+GameModel.p;
+   int neck_y2=295+GameModel.p;
  
 	
 	public GiraffeEntity(Context context, long time, float width, float height) {
@@ -25,8 +25,8 @@ public class GiraffeEntity extends Entity{
 		
 		  this.x1=1;
 		   this.x2=150;
-		   this.y1=250;
-		   this.y2=400;
+		   this.y1=250+GameModel.p;
+		   this.y2=400+GameModel.p;
 		
 		this.image=context.getResources().getDrawable(
                 R.drawable.body);

@@ -8,8 +8,8 @@ public class GHead extends Entity{
 		super(context, time, width, height);
 		this.x1=97;
 		this.x2=218;
-		this.y1=140;
-		this.y2=220;
+		this.y1=140+GameModel.p;
+		this.y2=220+GameModel.p;
 		this.image=context.getResources().getDrawable(
                 R.drawable.body);
 		this.setDraw(false);

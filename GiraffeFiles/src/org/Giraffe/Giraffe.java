@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 
 public class Giraffe extends Activity implements OnClickListener
@@ -34,7 +35,8 @@ public class Giraffe extends Activity implements OnClickListener
         mOptionsButton.setOnClickListener(this);
         View mBackground = findViewById(R.id.mainMenuBackground);
         
-      
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         Music.create(this, R.raw.jeremythegiraffetheme);
     }

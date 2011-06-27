@@ -7,6 +7,7 @@ import android.util.Log;
 
 public class GameModel {
 	/*list of enenmies and images +giraffe, one list has all, one has things to draw in real time*/
+	public static final int p=80;
 	LinkedList<Entity> entities=new LinkedList<Entity>();
 	private LinkedList<Entity>entityDraw=new LinkedList<Entity>();
 	
@@ -180,7 +181,7 @@ public class GameModel {
 				//	"   \n"+ ourGiraffe.y1+ "      "+ ourGiraffe.y2);
 			
 			
-			if(ourGiraffe.y2>=398){
+			if(ourGiraffe.y2>=398+p){
 				setJump(false);
 				this.setCurrentJump(false);
 			}

@@ -10,8 +10,8 @@ public class IceCreamTruck extends Entity{
 
 		this.x1=800;
 		this.x2=950;
-		this.y1=280;
-		this.y2=400;
+		this.y1=280+GameModel.p;
+		this.y2=400+GameModel.p;
 		this.image=context.getResources().getDrawable(
                 R.drawable.creamtruck);
 	}	
