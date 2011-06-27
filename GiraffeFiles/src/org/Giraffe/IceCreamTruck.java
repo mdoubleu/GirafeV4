@@ -4,8 +4,8 @@ import android.content.Context;
 
 public class IceCreamTruck extends Entity{
 	Context context;
-	public IceCreamTruck(Context context, long time) {
-		super(context, time);
+	public IceCreamTruck(Context context, long time, float width, float height) {
+		super(context, time, width, height);
 		this.context=context;
 
 		this.x1=800;
@@ -24,6 +24,8 @@ public class IceCreamTruck extends Entity{
 	public void collided(Entity otherEntity) {
 		if(otherEntity.toString().equals("body")){
 			image=context.getResources().getDrawable(R.drawable.helicopter);
+			
+		}else if(otherEntity.toString().equals("head")){
 			this.setDraw(false);
 		}
 		

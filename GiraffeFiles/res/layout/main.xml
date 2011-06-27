@@ -32,7 +32,10 @@ android:text="@string/play_label" />
 <Button
 android:id="@+id/level_select_button"
 android:text="@string/level_select_label" />
-<Button android:layout_height="wrap_content" android:text="@string/how_to_play_label" android:layout_width="wrap_content" android:id="@+id/how_to_play_button"></Button>
+<Button android:layout_height="wrap_content" 
+android:text="@string/how_to_play_label" 
+android:layout_width="wrap_content" 
+android:id="@+id/how_to_play_button"></Button>
 </TableRow>
 <TableRow>
 <Button

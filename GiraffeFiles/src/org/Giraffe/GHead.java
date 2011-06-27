@@ -4,13 +4,15 @@ import android.content.Context;
 
 public class GHead extends Entity{
 
-	public GHead(Context context, long timeIn) {
-		super(context, timeIn);
-		this.x1=0;
-		this.x2=0;
-		this.y1=0;
-		this.y2=0;
-		
+	public GHead(Context context, long time, float width, float height) {
+		super(context, time, width, height);
+		this.x1=97;
+		this.x2=218;
+		this.y1=140;
+		this.y2=220;
+		this.image=context.getResources().getDrawable(
+                R.drawable.body);
+		this.setDraw(false);
 	}
 
 	@Override
@@ -21,8 +23,12 @@ public class GHead extends Entity{
 
 	@Override
 	public void collided(Entity otherEntity) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public String toString() {
+		return "head";
 	}
 
 }

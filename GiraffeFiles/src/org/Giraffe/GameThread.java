@@ -12,33 +12,22 @@ public class GameThread extends Thread{
 		this.model=model;
 		this.view=view;
 		this.controller=controller;
+		running=true;
 	}
 
 
 	public void run() {
 		while(running){
-			try{
 				synchronized(view){
 					view.draw();
-
 				}
-			 if (!model.levelOver)
+			 if (!model.levelOver()){
 				synchronized(model){
-				     model.updateGame(System.currentTimeMillis());
-				     gameModel.alternateBackground();
-                 	gameModel.updateLevel();
-                 	gameModel.jump();
-                 	Log.d("TEST","RUNNING BEFORE GESTURE");
-                 	new GameController(gameModel);
-                 	doDraw(c);
-					}
-				else controller.levelOver();
-			}catch(InterruptedException e){
-				isRunning(false);
-			}
+				     model.updateLevel();
+				}
+			 }
 		}
 	}
-	
 	
 	
 	public void isRunning(boolean running){

@@ -2,6 +2,7 @@ package org.Giraffe;
 
 public class LevelBuilder {
 	String levels;
+	int numberForBackground;
 	public LevelBuilder(int level){
 		
 		switch(level){
@@ -20,13 +21,19 @@ public class LevelBuilder {
 					levels+=check+"%2#";
 					g=0;
 				}
-
+				numberForBackground=1;
 			}
+			
 		case(2):
 		case(3):
 		}
 	}
+	
+	public int getNumForBackground(){
+		return numberForBackground;
+	}
 	public String getLevel(){
 		return levels;
 	}
+	
 }

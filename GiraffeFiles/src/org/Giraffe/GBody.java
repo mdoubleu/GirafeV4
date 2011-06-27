@@ -4,8 +4,8 @@ import android.content.Context;
 
 public class GBody extends Entity {
 
-	public GBody(Context context, long timeIn) {
-		super(context, timeIn);
+	public GBody(Context context, long time, float width, float height){
+		super(context, time, width, height);
 		this.x1=1;
 		this.x2=150;
 		this.y1=300;
@@ -17,6 +17,9 @@ public class GBody extends Entity {
 	public void move() {
 		// TODO Auto-generated method stub
 		
+	}
+	public boolean canCollide() {
+		return false;
 	}
 
 	@Override

@@ -1,98 +1,88 @@
 package org.Giraffe;
 
 import android.util.Log;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-public class GameController implements OnGestureListener, OnTouchListener{
+public class GameController implements OnTouchListener{
 GameModel gameModel;
 float firstX;
 float firstY;
 int state;
 float delta;
+float updateX;
+float updateY;
+
 
 public GameController(GameModel gameModel){
 		this.gameModel=gameModel;
 		delta=10;
 		state=1;
+		//Log.d("TEST","REACHED ONDOWN");
 		
 	}
-	public void setSize(int w, int h){
+	public void setSize(float w, float h){
 		
 	}
-	   
-	public boolean onDown(MotionEvent event) {
-		Log.d("TEST","REACHED ONDOWN");
-		gameModel.setJump(true);
+
+	
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		synchronized(gameModel){
 		int action = event.getAction();
+	      updateX=event.getX();
+	      updateY=event.getY();
 	       
-	       if (action == MotionEvent.ACTION_DOWN) {
-
-	           firstX = event.getX();
-	           firstY = event.getY();
-	       }
-	       if (action == MotionEvent.ACTION_UP && gameModel.deg != 0) {
-	    	   gameModel.rotateNeck(2); 
-	           gameModel.deg=0;
-	         //  gameModel.ourGiraffe.attacked(true);
-
-	       }
-	       if (action == MotionEvent.ACTION_MOVE && Math.abs(event.getX()-firstX)>delta && firstX>event.getX()) {
-	           gameModel.rotateNeck(3); 
-	           if (gameModel.deg>-40) {
-	               gameModel.deg -=3;
+		
+		if (action == MotionEvent.ACTION_DOWN) {
+	    	   Log.d("TEST","REACHED PRESSDOWn");
+	    	  
+	           firstX = event.getRawX();
+	           firstY = event.getRawY();
+	           return true;
+	       }else  if (action == MotionEvent.ACTION_MOVE){
+	    	  if(Math.abs(updateX-firstX)>delta ){
+		           if (gameModel.deg>-40) {
+		               gameModel.deg -=3;
+		               gameModel.rotateNeck(3); 
+		           }
+	    	  }
+	    	  
+	           return true;
 	           }
-	           firstX = event.getX();
-	           firstY = event.getY();
-	           
-	           }
-	       return true;
-	}
+	       /*else if(action==MotionEvent.ACTION_UP&&gameModel.deg!=0){
+		    	   gameModel.rotateNeck(2); 
+		           gameModel.deg=0;
+		    	   return true;
+		       }*/
+	       else if(action==MotionEvent.ACTION_UP) {
+	    	   Log.d("TEST","REACHED PRESSED UP");
+	    	   Log.d("TESTING", ""+firstX+"  "+updateX+"  "+firstY+ "   "+ updateY);
+	    	   
+	    	   if(firstX+20<event.getX() || firstX-20>event.getX()
+	    			  ){ //&&firstY+20<event.getY() &&firstY-20>event.getY())
+	    		   gameModel.rotateNeck(2); 
+		           gameModel.deg=0;
+		           Log.d("TEST", "MOTIONSWIPE");
+	    		   /*makes sure giraffe isnt currently jumping so theres no double jump*/
+		    	   Log.d("TESTING", ""+firstX+"  "+event.getRawX()+"  "+firstY+ "   "+ event.getRawY());
 
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	//this method on single tap, puts giraffe into jump mode just once.
-	public boolean onSingleTapUp(MotionEvent e) {
-		gameModel.setJump(true);
-		if(gameModel.currentlyJumping()==false){
-			gameModel.setJump(true);
+	    		  
+	    	   }else{
+	    		   if(!gameModel.currentlyJumping()){
+	    			   gameModel.setJump(true);
+	    		   }
+	    	   }
+	    	   return true;
+	       }
+	       
+	      
+	       return false;
 		}
-		
-		return false;
 	}
 
-	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
-		gameModel.setJump(true);
-		return false;
-	}
+
 
 	
 }

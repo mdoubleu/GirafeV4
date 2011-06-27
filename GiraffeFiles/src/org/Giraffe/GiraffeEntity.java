@@ -7,14 +7,14 @@ public class GiraffeEntity extends Entity{
 	Context context;
 	int legsMove;
 	
-	int neck_x1=98;
-	int neck_x2=218;
-	int neck_y1=107;
-   int neck_y2=327;
+	int neck_x1=57;
+	int neck_x2=220;
+	int neck_y1=110;
+   int neck_y2=295;
  
 	
-	public GiraffeEntity(Context context, long time) {
-		super(context, time);
+	public GiraffeEntity(Context context, long time, float width, float height) {
+		super(context, time, width, height);
 		this.context=context;
 		
 		//old image
@@ -23,10 +23,10 @@ public class GiraffeEntity extends Entity{
 		this.y1=150;
 		this.y2=450;*/
 		
-		  this.x1=16;
-		   this.x2=165;
-		   this.y1=280;
-		   this.y2=430;
+		  this.x1=1;
+		   this.x2=150;
+		   this.y1=250;
+		   this.y2=400;
 		
 		this.image=context.getResources().getDrawable(
                 R.drawable.body);
@@ -37,11 +37,11 @@ public class GiraffeEntity extends Entity{
 	public void move() {
 		if(legsMove<6){
 			this.image=context.getResources().getDrawable(
-					R.drawable.giraffe);
+					R.drawable.body);
 			legsMove++;
 		}else{
 			this.image=context.getResources().getDrawable(
-	                R.drawable.giraffe2);
+	                R.drawable.body);
 			legsMove++;
 			if(legsMove>12){
 				legsMove=0;

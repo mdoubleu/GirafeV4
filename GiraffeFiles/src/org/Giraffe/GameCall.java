@@ -1,8 +1,6 @@
 package org.Giraffe;
 
 
-import org.Giraffe.GameViewOld.GameThread;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -13,30 +11,22 @@ import android.view.SurfaceView;
 
 public class GameCall extends Activity{
 
-	GameViewOld view;
+	GameView view;
 	SurfaceView surface;
 	SurfaceHolder holder;
 	GameController controller;
 	GameModel model;
 	Context context;
-	
-	
-	//tims stuff
-	/*	private SurfaceView surface;
-	private SurfaceHolder holder;
-	private GameModel model;
-	private GameView view;
-	private GameController controller;*/
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        model=new GameModel();
-        
+
         setContentView(R.layout.game);
         
         surface=(SurfaceView)findViewById(R.id.gSurface);
         context=surface.getContext();
+        model=new GameModel(context);
+        
         holder=surface.getHolder();
         
         controller= new GameController(model);

@@ -12,7 +12,7 @@ public class LevelMaker {
 	 */
 	LinkedList<Entity> levelLoad = new LinkedList<Entity>();
 	
-	public LevelMaker(String levelstring, Context context){
+	public LevelMaker(String levelstring, Context context, float Cwidth, float Cheight){
 		/**Splits the string into objects, with the # being the divider
 		 * between each object. These are all represented by the array
 		 */
@@ -27,13 +27,10 @@ public class LevelMaker {
 			int type = Integer.parseInt(objel[1]);
 			
 			switch(type){
-			case(1):levelLoad.add(new IceCreamTruck(context, time));
-			case(2):levelLoad.add(new Helicopter(context,time));
+			case(1):levelLoad.add(new IceCreamTruck(context, time, Cwidth, Cheight));
+			case(2):levelLoad.add(new Helicopter(context,time, Cwidth, Cheight));
 			default:
 			}
-			
-
-
 		}
 	}
 

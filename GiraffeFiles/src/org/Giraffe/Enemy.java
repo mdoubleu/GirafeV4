@@ -5,9 +5,9 @@ import android.content.Context;
 public abstract class Enemy extends Entity
 {
 	private int health;
-	public Enemy (Context context, long time)
+	public Enemy (Context context, long time, float width, float height)
 	{
-		super(context, time);
+		super(context, time, width, height);
 		this.health = health;
 	}
 	public abstract void move(); 		

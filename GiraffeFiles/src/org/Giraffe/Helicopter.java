@@ -3,8 +3,8 @@ package org.Giraffe;
 import android.content.Context;
 public class Helicopter extends Entity{
 	Context context;
-	public Helicopter(Context context, long time) {
-		super(context, time);
+	public Helicopter(Context context, long time, float width, float height){
+		super(context, time, width, height);
 		this.context=context;
 
 		this.x1=800;
@@ -21,14 +21,12 @@ public class Helicopter extends Entity{
 		this.x2-=5;
 	}
 
-	public boolean collidesWith(Collidable otherEntity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	@Override
 	public void collided(Entity otherEntity) {
 		if(otherEntity.toString().equals("body")){
-			image=context.getResources().getDrawable(R.drawable.helicopter);
+			image=context.getResources().getDrawable(R.drawable.icecream);
+			
+		}else if(otherEntity.toString().equals("head")){
 			this.setDraw(false);
 		}
 	}

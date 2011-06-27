@@ -2,12 +2,11 @@ package org.Giraffe;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
+
 
 
 //Represents any element in the game
-public abstract class Entity  extends View implements Collidable{
+public abstract class Entity  implements Collidable{
 	protected int x1;
 	protected int y1;
 	protected int x2;
@@ -18,8 +17,8 @@ public abstract class Entity  extends View implements Collidable{
 	boolean check=true;
 
 
-	public Entity(Context context, long timeIn) {
-		super(context);
+	public Entity(Context context, long timeIn, float Cwidth, float Cheight) {
+
 		this.timeIn=timeIn;
 
 	}
@@ -88,4 +87,5 @@ public abstract class Entity  extends View implements Collidable{
 	public boolean canCollide() {
 		return true;
 	}
+	public abstract String toString();
 }

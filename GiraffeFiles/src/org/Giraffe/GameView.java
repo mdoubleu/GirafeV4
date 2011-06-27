@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 
@@ -31,6 +32,7 @@ public class GameView implements Callback{
 	@Override
 	public void surfaceChanged(SurfaceHolder holdr, int format, int width, int height) {
 		controller.setSize(width, height);
+		model.setSize(width, height);
 		
 	}
 
@@ -58,45 +60,48 @@ public class GameView implements Callback{
 		}
 	}
 	public void doDraw(Canvas canvas){
-		int width=canvas.getWidth();
-		int height=canvas.getHeight();
+		float width=canvas.getWidth();
+		float height=canvas.getHeight();
+		
 		controller.setSize(width, height);
+		//model.setSize(width, height);
 		
+		 background = background.createScaledBitmap(
+                 background, (int)width, (int)height, true);
 		
-		canvas.drawBitmap(background,gameModel.getBChange(), 0, null);
-		canvas.drawBitmap(background,gameModel.getB2Change(), 0, null);
+		canvas.drawBitmap(background, model.bLocation1, 0, null);
+		canvas.drawBitmap(background, model.bLocation2, 0, null);
 		
 		
 		//giraffeStuff
-		GiraffeEntity graff=(GiraffeEntity) gameModel.getLevel().get(0);
+		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
 		
 		//rotate neck
 		Drawable g_neck=graff.getNeck();
 		g_neck.setBounds(graff.neck_x1,graff.neck_y1,graff.neck_x2,graff.neck_y2);
-		g_neck.draw(canvas);
-		
+		if(model.notRotating){
+			g_neck.draw(canvas);
+		}
 		canvas.save();
-		gameModel.getRotate();
-		//canvas.rotate(gameModel.getRotate()[0],gameModel.getRotate()[1],gameModel.getRotate()[2]);
+		model.getRotate();
+		canvas.rotate(model.getRotate()[0],model.getRotate()[1],model.getRotate()[2]);
 		g_neck.draw(canvas);
 		canvas.restore();
-		
-		//draw body
-		Drawable g_body=gameModel.getLevel().get(0).getImage();
-		g_body.setBounds(graff.x1, graff.y1, graff.x2, graff.y2);
-		g_body.draw(canvas);
-		
+		model.defaultRotate();
 
 		//Obstacles Stuff
-		for(int x=0; x<gameModel.getEntityDraw().size(); x++){
-			if(gameModel.getEntityDraw().get(x).doDraw()&&!gameModel.getEntityDraw().get(x).toString().equals("giraffe")){
-				Drawable f=gameModel.getEntityDraw().get(x).getImage();
-				f.setBounds(gameModel.getEntityDraw().get(x).getX(),
-					gameModel.getEntityDraw().get(x).getY(),
-					gameModel.getEntityDraw().get(x).getX2(),
-					gameModel.getEntityDraw().get(x).getY2());
-				gameModel.getEntityDraw().get(x).move();
+		for(int x=0; x<model.getEntities().size(); x++){
+			model.getEntities().get(x).move();
+			
+			//model.getEntities().get(x).doDraw()&&
+			if(!model.getEntities().get(x).toString().equals("body")&&model.getEntities().get(x).doDraw()){
+				Drawable f=model.getEntities().get(x).getImage();
+				f.setBounds(model.getEntities().get(x).getX(),
+						model.getEntities().get(x).getY(),
+						model.getEntities().get(x).getX2(),
+						model.getEntities().get(x).getY2());
 				f.draw(canvas);
+				
 			}
 		}
 		
@@ -112,7 +117,7 @@ public class GameView implements Callback{
 		
 	}
 	public void getBackground(){
-		
+		background=model.getBkround();
 	}
 
 }

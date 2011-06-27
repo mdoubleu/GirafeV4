@@ -12,8 +12,8 @@ public class Tank extends Enemy
 	long time;
 	Drawable tank;
 	
-	public Tank (Context context, long time){
-		super(context, time);
+	public Tank (Context context, long time, float width, float height){
+		super(context, time, width, height);
 		this.time=time;
 		tank = context.getResources().getDrawable(
                 R.drawable.giraffe);

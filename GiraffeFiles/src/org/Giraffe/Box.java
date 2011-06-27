@@ -9,8 +9,8 @@ public class Box extends Entity {
 	int bY1=240;
 	int bY2=415;
 
-	public Box(Context context, long time) {
-		super(context, time);
+	public Box(Context context, long time,float width, float height) {
+		super(context, time, width, height);
 		this.timeIn=time;
 		this.x1=300;
 		this.x2=450;
@@ -39,6 +39,14 @@ public class Box extends Entity {
 	public void collided(Entity otherEntity) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
