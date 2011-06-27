@@ -29,6 +29,8 @@ public class LevelMaker {
 			switch(type){
 			case(1):levelLoad.add(new IceCreamTruck(context, time, Cwidth, Cheight));
 			case(2):levelLoad.add(new Helicopter(context,time, Cwidth, Cheight));
+			case(3):levelLoad.add(new Fruit(context,time, Cwidth, Cheight));
+
 			default:
 			}
 		}
