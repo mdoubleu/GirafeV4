@@ -4,7 +4,9 @@ import org.Giraffe.About;
 import org.Giraffe.HTP;
 import org.Giraffe.GameCall;
 
+
 import android.app.Activity;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,30 +21,35 @@ public class Giraffe extends Activity implements OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        View continueButton = findViewById(R.id.play_button);
-        continueButton.setOnClickListener(this);
-        View newButton = findViewById(R.id.level_select_button);
-        newButton.setOnClickListener(this);
-        View buyButton = findViewById(R.id.how_to_play_button);
-        buyButton.setOnClickListener(this);
-        View aboutButton = findViewById(R.id.about_button);
-        aboutButton.setOnClickListener(this);
-        View settingsButton = findViewById(R.id.settings_button);
-        settingsButton.setOnClickListener(this);
         
+        setContentView(R.layout.main);
+  
+        //View settingsButton = findViewById(R.id.settings_button);
+        //settingsButton.setOnClickListener(this);
+        View mStartButton = findViewById(R.id.startButton);
+        mStartButton.setOnClickListener(this);
+        View mExtrasButton = findViewById(R.id.extrasButton);
+        mExtrasButton.setOnClickListener(this);
+        View mOptionsButton = findViewById(R.id.optionButton);
+        mOptionsButton.setOnClickListener(this);
+        View mBackground = findViewById(R.id.mainMenuBackground);
+        
+      
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        Music.create(this, R.raw.jeremythegiraffetheme);
     }
     public void onClick(View v)
 	{
 		switch (v.getId())
 		{
-			case R.id.play_button:
+			case R.id.startButton:
 
 				Intent x=new Intent(this, GameCall.class);
 				startActivity(x);
+				Log.d("Far", "Do i get this far?");
 
 				break;
+			/*
 			case R.id.about_button:
 			Intent a = new Intent(this, About.class);
 
@@ -52,9 +59,28 @@ public class Giraffe extends Activity implements OnClickListener
 			Intent b= new Intent(this, HTP.class);
 			startActivity(b);
 			break;
-
+			*/
 		}
 		//more buttons go here(if any)
 
 	}
+    @Override
+    protected void onResume()
+    {
+    	super.onResume();
+    	Music.start(this);
+    	
+    }
+    @Override
+    protected void onPause()
+    {
+    	super.onPause();
+    	//Music.stop(this);
+    }
+    @Override
+    protected void onDestroy()
+    {
+    	super.onDestroy();
+    	Music.stop(this);
+    }
 }

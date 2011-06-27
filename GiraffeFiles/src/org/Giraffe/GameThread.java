@@ -1,5 +1,7 @@
 package org.Giraffe;
 
+import android.util.Log;
+
 public class GameThread extends Thread{
 	GameModel model;
 	GameView view;
@@ -18,14 +20,21 @@ public class GameThread extends Thread{
 
 	public void run() {
 		while(running){
-				synchronized(view){
-					view.draw();
-				}
-			 if (!model.levelOver()){
-				synchronized(model){
-				     model.updateLevel();
-				}
-			 }
+			if(GameCall.getmPaused()==true)
+        	{
+        		Log.d("Paused", "Game should be paused.");
+        		
+        	}
+			else{
+					synchronized(view){
+						view.draw();
+					}
+				 if (!model.levelOver()){
+					synchronized(model){
+					     model.updateLevel();
+					}
+				 }
+			}
 		}
 	}
 	

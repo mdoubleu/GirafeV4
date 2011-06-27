@@ -1,54 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:background="@color/background"
-android:layout_height="fill_parent"
-android:layout_width="fill_parent"
-android:padding="15dip"
-android:orientation="horizontal">
-<LinearLayout
-android:orientation="vertical"
-android:layout_height="wrap_content"
-android:layout_width="fill_parent"
-android:layout_gravity="center"
-android:paddingLeft="20dip"
-android:paddingRight="20dip">
-<TextView
-android:text="@string/main_title"
-android:layout_height="wrap_content"
-android:layout_width="wrap_content"
-android:layout_gravity="center"
-android:layout_marginBottom="20dip"
-android:textSize="24.5sp" />
-<TableLayout
-android:layout_height="wrap_content"
-android:layout_width="wrap_content"
-android:layout_gravity="center"
-android:stretchColumns="*">
-<TableRow>
-<Button
-android:id="@+id/play_button"
-android:text="@string/play_label" />
-<Button
-android:id="@+id/level_select_button"
-android:text="@string/level_select_label" />
-<Button android:layout_height="wrap_content" 
-android:text="@string/how_to_play_label" 
-android:layout_width="wrap_content" 
-android:id="@+id/how_to_play_button"></Button>
-</TableRow>
-<TableRow>
-<Button
-android:id="@+id/about_button"
-android:text="@string/about_label"
- />
-<Button
-android:id="@+id/settings_button"
-android:text="@string/settings_label" />
-</TableRow>
+<FrameLayout
+		android:layout_width="fill_parent"
+  		android:layout_height="fill_parent" 
+  		xmlns:android="http://schemas.android.com/apk/res/android">
+	<ImageView 
+          android:id="@+id/mainMenuBackground"
+          android:src="@drawable/title_background"
+          android:adjustViewBounds="true"
+          android:gravity="center_vertical"
+          android:scaleType="fitXY"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"/>
 
+	
+	<ImageView 
+	      android:id="@+id/mainMenuTitle"
+	      android:src="@drawable/giraffelogo"
+	      android:adjustViewBounds="true"
+	      android:layout_width="356dp" 
+	      android:layout_height="123dp" 
+	      android:layout_gravity="center_horizontal" 
+	      android:layout_marginTop="20dp"/>
+	      
+	   <LinearLayout
+	     	android:layout_width="fill_parent"
+			android:layout_height="fill_parent" 
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	     	android:orientation="vertical"
+	     	android:gravity="bottom"
+	     	android:id="@+id/mainSectionMenu">
+	    
+	    
+	    <ImageView 
+	        android:id="@+id/startButton"
+	        android:src="@drawable/ui_button_start"
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:layout_gravity="center_horizontal"
+	        android:clickable="true" />
+	
+	    <ImageView 
+	        android:id="@+id/extrasButton"
+	        android:src="@drawable/ui_button_extras"
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:layout_gravity="center_horizontal"
+	       	
+			android:clickable="true" />
+	        
+	        
+	        
+		<ImageView 
+		    android:id="@+id/optionButton"
+		    android:src="@drawable/ui_button_options"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:layout_gravity="center_horizontal"
+		    
+		    android:clickable="true" />
+	       
+		
+	 
+		<TextView 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:ellipsize="marquee" 
+			android:background="#99000000" 
+			android:textColor= "#FFFFFF" 
+			android:textColorHighlight="#FFFFFF" 
+			android:text="@string/hello" 
+			android:lines="1" 
+			android:marqueeRepeatLimit="marquee_forever" 
+			android:textSize="14sp" 
+			android:fadingEdge="horizontal" 
+			android:fadingEdgeLength="5dp" 
+			android:focusable="false" 
+			android:id="@+id/ticker"
+			android:singleLine="true" android:layout_gravity="bottom|left"/>
+	</LinearLayout>
 
-
-</TableLayout>
-</LinearLayout>
-</LinearLayout>
+	<ImageView
+       	android:id="@+id/extrasNew"
+       	android:src="@drawable/ui_new" 
+       	android:layout_height="wrap_content" 
+       	android:layout_width="wrap_content" 
+       	android:paddingLeft="280dp"
+       	android:paddingTop="160dp"
+       	android:visibility="invisible"/>
+	
+</FrameLayout> 
