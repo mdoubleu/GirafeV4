@@ -27,7 +27,8 @@ public class Helicopter extends Entity{
 			image=context.getResources().getDrawable(R.drawable.icecream);
 			
 		}else if(otherEntity.toString().equals("head")){
-			this.setDraw(false);
+			image=context.getResources().getDrawable(R.drawable.kapow);
+			//this.setDraw(false);
 		}
 	}
 	public String toString(){

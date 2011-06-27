@@ -23,7 +23,7 @@ public class IceCreamTruck extends Entity{
 	@Override
 	public void collided(Entity otherEntity) {
 		if(otherEntity.toString().equals("body")){
-			image=context.getResources().getDrawable(R.drawable.helicopter);
+			image=context.getResources().getDrawable(R.drawable.kapow);
 			
 		}else if(otherEntity.toString().equals("head")){
 			this.setDraw(false);
