@@ -75,7 +75,7 @@ public class GameModel {
 		this.width=width;
 		this.height=height;
 		bLocation1=0;
-		bLocation2=width;
+		bLocation2=800;
 	}
 	public void loadLevel(int act){
 		LevelBuilder levels=new LevelBuilder(act);
@@ -150,7 +150,8 @@ public class GameModel {
 		
 		if(bLocation2==0){
 			bLocation1=0;
-			bLocation2=width;
+			//make constant
+			bLocation2=800;
 		}
 		
 		//Background changes based on time;

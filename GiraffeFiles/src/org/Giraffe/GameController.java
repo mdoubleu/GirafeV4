@@ -34,17 +34,17 @@ public GameController(GameModel gameModel){
 	}
 	public static float viewToModelY(float y)
 	{
-		float qY= (height+(y*800f)/width);
+		float qY= (height+(y*450f)/height);
 		return qY;
 	}
-	public static float ModelToViewX(float x)
+	public float modelToViewX(float x)
 	{
 		float qX=((x/800f)*width);
 		return qX;
 	}
-	public static float ModelToViewY(float y)
+	public float modelToViewY(float y)
 	{
-		float qY=(height+(y/800f)*width);
+		float qY=((y/450f)*height);
 		return qY;
 	}
 
@@ -54,14 +54,14 @@ public GameController(GameModel gameModel){
 		synchronized(gameModel){
 		int action = event.getAction();
 	      updateX=viewToModelX(event.getX());
-	      updateY=viewToModelX(event.getY());
+	      updateY=viewToModelY(event.getY());
 	       
 		
 		if (action == MotionEvent.ACTION_DOWN) {
 	    	   Log.d("TEST","REACHED PRESSDOWn");
 	    	  
-	           firstX = event.getRawX();
-	           firstY = event.getRawY();
+	           firstX = viewToModelX(event.getX());
+	           firstY = viewToModelY(event.getY());
 	           return true;
 	       }else  if (action == MotionEvent.ACTION_MOVE){
 	    	  if(Math.abs(updateX-firstX)>delta ){
@@ -82,7 +82,7 @@ public GameController(GameModel gameModel){
 	    	   Log.d("TEST","REACHED PRESSED UP");
 	    	   Log.d("TESTING", ""+firstX+"  "+updateX+"  "+firstY+ "   "+ updateY);
 	    	   
-	    	   if(firstX+20<event.getX() || firstX-20>event.getX()
+	    	   if(firstX+20<updateX || firstX-20>updateX
 	    			  ){ //&&firstY+20<event.getY() &&firstY-20>event.getY())
 	    		   gameModel.rotateNeck(2); 
 		           gameModel.deg=0;

@@ -8,6 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 
+//View needs the folowing from model.
+//model. 
+// blocation1
+//blocation 2
+//.get entities()
+//potential add (.graff)
 
 
 public class GameView implements Callback{
@@ -60,29 +66,14 @@ public class GameView implements Callback{
 			}
 		}
 	}
-	public void doDraw(Canvas canvas){
-		int width=canvas.getWidth();
-		int height=canvas.getHeight();
-		
-		controller.setSize(width, height);
-		//model.setSize(width, height);
-		
-		 background = background.createScaledBitmap(
-                 background, (int)width, (int)height, true);
-		
-		canvas.drawBitmap(background, model.bLocation1, 0, null);
-		canvas.drawBitmap(background, model.bLocation2, 0, null);
-		
-		
-		//giraffeStuff
-		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
-		
+	private void drawGraff(Canvas canvas, GiraffeEntity graff)
+	{
 		//rotate neck
 		Drawable g_neck=graff.getNeck();
-		g_neck.setBounds((int)GameController.ModelToViewX(graff.neck_x1),
-			 			 (int)GameController.ModelToViewX(graff.neck_y1),
-						 (int)GameController.ModelToViewX(graff.neck_x2),
-						 (int)GameController.ModelToViewX(graff.neck_y2));
+		g_neck.setBounds((int)controller.modelToViewX(graff.neck_x1),
+			 			 (int)controller.modelToViewX(graff.neck_y1),
+						 (int)controller.modelToViewX(graff.neck_x2),
+						 (int)controller.modelToViewX(graff.neck_y2));
 		if(model.notRotating){
 			g_neck.draw(canvas);
 		}
@@ -93,17 +84,41 @@ public class GameView implements Callback{
 		canvas.restore();
 		model.defaultRotate();
 
+	}
+	private void drawBG(Canvas canvas)
+	{
+		int width=canvas.getWidth();
+		int height=canvas.getHeight();
+		background = background.createScaledBitmap(
+        background, (int)width, (int)height, true);	
+		controller.setSize(width, height);
+		canvas.drawBitmap(background, controller.modelToViewX(model.bLocation1), 0, null);
+		canvas.drawBitmap(background, controller.modelToViewX(model.bLocation2), 0, null);
+		
+		
+	}
+	private void doDraw(Canvas canvas){
+		
+		//model.setSize(width, height);
+		drawBG(canvas);
+		
+		//giraffeStuff
+		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
+		drawGraff(canvas, graff);
+		
+		
 		//Obstacles Stuff
-		for(int x=0; x<model.getEntities().size(); x++){
-			model.getEntities().get(x).move();
+		for(Entity e:model.getEntities()){
+			//why move?
+			e.move();
 			
 			//model.getEntities().get(x).doDraw()&&
-			if(!model.getEntities().get(x).toString().equals("body")&&model.getEntities().get(x).doDraw()){
-				Drawable f=model.getEntities().get(x).getImage();
-				f.setBounds((int)GameController.ModelToViewX(model.getEntities().get(x).getX()),
-							(int)GameController.ModelToViewX(model.getEntities().get(x).getY()),
-							(int)GameController.ModelToViewX(model.getEntities().get(x).getX2()),
-							(int)GameController.ModelToViewX(model.getEntities().get(x).getY2()));
+			if(!e.toString().equals("body")&&e.doDraw()){
+				Drawable f=e.getImage();
+				f.setBounds((int)controller.modelToViewX(e.getX()),
+							(int)controller.modelToViewY(e.getY()),
+							(int)controller.modelToViewX(e.getX2()),
+							(int)controller.modelToViewY(e.getY2()));
 				f.draw(canvas);
 				
 			}
