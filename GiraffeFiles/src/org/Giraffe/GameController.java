@@ -13,7 +13,8 @@ int state;
 float delta;
 float updateX;
 float updateY;
-
+private static int width;
+private static int height;
 
 public GameController(GameModel gameModel){
 		this.gameModel=gameModel;
@@ -22,8 +23,29 @@ public GameController(GameModel gameModel){
 		//Log.d("TEST","REACHED ONDOWN");
 		
 	}
-	public void setSize(float w, float h){
-		
+	public void setSize(int w, int h){
+			width = w;
+			height = h;
+	}
+	public static float viewToModelX(float x)
+	{
+		float qX= ((x*800f)/width);
+		return qX;
+	}
+	public static float viewToModelY(float y)
+	{
+		float qY= (height+(y*800f)/width);
+		return qY;
+	}
+	public static float ModelToViewX(float x)
+	{
+		float qX=((x/800f)*width);
+		return qX;
+	}
+	public static float ModelToViewY(float y)
+	{
+		float qY=(height+(y/800f)*width);
+		return qY;
 	}
 
 	
@@ -31,8 +53,8 @@ public GameController(GameModel gameModel){
 	public boolean onTouch(View v, MotionEvent event) {
 		synchronized(gameModel){
 		int action = event.getAction();
-	      updateX=event.getX();
-	      updateY=event.getY();
+	      updateX=viewToModelX(event.getX());
+	      updateY=viewToModelX(event.getY());
 	       
 		
 		if (action == MotionEvent.ACTION_DOWN) {

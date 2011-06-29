@@ -20,7 +20,10 @@ public abstract class Entity  implements Collidable{
 	public Entity(Context context, long timeIn, float Cwidth, float Cheight) {
 
 		this.timeIn=timeIn;
-
+		//this.x1=10;/*(int) GameController.viewToModelX(x1);*/
+		//this.x2=10;/*(int) GameController.viewToModelX(x2);*/
+		//this.y1=10;/*(int) GameController.viewToModelX(y1);*/
+		//this.y2=10;/*(int) GameController.viewToModelX(y2);*/
 	}
 	public void setDraw(boolean check){
 		this.check=check;
@@ -81,7 +84,7 @@ public abstract class Entity  implements Collidable{
 		  }
 
 	}
- 
+	//float qX= ((x*800f)/width);
 	public abstract void collided(Entity otherEntity);
  
 	public boolean canCollide() {

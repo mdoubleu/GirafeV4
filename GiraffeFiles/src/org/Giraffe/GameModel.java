@@ -123,7 +123,9 @@ public class GameModel {
 	public LinkedList<Entity> getEntities(){
 		return entityDraw;
 	}
-	
+	 //********************//
+	// move to controller //
+   //********************//
 	public void searchForCollision() {
 	    for (Entity entity : entities) {
 		for (Entity otherEntity : entities) {
@@ -167,15 +169,15 @@ public class GameModel {
 		
 			gVel=(int)(INITVELOCITY+(ACCELERATION*timeMil));
 			
-			ourGiraffe.y1= (ourGiraffe.y1-gVel);
-			ourGiraffe.y2= (ourGiraffe.y2-gVel);
-			ourGiraffe.neck_y1=(ourGiraffe.neck_y1-gVel);
-			ourGiraffe.neck_y2=(ourGiraffe.neck_y2-gVel);
-			gBody.y1=(gBody.y1-gVel);
-			gBody.y2=(gBody.y2-gVel);
+			ourGiraffe.y1= (int) (GameController.viewToModelX(ourGiraffe.y1-gVel));
+			ourGiraffe.y2= (int) GameController.viewToModelX(ourGiraffe.y2-gVel);
+			ourGiraffe.neck_y1=(int) GameController.viewToModelX(ourGiraffe.neck_y1-gVel);
+			ourGiraffe.neck_y2=(int) GameController.viewToModelX(ourGiraffe.neck_y2-gVel);
+			gBody.y1=(int) GameController.viewToModelX(gBody.y1-gVel);
+			gBody.y2=(int) GameController.viewToModelX(gBody.y2-gVel);
 			
-			gHead.y1=(gHead.y1-gVel);
-			gHead.y2=(gHead.y2-gVel);
+			gHead.y1=(int) (GameController.viewToModelX(gHead.y1-gVel));
+			gHead.y2=(int) (GameController.viewToModelX(gHead.y2-gVel));
 
 			//Log.d("Ok", "gVel= "+gVel+ " time="+timeMil+" tempY1: "+ tempY1 +"  ACCELERATION"+ACCELERATION+"   INIT"+INITVELOCITY+
 				//	"   \n"+ ourGiraffe.y1+ "      "+ ourGiraffe.y2);

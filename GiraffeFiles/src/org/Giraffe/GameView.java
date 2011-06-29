@@ -35,6 +35,7 @@ public class GameView implements Callback{
 		model.setSize(width, height);
 		
 	}
+	
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -60,8 +61,8 @@ public class GameView implements Callback{
 		}
 	}
 	public void doDraw(Canvas canvas){
-		float width=canvas.getWidth();
-		float height=canvas.getHeight();
+		int width=canvas.getWidth();
+		int height=canvas.getHeight();
 		
 		controller.setSize(width, height);
 		//model.setSize(width, height);
@@ -78,7 +79,10 @@ public class GameView implements Callback{
 		
 		//rotate neck
 		Drawable g_neck=graff.getNeck();
-		g_neck.setBounds(graff.neck_x1,graff.neck_y1,graff.neck_x2,graff.neck_y2);
+		g_neck.setBounds((int)GameController.ModelToViewX(graff.neck_x1),
+			 			 (int)GameController.ModelToViewX(graff.neck_y1),
+						 (int)GameController.ModelToViewX(graff.neck_x2),
+						 (int)GameController.ModelToViewX(graff.neck_y2));
 		if(model.notRotating){
 			g_neck.draw(canvas);
 		}
@@ -96,10 +100,10 @@ public class GameView implements Callback{
 			//model.getEntities().get(x).doDraw()&&
 			if(!model.getEntities().get(x).toString().equals("body")&&model.getEntities().get(x).doDraw()){
 				Drawable f=model.getEntities().get(x).getImage();
-				f.setBounds(model.getEntities().get(x).getX(),
-						model.getEntities().get(x).getY(),
-						model.getEntities().get(x).getX2(),
-						model.getEntities().get(x).getY2());
+				f.setBounds((int)GameController.ModelToViewX(model.getEntities().get(x).getX()),
+							(int)GameController.ModelToViewX(model.getEntities().get(x).getY()),
+							(int)GameController.ModelToViewX(model.getEntities().get(x).getX2()),
+							(int)GameController.ModelToViewX(model.getEntities().get(x).getY2()));
 				f.draw(canvas);
 				
 			}
