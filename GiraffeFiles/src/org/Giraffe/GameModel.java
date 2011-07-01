@@ -30,11 +30,8 @@ public class GameModel {
 	
 	//CollisionManager colisionCheck; !MERGE WITH ENTTITY
 	
-	//physics
-	public static final float ACCELERATION=-.0075f;
-	public static final float INITVELOCITY=10f;
-	private long jumpTime;
-	private int gVel;
+	
+	
 	
 	//public boolean canJump;
 	//boolean iscanJump;
@@ -42,6 +39,7 @@ public class GameModel {
 	//neck rotation/screen
 	int state;
 	float deg=0f;
+	float pix=0f;
 	public int[] rotate=new int[3];
 	
 	//size
@@ -98,11 +96,13 @@ public class GameModel {
 		//ourGiraffe.move();
 		this.searchForCollision();
 		this.alternateBackground();
-		if(getJump()){
-			this.jump();
+		if(ourGiraffe.getJump()){
+			ourGiraffe.jump();
 		}
 		
 		entityDraw.clear();
+		ourGiraffe.updateTime();
+		ourGiraffe.setPic();
 		entityDraw.addFirst(ourGiraffe);
 		timeIn=System.currentTimeMillis();
 		for(int f=0; f<entities.size(); f++){
@@ -159,74 +159,11 @@ public class GameModel {
 			
 		}
 	}
-	public void jump(){
-		long timeMil=0;
 	
-			this.setCurrentJump(true);
-			timeMil=System.currentTimeMillis()-jumpTime;
-		
-			gVel=(int)(INITVELOCITY+(ACCELERATION*timeMil));
 			
-			ourGiraffe.y1= (ourGiraffe.y1-gVel);
-			ourGiraffe.y2= (ourGiraffe.y2-gVel);
-			ourGiraffe.neck_y1=(ourGiraffe.neck_y1-gVel);
-			ourGiraffe.neck_y2=(ourGiraffe.neck_y2-gVel);
-			gBody.y1=(gBody.y1-gVel);
-			gBody.y2=(gBody.y2-gVel);
-			
-			gHead.y1=(gHead.y1-gVel);
-			gHead.y2=(gHead.y2-gVel);
-
-			//Log.d("Ok", "gVel= "+gVel+ " time="+timeMil+" tempY1: "+ tempY1 +"  ACCELERATION"+ACCELERATION+"   INIT"+INITVELOCITY+
-				//	"   \n"+ ourGiraffe.y1+ "      "+ ourGiraffe.y2);
-			
-			
-			if(ourGiraffe.y2>=398+p){
-				setJump(false);
-				this.setCurrentJump(false);
-			}
-		
-			
-	}
-	//allows giraffe to jump
-	public void setJump(boolean canJ){
-		jumpTime=System.currentTimeMillis()+0;
-		canJump=canJ;
-	}
-	//checks if the giraffe can jump.
-	public boolean getJump(){
-		return canJump;
-	}
-	//setcanJump sets whether the giraffe is currently canJump or not.
-	public void setCurrentJump(boolean currentlyJumping){
-		this.currentlyJumping=currentlyJumping;
-	}
-	//is canJump returns whethere the giraffe is currently canJump;
-	public boolean currentlyJumping(){
-		return currentlyJumping;
-	}
 	
-	public void rotateNeck(int state){
-		//Log.d("TEST","REACHED ROTATENECK");
-		switch(state) {
-		case 1:rotate[0]=0;
-        case 2:
-        	notRotating=false;
-        	rotate[0]=90;
-        	rotate[1]=130;
-        	rotate[2]=350;
-        break;
-        case 3:
-        	notRotating=false;
-          	rotate[0]=(int)deg;
-        	rotate[1]=140;
-        	rotate[2]=350;
-        break;
-        }
-	}
-	public int[] getRotate(){
-		return rotate;
-	}
+	
+	
 	public boolean levelOver(){
 		return levelOver;
 	}
@@ -234,7 +171,10 @@ public class GameModel {
 		notRotating=true;
 		rotate[0]=0;
 	}
-	
+	public GiraffeEntity getOurGiraffe()
+	{
+		return ourGiraffe;
+	}
 	
 	
 }

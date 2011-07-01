@@ -16,7 +16,7 @@ public class Tank extends Enemy
 		super(context, time, width, height);
 		this.time=time;
 		tank = context.getResources().getDrawable(
-                R.drawable.giraffe);
+                R.drawable.g3);
 
 		this.time=time;
 	}

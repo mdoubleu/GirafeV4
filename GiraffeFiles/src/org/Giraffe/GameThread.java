@@ -22,7 +22,6 @@ public class GameThread extends Thread{
 		while(running){
 			if(GameCall.getmPaused()==true)
         	{
-        		Log.d("Paused", "Game should be paused.");
         		
         	}
 			else{

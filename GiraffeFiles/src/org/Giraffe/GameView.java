@@ -1,5 +1,7 @@
 package org.Giraffe;
 
+
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -7,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
+import android.widget.ImageSwitcher;
 
 
 
@@ -72,22 +75,26 @@ public class GameView implements Callback{
 		canvas.drawBitmap(background, model.bLocation1, 0, null);
 		canvas.drawBitmap(background, model.bLocation2, 0, null);
 		
+	
+		
 		
 		//giraffeStuff
 		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
 		
 		//rotate neck
-		Drawable g_neck=graff.getNeck();
-		g_neck.setBounds(graff.neck_x1,graff.neck_y1,graff.neck_x2,graff.neck_y2);
+		
+		//Drawable g_neck=graff.getNeck();
+		//g_neck.setBounds(graff.neck_x1,graff.neck_y1,graff.neck_x2,graff.neck_y2);
 		if(model.notRotating){
-			g_neck.draw(canvas);
+			
 		}
 		canvas.save();
-		model.getRotate();
-		canvas.rotate(model.getRotate()[0],model.getRotate()[1],model.getRotate()[2]);
-		g_neck.draw(canvas);
-		canvas.restore();
-		model.defaultRotate();
+		//model.getRotate();
+		//canvas.rotate(model.getRotate()[0],model.getRotate()[1],model.getRotate()[2]);
+		//g_neck.draw(canvas);
+		//canvas.restore();
+		//model.defaultRotate();
+		
 
 		//Obstacles Stuff
 		for(int x=0; x<model.getEntities().size(); x++){

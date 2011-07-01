@@ -9,10 +9,13 @@ public class GameController implements OnTouchListener{
 GameModel gameModel;
 float firstX;
 float firstY;
-int state;
+public int state=0;
 float delta;
 float updateX;
 float updateY;
+float distance;
+float previous=0f;
+
 
 
 public GameController(GameModel gameModel){
@@ -36,17 +39,25 @@ public GameController(GameModel gameModel){
 	       
 		
 		if (action == MotionEvent.ACTION_DOWN) {
-	    	   Log.d("TEST","REACHED PRESSDOWn");
 	    	  
 	           firstX = event.getRawX();
 	           firstY = event.getRawY();
 	           return true;
 	       }else  if (action == MotionEvent.ACTION_MOVE){
-	    	  if(Math.abs(updateX-firstX)>delta ){
-		           if (gameModel.deg>-40) {
+	    	   if(Math.abs(updateX-firstX)>delta ){
+	    		   
+	    		   distance = firstX - event.getX();
+	    		  //previous=distance;
+	    		  if (distance >= 100) {
+	    			  gameModel.getOurGiraffe().setToPrime();
+	    			  Log.d("Look Here!", ""+gameModel.getOurGiraffe().primeTime);
+	    		  }
+		          /* 
+	    		  if (gameModel.deg>-40) {
 		               gameModel.deg -=3;
 		               gameModel.rotateNeck(3); 
-		           }
+		           }*/
+	    		  
 	    	  }
 	    	  
 	           return true;
@@ -60,18 +71,21 @@ public GameController(GameModel gameModel){
 	    	   Log.d("TEST","REACHED PRESSED UP");
 	    	   Log.d("TESTING", ""+firstX+"  "+updateX+"  "+firstY+ "   "+ updateY);
 	    	   
-	    	   if(firstX+20<event.getX() || firstX-20>event.getX()
+	    	   if(firstX+10<event.getX() || firstX-10>event.getX()
 	    			  ){ //&&firstY+20<event.getY() &&firstY-20>event.getY())
-	    		   gameModel.rotateNeck(2); 
+	    		 //  gameModel.rotateNeck(2); 
 		           gameModel.deg=0;
-		           Log.d("TEST", "MOTIONSWIPE");
+		        //   Log.d("TEST", "MOTIONSWIPE");
+		           gameModel.getOurGiraffe().setTime();
+		           gameModel.getOurGiraffe().setToAttack();
+		          
+		           Log.d("LOOK HERE", ""+gameModel.getOurGiraffe().primeTime);
 	    		   /*makes sure giraffe isnt currently jumping so theres no double jump*/
-		    	   Log.d("TESTING", ""+firstX+"  "+event.getRawX()+"  "+firstY+ "   "+ event.getRawY());
 
 	    		  
 	    	   }else{
-	    		   if(!gameModel.currentlyJumping()){
-	    			   gameModel.setJump(true);
+	    		   if(!gameModel.getOurGiraffe().currentlyJumping()){
+	    			   gameModel.getOurGiraffe().setJump(true);
 	    		   }
 	    	   }
 	    	   return true;
