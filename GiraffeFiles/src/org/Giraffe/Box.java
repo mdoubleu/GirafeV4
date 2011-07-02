@@ -1,4 +1,7 @@
-package org.Giraffe;
+/*package org.Giraffe;
+
+import org.Giraffe.R;
+import org.Giraffe.R.drawable;
 
 import android.content.Context;
 
@@ -36,7 +39,7 @@ public class Box extends Entity {
 	}
 
 	@Override
-	public void collided(Entity otherEntity) {
+	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,4 +53,4 @@ public class Box extends Entity {
 	}
 
 
-}
+}*/

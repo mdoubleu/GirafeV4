@@ -1,7 +1,10 @@
 package org.Giraffe;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 
 
@@ -15,13 +18,24 @@ public abstract class Entity  implements Collidable{
 	protected String imageName;
 	protected Drawable image;
 	boolean check=true;
-
+	protected ArrayList<HitBox> hitBox=new ArrayList<HitBox>();
+	protected int health=1;
+	protected boolean cancollide=true;
 
 	public Entity(Context context, long timeIn, float Cwidth, float Cheight) {
 
 		this.timeIn=timeIn;
 
 	}
+	public  ArrayList<HitBox> getHitBox(){
+		return hitBox;
+	}public int getHealth(){
+		return health;
+	}
+	public void setHealth(int h){
+		health=h;
+	}
+	
 	public void setDraw(boolean check){
 		this.check=check;
 	}
@@ -51,41 +65,36 @@ public abstract class Entity  implements Collidable{
 		return image;
 	}
 
-	public boolean collidesWith(Entity o) {
+	public boolean collidesWith(Entity thisE, Entity other) {
 		//checks intersections of entities radii
-		 double r1= Math.sqrt(.25*(x2-x1)*(x2-x1)+.25*(y2-y1)*(y2-y1));
-		 double r2= Math.sqrt(.25*(o.x2-o.x1)*(o.x2-o.x1)+.25*(o.y2-o.y1)*(o.y2-o.y1));
-		  //double colD = (r1+r2);
-		  double cX1= ((x1+x2)/2);
-		  double cY1= ((y1+y2)/2);
-		  double cX2= ((o.x1+o.x2)/2);
-		  double cY2= ((o.y1+o.y2)/2); 
-		 
-		  //double eDistanceX= (disk1.getX()-disk2.getX());
-		  //width is the same as height for a square
-		  //double eDistanceY= (disk1.getY()-disk2.getY());
-		  //double eDistanceX= (cX1-cX2);
-		  //double eDistanceY= (cY1-cY2);
-		 		 
-		  if(((r1+r2)*(r1+r2))/4>((cX1-cX2)*(cX1-cX2)+(cY1-cY2)*(cY1-cY2)))
-		  {
-		  // this.x1=90;
-		   //this.x2=300;
-			  //Log.d("LOOOK HEREE",this.toString()+ "  This has collided with "+ o.toString() );
-		   return true;
-		  }
-
-		  else
-		  {
+		//ArrayList<HitBox> ohitbox=other.getHitBox();
+		for (HitBox thisHitBox: thisE.getHitBox()){
+			for(HitBox otherHitBox:other.getHitBox()){
+				
+				if(!thisHitBox.toString().equals(otherHitBox.toString())){
+					int checkt=(int)thisHitBox.x2();
+					int checko=(int)otherHitBox.x1();
+				
+					 if(Math.abs(checkt-checko)<10){
+						 Log.d("C", ""+checkt+"  is  bigger than "+checko);
+						 this.collided(thisHitBox, otherHitBox);
+						 other.collided(otherHitBox, thisHitBox);
+						 return true;
+					 }
+					
+				}
+				
+			}
+		}
 		   return false;
-		  }
+		  
 
 	}
  
-	public abstract void collided(Entity otherEntity);
+	public abstract void collided(HitBox thisHitBox, HitBox otherHitBox);
  
 	public boolean canCollide() {
-		return true;
+		return cancollide;
 	}
 	public abstract String toString();
 }

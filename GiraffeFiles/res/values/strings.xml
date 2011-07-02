@@ -20,4 +20,5 @@
 	<string name= "Options">About</string>
     <string name= "left_label">Left</string>
     <string name= "right_label">Right</string>
+     <string name= "empty">Null</string>
 </resources>

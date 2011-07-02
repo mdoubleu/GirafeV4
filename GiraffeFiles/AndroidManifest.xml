@@ -21,6 +21,12 @@
 			android:screenOrientation="landscape" 
 			android:theme="@android:style/Theme.Dialog">
 		</activity>
+		    <activity android:name=".SavedGameState"
+			android:screenOrientation="landscape" >
+		</activity>
+		    <activity android:name=".GiraffeScores"
+			android:screenOrientation="landscape" >
+		</activity>
 		 <activity android:name="GameCall"
 		 android:configChanges="keyboardHidden|orientation"
 		 android:screenOrientation="landscape" 

@@ -1,4 +1,5 @@
-package org.Giraffe;
+/*package org.Giraffe;
+
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -16,7 +17,7 @@ public class Tank extends Enemy
 		super(context, time, width, height);
 		this.time=time;
 		tank = context.getResources().getDrawable(
-                R.drawable.g3);
+                R.drawable.giraffe);
 
 		this.time=time;
 	}
@@ -46,8 +47,8 @@ public class Tank extends Enemy
 		return "tank";
 	}
 	@Override
-	public void collided(Entity otherEntity) {
+	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		// TODO Auto-generated method stub
 		
 	}
-}
+}*/

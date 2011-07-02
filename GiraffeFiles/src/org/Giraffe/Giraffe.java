@@ -1,7 +1,6 @@
 package org.Giraffe;
 
-import org.Giraffe.About;
-import org.Giraffe.HTP;
+
 import org.Giraffe.GameCall;
 
 
@@ -9,7 +8,6 @@ import android.app.Activity;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -51,6 +49,14 @@ public class Giraffe extends Activity implements OnClickListener
 				Log.d("Far", "Do i get this far?");
 
 				break;
+			case R.id.extrasButton:
+				Intent f=new Intent(this, SavedGameState.class);
+		        startActivity(f);
+		        break;
+			case R.id.optionButton:
+				Intent k=new Intent(this, GiraffeScores.class);
+		        startActivity(k);
+		        break;
 			/*
 			case R.id.about_button:
 			Intent a = new Intent(this, About.class);

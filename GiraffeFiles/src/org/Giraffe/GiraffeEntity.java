@@ -25,15 +25,10 @@ public class GiraffeEntity extends Entity{
 	long difference=0;
 	long primeTime=0;
 	private boolean currentlyAttacking=false;
+	private long delayOneSecond;
 	
 	//pictures of giraffes
 	public ArrayList <Drawable> cuteGiraffePics = new ArrayList <Drawable>();
-	
-	int neck_x1=57;
-	int neck_x2=220;
-	int neck_y1=110+GameModel.p;
-   int neck_y2=295+GameModel.p;
- 
    /*Controls the jump*/
 	long jumpTimeFrozen;
    /*Controls the neck-attack*/
@@ -62,8 +57,11 @@ public class GiraffeEntity extends Entity{
 		
 		   this.x1=1;
 		   this.x2=150;
-		   this.y1=250+GameModel.p;
-		   this.y2=400+GameModel.p;
+		   this.y1=130+GameModel.p;
+		   this.y2=430+GameModel.p;
+		
+		   this.hitBox.add(new HitBox("body",1,380,150,480));
+		   this.hitBox.add(new HitBox("head",97, 210,218, 300));
 		
 		setPic();/*context.getResources().getDrawable(
                 R.drawable.giraffe);*/
@@ -88,18 +86,51 @@ public class GiraffeEntity extends Entity{
 	}
 
 	@Override
-	public void collided(Entity otherEntity) {
-		// TODO Auto-generated method stub
+	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		
+		if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("body")){
+			//Log.d("GIRAFFE", "REACHED");
+			setHealth(this.getHealth()-1);
+			this.cancollide=false;
+			delayOneSecond=System.currentTimeMillis()+0;
+			delayCollideOneSecond(delayOneSecond);
+			//call method that shall check how long it is i say 1 second and then sets true;
+			
+		}else if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("head")){
+			if(getHealth()==0){
+			//endlevelYOULOSE!
+			}
+		}else if(otherHitBox.toString().equals("helicopter")&&thisHitBox.toString().equals("body")){
+			
+		}
+		
+	}
+	public void delayCollideOneSecond(long timeIn){
+		
+		if(System.currentTimeMillis()-timeIn>1000){
+			this.cancollide=true;
+			this.setDraw(true);
+		}else if(System.currentTimeMillis()-timeIn>600){
+			this.setDraw(false);
+		}else if(System.currentTimeMillis()-timeIn>300){
+			this.setDraw(true);
+		}else if(System.currentTimeMillis()-timeIn>0){
+			this.setDraw(false);
+		}
+		
+	}
+	public boolean canCollide() {
+		delayCollideOneSecond(delayOneSecond);
+		return cancollide;
 	}
 	public String toString(){
 		return "giraffe";
 	}
-	public Drawable getNeck(){
+	public Drawable healthImage(){
 		return context.getResources().getDrawable(
-                R.drawable.neck);
+                R.drawable.strawberry);
+		
 	}
-	
 	
 	
 	public void jump(){
@@ -166,36 +197,6 @@ public class GiraffeEntity extends Entity{
 			break;
 			
 		}
-		
-		
-		/*
-		if (myState == gState.ATTACKING) {
-			this.image=cuteGiraffePics.get(i);
-			if (System.currentTimeMillis()-attackTime == 100 && i < 5) {
-				i++;
-				attackTime = System.currentTimeMillis();
-				
-			} else if (i >= 5 ) {
-				setToNormal();
-				attackTime = System.currentTimeMillis();
-				
-			}
-		}
-		if (myState == gState.NORMAL) {
-			this.image=cuteGiraffePics.get(i);
-			if (System.currentTimeMillis()-attackTime == 100 && i >=3) {
-				i--;
-				attackTime = System.currentTimeMillis();
-			}
-		}
-		
-		if (myState == gState.PRIMED) {
-			this.image=cuteGiraffePics.get(i);
-			if (System.currentTimeMillis()-attackTime == 100 && i >= 0) {
-				i--;
-				attackTime = System.currentTimeMillis();
-			}
-		}*/
 		
 		
 	}

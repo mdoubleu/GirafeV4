@@ -75,33 +75,29 @@ public class GameView implements Callback{
 		canvas.drawBitmap(background, model.bLocation1, 0, null);
 		canvas.drawBitmap(background, model.bLocation2, 0, null);
 		
-	
-		
-		
 		//giraffeStuff
 		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
-		
-		//rotate neck
-		
-		//Drawable g_neck=graff.getNeck();
-		//g_neck.setBounds(graff.neck_x1,graff.neck_y1,graff.neck_x2,graff.neck_y2);
 		if(model.notRotating){
 			
 		}
 		canvas.save();
-		//model.getRotate();
-		//canvas.rotate(model.getRotate()[0],model.getRotate()[1],model.getRotate()[2]);
-		//g_neck.draw(canvas);
-		//canvas.restore();
-		//model.defaultRotate();
-		
-
 		//Obstacles Stuff
 		for(int x=0; x<model.getEntities().size(); x++){
 			model.getEntities().get(x).move();
 			
 			//model.getEntities().get(x).doDraw()&&
 			if(!model.getEntities().get(x).toString().equals("body")&&model.getEntities().get(x).doDraw()){
+				if(model.getEntities().get(x).toString().equals("giraffe")){
+					int varHealth=20;
+					for(int h=0; h<graff.getHealth(); h++){
+						
+						Drawable health=graff.healthImage();
+						health.setBounds((int)width-varHealth, 0, (int)width-(varHealth/2), 20);
+						health.draw(canvas);
+						varHealth+=20;
+					}
+				}
+						
 				Drawable f=model.getEntities().get(x).getImage();
 				f.setBounds(model.getEntities().get(x).getX(),
 						model.getEntities().get(x).getY(),
@@ -111,7 +107,6 @@ public class GameView implements Callback{
 				
 			}
 		}
-		
 		
 	}
 	@Override

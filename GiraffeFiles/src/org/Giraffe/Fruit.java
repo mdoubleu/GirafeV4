@@ -28,15 +28,14 @@ public class Fruit extends Entity
 		this.x1-=5;
 		this.x2-=5;
 	}
-
+	public String toString(){
+		return "fruit";
+	}
 	@Override
-	public void collided(Entity otherEntity) {
-		if(otherEntity.toString().equals("head")){
+	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
+		if(otherHitBox.toString().equals("head")){
 			this.setDraw(false);
 		}
 		
-	}
-	public String toString(){
-		return "fruit";
 	}
 }

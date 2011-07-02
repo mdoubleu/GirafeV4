@@ -23,9 +23,7 @@ public class GameModel {
 	
 	//creates giraffe object --body --neck
 	GiraffeEntity ourGiraffe;
-	GBody gBody;
-	GHead gHead;
-	
+
 	//Bitmap background;
 	
 	//CollisionManager colisionCheck; !MERGE WITH ENTTITY
@@ -60,8 +58,7 @@ public class GameModel {
 	public GameModel(Context context){
 		this.context=context;
 		ourGiraffe=new GiraffeEntity(context, 0, width, height);
-        gBody=new GBody(context,0, width, height);
-        gHead=new GHead(context, 0, width, height);
+		ourGiraffe.setHealth(3);
         timeFrozen=System.currentTimeMillis()+0;
         Log.d("TEST", "BEFOREROTATE");
         rotate[0]=0;rotate[1]=0;rotate[2]=0;
@@ -85,8 +82,6 @@ public class GameModel {
 		entities=level.getLevel();
         entities.addFirst(ourGiraffe);
         entityDraw.addFirst(ourGiraffe);
-        entities.add(gBody);
-        entities.add(gHead);
         
 	}
 	public Bitmap getBkround(){
@@ -126,22 +121,20 @@ public class GameModel {
 	
 	public void searchForCollision() {
 	    for (Entity entity : entities) {
-		for (Entity otherEntity : entities) {
-			if(!entity.toString().equals(otherEntity.toString())){
-				//entity.getX()!=otherEntity.getX()&&entity.getX2()!=otherEntity.getX2()){
-				if (entity.toString().equals("body")&&otherEntity.toString().equals("giraffe")||
-						entity.toString().equals("giraffe")&&otherEntity.toString().equals("body")){
-				}else{
-					if(entity.collidesWith(otherEntity)) {
-						//Log.d("COLLISION", ""+entity.toString()+" collided with "+otherEntity.toString());
-						entity.collided(otherEntity);
-						otherEntity.collided(entity);
-						}
+			
+	    	for (Entity otherEntity : entities) {
+			
+			if(entity.canCollide()&&otherEntity.canCollide()&&!entity.toString().equals(otherEntity.toString())){
+				entity.collidesWith(entity,otherEntity);
+				Log.d("COLLISION", ""+entity.toString()+" collided with "+otherEntity.toString());
+						
+						//entity.collided(otherEntity);
+						//otherEntity.collided(entity);
+			
+					}
 				}
-			}
 
 			}
-	    }
 	  
 	}
 	public void alternateBackground(){
