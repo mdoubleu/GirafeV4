@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.widget.ImageSwitcher;
@@ -35,14 +36,14 @@ public class GameView implements Callback{
 		getBackground();
 	}
 	
-	@Override
+
 	public void surfaceChanged(SurfaceHolder holdr, int format, int width, int height) {
 		controller.setSize(width, height);
 		model.setSize(width, height);
 		
 	}
 
-	@Override
+
 	public void surfaceCreated(SurfaceHolder holder) {
 		if (thread == null) {
 			thread = new GameThread(model,this,controller);
@@ -97,13 +98,11 @@ public class GameView implements Callback{
 			//model.getEntities().get(x).doDraw()&&
 			if(!model.getEntities().get(x).toString().equals("body")&&model.getEntities().get(x).doDraw()){
 				if(model.getEntities().get(x).toString().equals("giraffe")){
-					int varHealth=20;
 					for(int h=0; h<graff.getHealth(); h++){
 						
 						Drawable health=graff.healthImage();
-						health.setBounds((int)width-varHealth, 0, (int)width-(varHealth/2), 20);
+						health.setBounds((int)width-(40*(h+1)), 0, (int)width-(40 * h), 40);
 						health.draw(canvas);
-						varHealth+=20;
 					}
 				}
 						
@@ -118,7 +117,7 @@ public class GameView implements Callback{
 		}
 		
 	}
-	@Override
+	
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		try {
 			thread.isRunning(false);
