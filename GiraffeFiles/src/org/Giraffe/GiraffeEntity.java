@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.util.Log;
 
 public class GiraffeEntity extends Entity{
@@ -43,6 +44,8 @@ public class GiraffeEntity extends Entity{
 	public GiraffeEntity(Context context, long time, float width, float height) {
 		super(context, time, width, height);
 		this.context=context;
+		//this is our sound....DEFINATELY NOT SMELLY
+		
 		myState = gState.NORMAL;
 		
 		for (int i =1; i<=5; i++){
@@ -83,20 +86,24 @@ public class GiraffeEntity extends Entity{
 	@Override
 	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		
-		if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("body")){
+		if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("body")
+				||otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("head")){
 			setHealth(this.getHealth()-1);
 			this.cancollide=false;
 			delayOneSecond=System.currentTimeMillis()+0;
 			delayCollideOneSecond(delayOneSecond);
-			//call method that shall check how long it is i say 1 second and then sets true;
-			
-		}else if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("head")){
-			if(getHealth()==0){
-			//endlevelYOULOSE!
-			}
-		}else if(otherHitBox.toString().equals("helicopter")&&thisHitBox.toString().equals("body")){
-			
 		}
+			//call method that shall check how long it is i say 1 second and then sets true;
+			// SMELLS
+		else if(otherHitBox.toString().equals("helicopter")&&thisHitBox.toString().equals("body")
+					||otherHitBox.toString().equals("helicopter")&&thisHitBox.toString().equals("head"))
+					{
+			setHealth(this.getHealth()-1);
+			this.cancollide=false;
+			delayOneSecond=System.currentTimeMillis()+0;
+			delayCollideOneSecond(delayOneSecond);
+					}
+		
 		
 	}
 	public void delayCollideOneSecond(long timeIn){
@@ -128,11 +135,18 @@ public class GiraffeEntity extends Entity{
 	
 	
 	public void jump(){
+		if(currentlyJumping==false)
+		{
+			SoundManager.playSound(1);
+			//SoundManager.playSound(2);
+		}
 		long timeMil=0;			
 		
 			this.setCurrentJump(true);
 			timeMil=System.currentTimeMillis()-jumpTime;
-		
+			
+			
+	       
 			gVel=(int)(INITVELOCITY+(ACCELERATION*timeMil));
 			
 			y1= (y1-gVel);

@@ -29,7 +29,7 @@ public class Helicopter extends Entity{
 	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		if(otherHitBox.toString().equals("killbox")){
 			image=context.getResources().getDrawable(R.drawable.kapow2);
-			
+			SoundManager.playSound(4);
 			this.cancollide=false;
 			collidedWithGiraffe=true;
 			delayOfTime=System.currentTimeMillis()+0;
@@ -38,7 +38,7 @@ public class Helicopter extends Entity{
 			
 		}else if(otherHitBox.toString().equals("head")){
 			image=context.getResources().getDrawable(R.drawable.kapow);
-			
+			SoundManager.playSound(3);
 			this.cancollide=false;
 			collidedWithGiraffe=true;
 			delayOfTime=System.currentTimeMillis()+0;

@@ -43,13 +43,20 @@ public class GameModel {
 	
 	private boolean levelOver=false;
 	private boolean levelLose=false;
+	private boolean laugh=false;
 	
 	public GameModel(Context context){
 		this.context=context;
 		ourGiraffe=new GiraffeEntity(context, 0, width, height);
 		ourGiraffe.setHealth(2);
         timeFrozen=System.currentTimeMillis()+0;
+        SoundManager.initSounds(context);
+		SoundManager.addSound(1,R.raw.boing);  
+		SoundManager.addSound(2,R.raw.laugh2); 
+		SoundManager.addSound(3,R.raw.ow);  
+		SoundManager.addSound(4,R.raw.psh); 
         /*LOADS LEVEL 1 AS DEFUALT*/
+        
         loadLevel(1);
 	}
 	public void setSize(float width, float height){
@@ -78,6 +85,7 @@ public class GameModel {
 			entities.clear();
 			entityDraw.clear();
 			background=new Backgrounds(2,context.getResources());
+			
 			updateLevel();
 		}else{
 			entities.clear();
@@ -89,12 +97,19 @@ public class GameModel {
 	}
 	public void updateLevel(){
 		//ourGiraffe.move();
+		
 		this.searchForCollision();
 		this.alternateBackground();
 		if(ourGiraffe.getJump()){
 			ourGiraffe.jump();
+			 
 		}
 		if(ourGiraffe.health==0){
+			if(laugh==false)
+			{
+				SoundManager.playSound(2);  
+				laugh=true;
+			}
 			levelLose=true;
 			levelOver=true;
 		}

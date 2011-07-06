@@ -24,6 +24,7 @@ public class IceCreamTruck extends Entity{
 	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		if(otherHitBox.toString().equals("killbox")){
 			image=context.getResources().getDrawable(R.drawable.kapow2);
+			SoundManager.playSound(4);
 			
 			this.cancollide=false;
 			collidedWithGiraffe=true;
@@ -33,7 +34,7 @@ public class IceCreamTruck extends Entity{
 			
 		}else if(otherHitBox.toString().equals("body")){
 			image=context.getResources().getDrawable(R.drawable.kapow);
-			
+			SoundManager.playSound(3);
 			this.cancollide=false;
 			collidedWithGiraffe=true;
 			delayOfTime=System.currentTimeMillis()+0;

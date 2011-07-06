@@ -37,6 +37,7 @@ public class Giraffe extends Activity implements OnClickListener
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         Music.create(this, R.raw.jeremythegiraffetheme);
+        Music.setLooping(this, R.raw.jeremythegiraffetheme);
     }
     public void onClick(View v)
 	{

@@ -11,8 +11,12 @@ public class Music {
 	{
 		//stop(context);
 		mp = MediaPlayer.create(context, resource);
-		mp.setLooping(true);
+		//mp.setLooping(true);
 		//mp.start();
+	}
+	public static void setLooping(Context context, int resource)
+	{
+		mp.setLooping(true);
 	}
 	public static void stop(Context context)
 	{
@@ -31,5 +35,5 @@ public class Music {
 	{
 		mp.start();
 	}
-
+	
 }

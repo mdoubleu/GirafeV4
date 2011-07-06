@@ -61,22 +61,7 @@
 	       
 		
 	 
-		<TextView 
-			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content" 
-			android:ellipsize="marquee" 
-			android:background="#99000000" 
-			android:textColor= "#FFFFFF" 
-			android:textColorHighlight="#FFFFFF" 
-			android:text="@string/hello" 
-			android:lines="1" 
-			android:marqueeRepeatLimit="marquee_forever" 
-			android:textSize="14sp" 
-			android:fadingEdge="horizontal" 
-			android:fadingEdgeLength="5dp" 
-			android:focusable="false" 
-			android:id="@+id/ticker"
-			android:singleLine="true" android:layout_gravity="bottom|left"/>
+		
 	</LinearLayout>
 
 	<ImageView
