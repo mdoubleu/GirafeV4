@@ -37,7 +37,6 @@ public class GiraffeEntity extends Entity{
 	private Drawable getDrawable(String d)
 	{
 		Integer identifier = context.getResources().getIdentifier(d, "drawable", "org.Giraffe");
-		Log.d("I GOT HERE",identifier.toString());
 		return context.getResources().getDrawable(identifier);
 	}
 	
@@ -47,21 +46,17 @@ public class GiraffeEntity extends Entity{
 		myState = gState.NORMAL;
 		
 		for (int i =1; i<=5; i++){
-			
 			String s = "g"+i;
-			
-			Log.d("STRING S", s);
-			
 			cuteGiraffePics.add(getDrawable(s));
 		}
 		
 		   this.x1=1;
 		   this.x2=150;
-		   this.y1=130+GameModel.p;
-		   this.y2=430+GameModel.p;
+		   this.y1=230;
+		   this.y2=490;
 		
-		   this.hitBox.add(new HitBox("body",1,380,150,480));
-		   this.hitBox.add(new HitBox("head",97, 210,218, 300));
+		   this.hitBox.add(new HitBox("body",1,350,100,y2));
+		   this.hitBox.add(new HitBox("head",70, 240,160, 310));
 		
 		setPic();/*context.getResources().getDrawable(
                 R.drawable.giraffe);*/
@@ -89,7 +84,6 @@ public class GiraffeEntity extends Entity{
 	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		
 		if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("body")){
-			//Log.d("GIRAFFE", "REACHED");
 			setHealth(this.getHealth()-1);
 			this.cancollide=false;
 			delayOneSecond=System.currentTimeMillis()+0;
@@ -143,13 +137,21 @@ public class GiraffeEntity extends Entity{
 			
 			y1= (y1-gVel);
 			y2= (y2-gVel);
+			   
+			this.hitBox.get(0).changePosition(1, getY()-gVel, 100, getY2()-gVel);
+			this.hitBox.get(1).changePosition(70, getY()-gVel, 160, getY2()-gVel);
 			
+			
+			if(this.hitBox.size()>2){
+				this.hitBox.get(2).changePosition(1, getY()-gVel, 230, getY2()-gVel);
+			}
+	
 
 			//Log.d("Ok", "gVel= "+gVel+ " time="+timeMil+" tempY1: "+ tempY1 +"  ACCELERATION"+ACCELERATION+"   INIT"+INITVELOCITY+
 				//	"   \n"+ ourGiraffe.y1+ "      "+ ourGiraffe.y2);
 			
 			/*This occurs when the Giraffe gets back to the bottom of the screen*/
-			if(y2>=398+p){
+			if(y2>=410+p){
 				setJump(false);
 				this.setCurrentJump(false);
 			}
@@ -175,11 +177,13 @@ public class GiraffeEntity extends Entity{
 	}
 	
 	public void setPic() {		
+		updateTime();
 		switch(myState) {
 		case ATTACKING:
 			
 				this.image=cuteGiraffePics.get(4);
 				myState=gState.NORMAL;
+				this.hitBox.add(new HitBox("killbox",1,230, 230, 490));
 				
 			
 		break;
@@ -188,6 +192,9 @@ public class GiraffeEntity extends Entity{
 				this.image=cuteGiraffePics.get(3);
 			
 		case NORMAL:
+			if(this.hitBox.size()>2 &&difference>=500 ){
+				this.hitBox.remove(2);
+			}
 			if (difference>=600 || difference==0) 
 				this.image=cuteGiraffePics.get(2);
 		break;
@@ -222,7 +229,6 @@ public class GiraffeEntity extends Entity{
 	
 	public void setTime () {
 		primeTime = System.currentTimeMillis()+0;
-		Log.d("Look HERE!", ""+primeTime);
 	}
 	public void updateTime() {
 		difference=System.currentTimeMillis()-primeTime;

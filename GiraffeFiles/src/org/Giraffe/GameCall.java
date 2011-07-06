@@ -6,7 +6,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,7 +29,8 @@ public class GameCall extends Activity{
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
+        getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.game);
         
         surface=(SurfaceView)findViewById(R.id.gSurface);
@@ -42,6 +45,7 @@ public class GameCall extends Activity{
         view=new GameView(controller, holder, model, context);
         surface.getHolder().addCallback(view);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
        
     }

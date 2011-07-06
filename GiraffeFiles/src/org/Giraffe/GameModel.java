@@ -24,22 +24,10 @@ public class GameModel {
 	//creates giraffe object --body --neck
 	GiraffeEntity ourGiraffe;
 
-	//Bitmap background;
-	
-	//CollisionManager colisionCheck; !MERGE WITH ENTTITY
-	
-	
-	
-	
-	//public boolean canJump;
-	//boolean iscanJump;
-	
 	//neck rotation/screen
 	int state;
 	float deg=0f;
 	float pix=0f;
-	public int[] rotate=new int[3];
-	
 	//size
 	float width;
 	float height;
@@ -54,15 +42,13 @@ public class GameModel {
 	public boolean notRotating=true;
 	
 	private boolean levelOver=false;
+	private boolean levelLose=false;
 	
 	public GameModel(Context context){
 		this.context=context;
 		ourGiraffe=new GiraffeEntity(context, 0, width, height);
-		ourGiraffe.setHealth(3);
+		ourGiraffe.setHealth(2);
         timeFrozen=System.currentTimeMillis()+0;
-        Log.d("TEST", "BEFOREROTATE");
-        rotate[0]=0;rotate[1]=0;rotate[2]=0;
-        Log.d("TEST", "BAFTEREROTATE");
         /*LOADS LEVEL 1 AS DEFUALT*/
         loadLevel(1);
 	}
@@ -87,6 +73,20 @@ public class GameModel {
 	public Bitmap getBkround(){
 		return background.getBackground();
 	}
+	public void gameOver(long t){
+		if(levelLose){
+			entities.clear();
+			entityDraw.clear();
+			background=new Backgrounds(2,context.getResources());
+			updateLevel();
+		}else{
+			entities.clear();
+			entityDraw.clear();
+			background=new Backgrounds(3,context.getResources());
+			updateLevel();
+		}
+		
+	}
 	public void updateLevel(){
 		//ourGiraffe.move();
 		this.searchForCollision();
@@ -94,12 +94,22 @@ public class GameModel {
 		if(ourGiraffe.getJump()){
 			ourGiraffe.jump();
 		}
+		if(ourGiraffe.health==0){
+			levelLose=true;
+			levelOver=true;
+		}
 		
 		entityDraw.clear();
 		ourGiraffe.updateTime();
 		ourGiraffe.setPic();
-		entityDraw.addFirst(ourGiraffe);
 		timeIn=System.currentTimeMillis();
+		entityDraw.addFirst(ourGiraffe);
+		
+		if(entities.size()<2){
+			//levelWin=true;//this is winning the level
+			levelOver=true;
+			
+		}
 		for(int f=0; f<entities.size(); f++){
 			if(entities.get(f).getX2()<-10){
 				entities.remove(f);
@@ -108,7 +118,6 @@ public class GameModel {
 		for(Entity e:entities){
 				if(e.getTime()<timeIn){
 					if(!e.toString().equals("body")){
-						//e.setDraw(true);
 						entityDraw.add(e);
 					}
 					
@@ -126,11 +135,7 @@ public class GameModel {
 			
 			if(entity.canCollide()&&otherEntity.canCollide()&&!entity.toString().equals(otherEntity.toString())){
 				entity.collidesWith(entity,otherEntity);
-				Log.d("COLLISION", ""+entity.toString()+" collided with "+otherEntity.toString());
-						
-						//entity.collided(otherEntity);
-						//otherEntity.collided(entity);
-			
+				//Log.d("COLLISION", ""+entity.toString()+" collided with "+otherEntity.toString());
 					}
 				}
 
@@ -152,17 +157,10 @@ public class GameModel {
 			
 		}
 	}
-	
-			
-	
-	
+
 	
 	public boolean levelOver(){
 		return levelOver;
-	}
-	public void defaultRotate(){
-		notRotating=true;
-		rotate[0]=0;
 	}
 	public GiraffeEntity getOurGiraffe()
 	{

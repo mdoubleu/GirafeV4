@@ -16,7 +16,9 @@ public class Backgrounds {
 	public Bitmap getBackground(){
 		switch(level){
 		case(1):return BitmapFactory.decodeResource(res, R.drawable.bakroundcopy);
-		case(2)://level two backround?
+		case(2):return BitmapFactory.decodeResource(res, R.drawable.gameover);
+		case(3):return BitmapFactory.decodeResource(res, R.drawable.winner);
+		
 		
 		}
 		return null;

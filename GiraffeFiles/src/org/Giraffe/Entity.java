@@ -21,11 +21,19 @@ public abstract class Entity  implements Collidable{
 	protected ArrayList<HitBox> hitBox=new ArrayList<HitBox>();
 	protected int health=1;
 	protected boolean cancollide=true;
+	protected long delayOfTime;
+	public boolean collidedWithGiraffe=false;
 
 	public Entity(Context context, long timeIn, float Cwidth, float Cheight) {
 
 		this.timeIn=timeIn;
 
+	}
+	public void delayObstacleImage(long timeIn){
+		if(System.currentTimeMillis()-timeIn>300){
+			this.setDraw(false);
+		}
+		
 	}
 	public  ArrayList<HitBox> getHitBox(){
 		return hitBox;
@@ -72,11 +80,20 @@ public abstract class Entity  implements Collidable{
 			for(HitBox otherHitBox:other.getHitBox()){
 				
 				if(!thisHitBox.toString().equals(otherHitBox.toString())){
-					int checkt=(int)thisHitBox.x2();
-					int checko=(int)otherHitBox.x1();
-				
-					 if(Math.abs(checkt-checko)<10){
-						 Log.d("C", ""+checkt+"  is  bigger than "+checko);
+					int thisx2=(int)thisHitBox.x2();
+					int otherx1=(int)otherHitBox.x1();
+					
+					int thisy1=(int)thisHitBox.y1();
+					int thisy2=(int)thisHitBox.y2();
+					
+					int othery2=(int)otherHitBox.y2();
+					int othery1=(int)otherHitBox.y1();	
+					
+					
+					
+					 if(Math.abs(thisx2-otherx1)<2 && ((thisy1<othery2 && thisy2>othery1)||(thisy1<othery2 && thisy2>othery1))){
+						// Log.d("C", ""+checkt+"  is  bigger than "+checko);
+						 Log.d("POSITION", ""+thisHitBox.toString()+"  " +thisy1+ "  "+thisy2+"  "+ otherHitBox.toString()+" "+othery1+ "  "+othery2 );
 						 this.collided(thisHitBox, otherHitBox);
 						 other.collided(otherHitBox, thisHitBox);
 						 return true;

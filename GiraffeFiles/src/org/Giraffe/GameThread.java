@@ -1,7 +1,5 @@
 package org.Giraffe;
 
-import android.util.Log;
-
 public class GameThread extends Thread{
 	GameModel model;
 	GameView view;
@@ -32,6 +30,10 @@ public class GameThread extends Thread{
 					synchronized(model){
 					     model.updateLevel();
 					}
+				 }else{
+					 synchronized(model){
+					 model.gameOver(System.currentTimeMillis()+0);
+					 }
 				 }
 			}
 		}

@@ -8,22 +8,14 @@ public class LevelBuilder {
 		switch(level){
 		
 		case(1):
-	        long check=System.currentTimeMillis()+0;
-			levels=""+check+"%1#";
-			int g=0;
-			for(int l=3000; l<20000; l+=5000){
-				g++;
-				if(g==1){
-					check=System.currentTimeMillis()+l;
-					levels+=check+"%1#";
-				}else if(g==2){
-					check=System.currentTimeMillis()+l;
-					levels+=check+"%2#";
-					g=0;
-				}
-				numberForBackground=1;
-			}
 			
+			levels="0%2#7000%2#5000%2#5000%1#3000%1#6000%3#7000%2#"+
+			"5000%2#5000%1#3000%1#6000%3#3000%1#3000%1#3000%1#7000%2"+
+			"#2000%3#1000%1#5000%2#10000%2#3000%1#5000%1#7000%2#4000%2#9000%3#"+
+			"5670%2#4521%1#6000%2#8901%3#1290%1#4560%3#";
+			//levels="0%2#";
+			numberForBackground=1;
+			break;
 		case(2):
 		case(3):
 		}

@@ -18,18 +18,17 @@ public class LevelMaker {
 		 */
 
 		String[] objects = levelstring.split("#");
+		long time = System.currentTimeMillis() + 0;
 		for (int i = 0; i < objects.length; i++){
 			String obj = objects[i];
 			String[] objel = obj.split("%"); //object elements
-			
-			
-			long time=Long.parseLong(objel[0]);
+			time += Long.parseLong(objel[0]);
 			int type = Integer.parseInt(objel[1]);
 			
 			switch(type){
-			case(1):levelLoad.add(new IceCreamTruck(context, time, Cwidth, Cheight));
-			case(2):levelLoad.add(new Helicopter(context,time, Cwidth, Cheight));
-			case(3):levelLoad.add(new Fruit(context,time, Cwidth, Cheight));
+			case(1):levelLoad.add(new IceCreamTruck(context, time, Cwidth, Cheight)); break;
+			case(2):levelLoad.add(new Helicopter(context,time, Cwidth, Cheight)); break;
+			case(3):levelLoad.add(new Fruit(context,time, Cwidth, Cheight)); break;
 
 			default:
 			}

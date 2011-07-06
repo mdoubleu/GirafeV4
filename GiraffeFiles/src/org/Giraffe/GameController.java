@@ -22,7 +22,6 @@ public GameController(GameModel gameModel){
 		this.gameModel=gameModel;
 		delta=10;
 		state=1;
-		//Log.d("TEST","REACHED ONDOWN");
 		
 	}
 	public void setSize(float w, float h){
@@ -50,36 +49,17 @@ public GameController(GameModel gameModel){
 	    		  //previous=distance;
 	    		  if (distance >= 100) {
 	    			  gameModel.getOurGiraffe().setToPrime();
-	    			  Log.d("Look Here!", ""+gameModel.getOurGiraffe().primeTime);
 	    		  }
-		          /* 
-	    		  if (gameModel.deg>-40) {
-		               gameModel.deg -=3;
-		               gameModel.rotateNeck(3); 
-		           }*/
 	    		  
 	    	  }
 	    	  
 	           return true;
 	           }
-	       /*else if(action==MotionEvent.ACTION_UP&&gameModel.deg!=0){
-		    	   gameModel.rotateNeck(2); 
-		           gameModel.deg=0;
-		    	   return true;
-		       }*/
 	       else if(action==MotionEvent.ACTION_UP) {
-	    	   Log.d("TEST","REACHED PRESSED UP");
-	    	   Log.d("TESTING", ""+firstX+"  "+updateX+"  "+firstY+ "   "+ updateY);
-	    	   
 	    	   if(firstX+10<event.getX() || firstX-10>event.getX()
-	    			  ){ //&&firstY+20<event.getY() &&firstY-20>event.getY())
-	    		 //  gameModel.rotateNeck(2); 
-		           gameModel.deg=0;
-		        //   Log.d("TEST", "MOTIONSWIPE");
+	    			  ){ 
 		           gameModel.getOurGiraffe().setTime();
 		           gameModel.getOurGiraffe().setToAttack();
-		          
-		           Log.d("LOOK HERE", ""+gameModel.getOurGiraffe().primeTime);
 	    		   /*makes sure giraffe isnt currently jumping so theres no double jump*/
 
 	    		  

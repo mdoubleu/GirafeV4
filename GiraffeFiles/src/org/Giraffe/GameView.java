@@ -3,9 +3,12 @@ package org.Giraffe;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -65,6 +68,9 @@ public class GameView implements Callback{
 	public void doDraw(Canvas canvas){
 		float width=canvas.getWidth();
 		float height=canvas.getHeight();
+		if(model.levelOver()){
+			getBackground();
+		}
 		
 		controller.setSize(width, height);
 		//model.setSize(width, height);
@@ -74,6 +80,9 @@ public class GameView implements Callback{
 		
 		canvas.drawBitmap(background, model.bLocation1, 0, null);
 		canvas.drawBitmap(background, model.bLocation2, 0, null);
+		Paint v = new Paint();
+		v.setColor(Color.BLACK);
+		//canvas.drawRect(1,230, 230, 490, v);
 		
 		//giraffeStuff
 		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
