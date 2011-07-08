@@ -1,5 +1,7 @@
 package org.Giraffe;
 
+import android.util.Log;
+
 public class GameThread extends Thread{
 	GameModel model;
 	GameView view;

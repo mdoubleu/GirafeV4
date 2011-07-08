@@ -8,10 +8,17 @@ public class Helicopter extends Entity{
 	public Helicopter(Context context, long time, float width, float height){
 		super(context, time, width, height);
 		this.context=context;
-		this.x1=800;
-		this.x2=950;
-		this.y1=86;
-		this.y2=146;
+		
+		this.Cwidth=width;
+		this.Cheight=height;
+		
+		this.x1=modelToViewX(1600);
+		this.x2=modelToViewX(1800);
+		this.y1=modelToViewY(3);
+		this.y2=modelToViewY(40);
+		
+		this.horizontalSpeed=modelToViewX(10)*(width/800f);
+
 		this.hitBox.add(new HitBox("helicopter",x1,y1,x2,y2));
 		
 		this.image=context.getResources().getDrawable(
@@ -20,8 +27,8 @@ public class Helicopter extends Entity{
 
 	}	
 	public void move() {
-		this.x1-=5;
-		this.x2-=5;
+		this.x1=this.x1-(int)horizontalSpeed;
+		this.x2=this.x2-(int)horizontalSpeed;
 		this.hitBox.get(0).changePosition(this.x1, y1, x2, y2);
 	}
 

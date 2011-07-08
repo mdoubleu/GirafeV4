@@ -14,6 +14,8 @@ public abstract class Entity  implements Collidable{
 	protected int y1;
 	protected int x2;
 	protected int y2;
+	protected float Cwidth;
+	protected float Cheight;
 	protected long timeIn; //when the enemy will appear on screen
 	protected String imageName;
 	protected Drawable image;
@@ -23,6 +25,7 @@ public abstract class Entity  implements Collidable{
 	protected boolean cancollide=true;
 	protected long delayOfTime;
 	public boolean collidedWithGiraffe=false;
+	protected float horizontalSpeed;
 
 	public Entity(Context context, long timeIn, float Cwidth, float Cheight) {
 
@@ -34,6 +37,14 @@ public abstract class Entity  implements Collidable{
 			this.setDraw(false);
 		}
 		
+	}
+	public int modelToViewX(float x){
+		float gx=((x/800f)*Cwidth);
+		return (int)gx;
+	}
+	public int modelToViewY(float y){
+		float gx=((y/480f)*Cheight);
+		return (int)gx;
 	}
 	public  ArrayList<HitBox> getHitBox(){
 		return hitBox;
@@ -81,19 +92,26 @@ public abstract class Entity  implements Collidable{
 				
 				if(!thisHitBox.toString().equals(otherHitBox.toString())){
 					int thisx2=(int)thisHitBox.x2();
-					int otherx1=(int)otherHitBox.x1();
+					int thisx1=(int)thisHitBox.x1();
 					
 					int thisy1=(int)thisHitBox.y1();
 					int thisy2=(int)thisHitBox.y2();
 					
+					int otherx1=(int)otherHitBox.x1();
+					int otherx2=(int)otherHitBox.x2();
+					
 					int othery2=(int)otherHitBox.y2();
 					int othery1=(int)otherHitBox.y1();	
 					
+					//Math.abs(thisx2-otherx1)<2
 					
 					
-					 if(Math.abs(thisx2-otherx1)<2 && ((thisy1<othery2 && thisy2>othery1)||(thisy1<othery2 && thisy2>othery1))){
+					 if((thisx1<otherx2 && thisx2>otherx1) && (thisy1<othery2 && thisy2>othery1)){
 						// Log.d("C", ""+checkt+"  is  bigger than "+checko);
-						 Log.d("POSITION", ""+thisHitBox.toString()+"  " +thisy1+ "  "+thisy2+"  "+ otherHitBox.toString()+" "+othery1+ "  "+othery2 );
+						if(thisHitBox.toString().equals("killbox")){
+						 Log.d("POSITION", ""+thisHitBox.toString()+"  gy1 " +thisy1+ "  gy2 "+thisy2+" gx1 "+ thisx1+" gx2 "
+								 +thisx2+"  "+otherHitBox.toString()+" oy1 "+othery1+ " oy2 "+othery2+" ox1 "+otherx1+ "  ox2 "+ otherx2 );
+						}
 						 this.collided(thisHitBox, otherHitBox);
 						 other.collided(otherHitBox, thisHitBox);
 						 return true;

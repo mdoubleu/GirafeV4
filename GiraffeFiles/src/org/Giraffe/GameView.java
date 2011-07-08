@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.widget.ImageSwitcher;
@@ -24,6 +25,8 @@ public class GameView implements Callback{
 	private Context context;
 	public Resources Gres;
 	private Bitmap background;
+	private float width;
+	private float height;
 
 	
 	public GameView(GameController controller,SurfaceHolder holder,GameModel model, Context context){
@@ -33,10 +36,13 @@ public class GameView implements Callback{
 		this.context=context;
 		Gres=context.getResources();
 		getBackground();
+		
 	}
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holdr, int format, int width, int height) {
+		this.width=width;
+		this.height=height;
 		controller.setSize(width, height);
 		model.setSize(width, height);
 		
@@ -50,8 +56,18 @@ public class GameView implements Callback{
 			}
 		
 	}
-	public void draw() {
 
+	public int modelToViewX(float x){
+		float gx=((x/800f)*width);
+		return (int)gx;
+	}
+	public int modelToViewY(float y){
+		float gx=((y/480f)*height);
+		return (int)gx;
+	}
+	
+	
+	public void draw() {
 		Canvas c = null;
 		try {
 			c = holder.lockCanvas();
@@ -72,6 +88,7 @@ public class GameView implements Callback{
 			getBackground();
 		}
 		
+		
 		controller.setSize(width, height);
 		//model.setSize(width, height);
 		
@@ -84,34 +101,30 @@ public class GameView implements Callback{
 		v.setColor(Color.BLACK);
 		//canvas.drawRect(1,230, 230, 490, v);
 		
+		
 		//giraffeStuff
 		GiraffeEntity graff=(GiraffeEntity) model.getEntities().get(0);
-		if(model.notRotating){
-			
-		}
-		canvas.save();
+		/*if(graff.getHitBox().size()>2){
+			canvas.drawRect(graff.getHitBox().get(2).x1(),graff.getHitBox().get(2).y1(),
+					graff.getHitBox().get(2).x2(),graff.getHitBox().get(2).y2(), v);
+		}*/
 		//Obstacles Stuff
-		for(int x=0; x<model.getEntities().size(); x++){
-			model.getEntities().get(x).move();
+		for(Entity e: model.getEntities()){
+			e.move();
 			
 			//model.getEntities().get(x).doDraw()&&
-			if(!model.getEntities().get(x).toString().equals("body")&&model.getEntities().get(x).doDraw()){
-				if(model.getEntities().get(x).toString().equals("giraffe")){
-					int varHealth=20;
+			if(!e.toString().equals("body")&&e.doDraw()){
+				if(e.toString().equals("giraffe")){
 					for(int h=0; h<graff.getHealth(); h++){
 						
 						Drawable health=graff.healthImage();
-						health.setBounds((int)width-varHealth, 0, (int)width-(varHealth/2), 20);
+						health.setBounds((int)width-(40 * (h+1)), 0, (int)width-(40 * h), 40);
 						health.draw(canvas);
-						varHealth+=20;
 					}
 				}
 						
-				Drawable f=model.getEntities().get(x).getImage();
-				f.setBounds(model.getEntities().get(x).getX(),
-						model.getEntities().get(x).getY(),
-						model.getEntities().get(x).getX2(),
-						model.getEntities().get(x).getY2());
+				Drawable f=e.getImage();
+				f.setBounds(e.getX(),e.getY(),e.getX2(),e.getY2());
 				f.draw(canvas);
 				
 			}

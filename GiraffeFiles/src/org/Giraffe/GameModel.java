@@ -17,6 +17,7 @@ public class GameModel {
 	//public int b2_change;
 	Context context;
 	Backgrounds background;
+	protected float backgroundSpeed;
 
 	//this checks when enemies or obstacles appear and disapear. 
 	long timeIn;
@@ -64,11 +65,15 @@ public class GameModel {
 		this.height=height;
 		bLocation1=0;
 		bLocation2=width;
+		ourGiraffe=new GiraffeEntity(context, 0, width, height);
+		ourGiraffe.setHealth(2);
+		loadLevel(1);
 	}
 	public void loadLevel(int act){
 		LevelBuilder levels=new LevelBuilder(act);
 		background= new Backgrounds(levels.getNumForBackground(),context.getResources());
-        
+		
+		backgroundSpeed=modelToViewX(5)*(width/800);
 		
 		level= new LevelMaker(levels.getLevel(), context, height, width);
         
@@ -115,11 +120,11 @@ public class GameModel {
 		}
 		
 		entityDraw.clear();
-		ourGiraffe.updateTime();
+		//ourGiraffe.updateTime();
+		entityDraw.addFirst(ourGiraffe);
 		ourGiraffe.setPic();
 		timeIn=System.currentTimeMillis();
-		entityDraw.addFirst(ourGiraffe);
-		
+
 		if(entities.size()<2){
 			//levelWin=true;//this is winning the level
 			levelOver=true;
@@ -132,9 +137,8 @@ public class GameModel {
 		}
 		for(Entity e:entities){
 				if(e.getTime()<timeIn){
-					if(!e.toString().equals("body")){
 						entityDraw.add(e);
-					}
+
 					
 				}
 			}
@@ -157,19 +161,22 @@ public class GameModel {
 			}
 	  
 	}
+	public int modelToViewX(float x){
+		float gx=((x/800f)*width);
+		return (int)gx;
+	}
 	public void alternateBackground(){
 		
-		if(bLocation2==0){
+		if(bLocation2<=0){
 			bLocation1=0;
 			bLocation2=width;
 		}
 		
 		//Background changes based on time;
 		if(System.currentTimeMillis()-timeFrozen>2){
-			bLocation1-=5;
-			bLocation2-=5;
+			bLocation1-=backgroundSpeed;
+			bLocation2-=backgroundSpeed;
 			timeFrozen=System.currentTimeMillis();
-			
 		}
 	}
 

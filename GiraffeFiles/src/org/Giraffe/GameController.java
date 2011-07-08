@@ -42,7 +42,7 @@ public GameController(GameModel gameModel){
 	           firstX = event.getRawX();
 	           firstY = event.getRawY();
 	           return true;
-	       }else  if (action == MotionEvent.ACTION_MOVE){
+	       }else  if (action == MotionEvent.ACTION_MOVE ){
 	    	   if(Math.abs(updateX-firstX)>delta ){
 	    		   
 	    		   distance = firstX - event.getX();
@@ -55,16 +55,17 @@ public GameController(GameModel gameModel){
 	    	  
 	           return true;
 	           }
-	       else if(action==MotionEvent.ACTION_UP) {
-	    	   if(firstX+10<event.getX() || firstX-10>event.getX()
-	    			  ){ 
+	       else if(action==MotionEvent.ACTION_UP ) {
+	    	   if((firstX+20<event.getX() || firstX-20>event.getX())
+	    			   && updateX<firstX){ 
 		           gameModel.getOurGiraffe().setTime();
 		           gameModel.getOurGiraffe().setToAttack();
 	    		   /*makes sure giraffe isnt currently jumping so theres no double jump*/
 
 	    		  
 	    	   }else{
-	    		   if(!gameModel.getOurGiraffe().currentlyJumping()){
+	    		   if(!gameModel.getOurGiraffe().currentlyJumping()||gameModel.getOurGiraffe().getDoubleJump()<2){
+	    			   gameModel.getOurGiraffe().updateJumpCount();
 	    			   gameModel.getOurGiraffe().setJump(true);
 	    		   }
 	    	   }
