@@ -1,46 +1,35 @@
 package org.Giraffe;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 public class GameModel {
-	/*list of enenmies and images +giraffe, one list has all, one has things to draw in real time*/
-	public static final int p=80;
-	LinkedList<Entity> entities=new LinkedList<Entity>();
-	private LinkedList<Entity>entityDraw=new LinkedList<Entity>();
+	/**list of enenmies and images +giraffe+background*/
+	LinkedList<Effects>levelObjects=new LinkedList<Effects>();
+	LinkedList<Effects>objectsToDraw=new LinkedList<Effects>();
+	
+	private ArrayList<Backgrounds2> backgrounds=new ArrayList<Backgrounds2>();
 	
 	//creates level
 	LevelMaker level;
-	//public int b_change;
-	//public int b2_change;
 	Context context;
 	Backgrounds background;
-	protected float backgroundSpeed;
-
-	//this checks when enemies or obstacles appear and disapear. 
+	/**this checks when enemies or obstacles appear and disapear.*/
 	long timeIn;
 	
-	//creates giraffe object --body --neck
 	GiraffeEntity ourGiraffe;
-
-	//neck rotation/screen
-	int state;
-	float deg=0f;
-	float pix=0f;
-	//size
+	
+	int bLocation1;
+	int bLocation2;
+	float backgroundSpeed;
+	
 	float width;
 	float height;
 	
-	float bLocation1;
-	float bLocation2;
-	
 	long timeFrozen;
-	
-	private boolean canJump;
-	private boolean currentlyJumping=false;
-	public boolean notRotating=true;
 	
 	private boolean levelOver=false;
 	private boolean levelLose=false;
@@ -48,8 +37,6 @@ public class GameModel {
 	
 	public GameModel(Context context){
 		this.context=context;
-		ourGiraffe=new GiraffeEntity(context, 0, width, height);
-		ourGiraffe.setHealth(2);
         timeFrozen=System.currentTimeMillis()+0;
         SoundManager.initSounds(context);
 		SoundManager.addSound(1,R.raw.boing);  
@@ -57,119 +44,117 @@ public class GameModel {
 		SoundManager.addSound(3,R.raw.ow);  
 		SoundManager.addSound(4,R.raw.psh); 
         /*LOADS LEVEL 1 AS DEFUALT*/
-        
+		
+		//this gets called twice and needs to be fixed
         loadLevel(1);
+        
 	}
 	public void setSize(float width, float height){
 		this.width=width;
 		this.height=height;
 		bLocation1=0;
-		bLocation2=width;
-		ourGiraffe=new GiraffeEntity(context, 0, width, height);
-		ourGiraffe.setHealth(2);
+		bLocation2=(int)width;
 		loadLevel(1);
+		
 	}
+	
 	public void loadLevel(int act){
 		LevelBuilder levels=new LevelBuilder(act);
 		background= new Backgrounds(levels.getNumForBackground(),context.getResources());
-		
-		backgroundSpeed=modelToViewX(5)*(width/800);
+		backgroundSpeed=8*(width/800);
 		
 		level= new LevelMaker(levels.getLevel(), context, height, width);
+		backgrounds=level.getBacks();
         
-		entities=level.getLevel();
-        entities.addFirst(ourGiraffe);
-        entityDraw.addFirst(ourGiraffe);
+		levelObjects=level.getLevelObjects();
+		ourGiraffe=(GiraffeEntity)levelObjects.get(0);
+		ourGiraffe.setHealth(3);
         
 	}
-	public Bitmap getBkround(){
-		return background.getBackground();
+	public ArrayList<Backgrounds2> getBkround(){
+		return backgrounds;
 	}
 	public void gameOver(long t){
 		if(levelLose){
-			entities.clear();
-			entityDraw.clear();
-			background=new Backgrounds(2,context.getResources());
+			//evelObjects.clear();
+			//background=new Backgrounds(2,context.getResources());
+			//loadLevel(act+1);
 			
 			updateLevel();
 		}else{
-			entities.clear();
-			entityDraw.clear();
-			background=new Backgrounds(3,context.getResources());
+			//background=new Backgrounds(3,context.getResources());
 			updateLevel();
 		}
 		
 	}
 	public void updateLevel(){
-		//ourGiraffe.move();
 		
 		this.searchForCollision();
 		this.alternateBackground();
-		if(ourGiraffe.getJump()){
-			ourGiraffe.jump();
-			 
-		}
-		if(ourGiraffe.health==0){
-			if(laugh==false)
-			{
+		
+		if(ourGiraffe.getJump()){ourGiraffe.jump();}
+		
+		if(ourGiraffe.getHealth()==0){
+			if(laugh==false){
 				SoundManager.playSound(2);  
 				laugh=true;
 			}
 			levelLose=true;
 			levelOver=true;
 		}
-		
-		entityDraw.clear();
-		//ourGiraffe.updateTime();
-		entityDraw.addFirst(ourGiraffe);
+		objectsToDraw.clear();
 		ourGiraffe.setPic();
 		timeIn=System.currentTimeMillis();
 
-		if(entities.size()<2){
+		if(levelObjects.size()<2){
 			//levelWin=true;//this is winning the level
 			levelOver=true;
 			
 		}
-		for(int f=0; f<entities.size(); f++){
-			if(entities.get(f).getX2()<-10){
-				entities.remove(f);
+		for(int f=0; f<levelObjects.size(); f++){
+			if(levelObjects.get(f).X2()<-10){
+				levelObjects.remove(f);
 			}
 		}
-		for(Entity e:entities){
+		for(Effects e:levelObjects){
 				if(e.getTime()<timeIn){
-						entityDraw.add(e);
+					objectsToDraw.add(e);
 
 					
 				}
 			}
 	}
-	public LinkedList<Entity> getEntities(){
-		return entityDraw;
+	/**
+	 * This returns the objects of effects only to be drawn. This list gets cleared every update.
+	 * @return effects to be drawn in real time. 
+	 */
+	public LinkedList<Effects> getObjects(){
+		return objectsToDraw;
+	}
+	/**
+	 * This returns all the effects in the level, and not the ones just to be drawn.
+	 * @return all the objects created for the level as 'effects'
+	 */
+	public LinkedList<Effects> allEffects(){
+		return levelObjects;
 	}
 	
 	public void searchForCollision() {
-	    for (Entity entity : entities) {
+	    for (Effects fx : levelObjects) {
 			
-	    	for (Entity otherEntity : entities) {
-			
-			if(entity.canCollide()&&otherEntity.canCollide()&&!entity.toString().equals(otherEntity.toString())){
-				entity.collidesWith(entity,otherEntity);
+	    	if(fx.canCollide()&&ourGiraffe.canCollide()&&!fx.toString().equals("giraffe")){
+				
+	    		fx.collidesWithGiraffe((Enemy)fx,ourGiraffe);
 				//Log.d("COLLISION", ""+entity.toString()+" collided with "+otherEntity.toString());
 					}
-				}
-
 			}
 	  
-	}
-	public int modelToViewX(float x){
-		float gx=((x/800f)*width);
-		return (int)gx;
 	}
 	public void alternateBackground(){
 		
 		if(bLocation2<=0){
 			bLocation1=0;
-			bLocation2=width;
+			bLocation2=(int)width;
 		}
 		
 		//Background changes based on time;

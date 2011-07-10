@@ -28,7 +28,7 @@ public abstract class Entity  implements Collidable{
 	protected float horizontalSpeed;
 
 	public Entity(Context context, long timeIn, float Cwidth, float Cheight) {
-
+		
 		this.timeIn=timeIn;
 
 	}

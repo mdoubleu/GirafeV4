@@ -52,7 +52,8 @@ public class GameCall extends Activity{
     //overrides the back button
     @Override
     public void onBackPressed() {
-    // do something on back.
+    	
+    	// do something on back.
     	//setContentView(R.layout.pausescreen);
     	
     	//gameThread.setRunning(false);

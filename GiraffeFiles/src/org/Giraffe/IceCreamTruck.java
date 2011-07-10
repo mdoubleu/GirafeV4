@@ -1,29 +1,30 @@
 package org.Giraffe;
 import android.content.Context;
 
-public class IceCreamTruck extends Entity{
-	Context context;
+/**
+ * Icecreamtruck rolls along and collides with giraffe.
+ * @author mikedoubleyouu
+ *
+ */
+public class IceCreamTruck extends Enemy{
 	public IceCreamTruck(Context context, long time, float width, float height) {
 		super(context, time, width, height);
-		this.context=context;
+		cancollide=true;
 		
-		this.Cwidth=width;
-		this.Cheight=height;
+		x1=modelToViewX(1600, width);
+		x2=modelToViewX(1800, width);
+		y1=modelToViewY(210, height);
+		y2=modelToViewY(270, height);
 		
-		this.x1=modelToViewX(1600);
-		this.x2=modelToViewX(1800);
-		this.y1=modelToViewY(210);
-		this.y2=modelToViewY(270);
+		speed=modelToViewX(16, width)*(width/800f);
 		
-		this.horizontalSpeed=modelToViewX(99)*(width/800f);
-		
-		this.hitBox.add(new HitBox("icecream",this.x1, y1, x2, y2));
+		this.hitBox.add(new HitBox("icecream", x1, y1, x2, y2));
 		this.image=context.getResources().getDrawable(
                 R.drawable.creamtruck);
 	}	
 	public void move() {
-		this.x1=this.x1-(int)horizontalSpeed;
-		this.x2=this.x2-(int)horizontalSpeed;
+		x1=moveLeft(x1, (int)speed, 5);
+		x2=moveLeft(x2, (int)speed, 5);
 		this.hitBox.get(0).changePosition(x1, y1, x2, y2);
 	}
 
@@ -50,18 +51,17 @@ public class IceCreamTruck extends Entity{
 			
 		}
 		
-		
 	}
 	
 	public boolean canCollide() {
 		if(collidedWithGiraffe){
 			delayObstacleImage(delayOfTime);
 		}
-		
 		return cancollide;
 	}
 	public String toString(){
 		return "icecream";
 	}
+
 
 }

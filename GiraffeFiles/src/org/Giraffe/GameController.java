@@ -1,6 +1,5 @@
 package org.Giraffe;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -22,10 +21,6 @@ public GameController(GameModel gameModel){
 		this.gameModel=gameModel;
 		delta=10;
 		state=1;
-		
-	}
-	public void setSize(float w, float h){
-		
 	}
 
 	
@@ -61,10 +56,8 @@ public GameController(GameModel gameModel){
 		           gameModel.getOurGiraffe().setTime();
 		           gameModel.getOurGiraffe().setToAttack();
 	    		   /*makes sure giraffe isnt currently jumping so theres no double jump*/
-
-	    		  
 	    	   }else{
-	    		   if(!gameModel.getOurGiraffe().currentlyJumping()||gameModel.getOurGiraffe().getDoubleJump()<2){
+	    		   if(gameModel.getOurGiraffe().getDoubleJump()<2){
 	    			   gameModel.getOurGiraffe().updateJumpCount();
 	    			   gameModel.getOurGiraffe().setJump(true);
 	    		   }

@@ -1,34 +1,25 @@
 package org.Giraffe;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-public class Helicopter extends Entity{
-	Context context;
+public class Helicopter extends Enemy{
 	public Helicopter(Context context, long time, float width, float height){
 		super(context, time, width, height);
-		this.context=context;
+		cancollide=true;
 		
-		this.Cwidth=width;
-		this.Cheight=height;
+		x1=modelToViewX(1600, width);
+		x2=modelToViewX(1800, width);
+		y1=modelToViewY(50, height);
+		y2=modelToViewY(98, height);
 		
-		this.x1=modelToViewX(1600);
-		this.x2=modelToViewX(1800);
-		this.y1=modelToViewY(3);
-		this.y2=modelToViewY(40);
-		
-		this.horizontalSpeed=modelToViewX(10)*(width/800f);
+		speed=modelToViewX(14, width)*(width/800f);
 
 		this.hitBox.add(new HitBox("helicopter",x1,y1,x2,y2));
-		
 		this.image=context.getResources().getDrawable(
                 R.drawable.helicopter);
-		
-
 	}	
 	public void move() {
-		this.x1=this.x1-(int)horizontalSpeed;
-		this.x2=this.x2-(int)horizontalSpeed;
+		x1=moveLeft(x1, (int)speed, 3);
+		x2=moveLeft(x2, (int)speed, 3);
 		this.hitBox.get(0).changePosition(this.x1, y1, x2, y2);
 	}
 
@@ -57,18 +48,11 @@ public class Helicopter extends Entity{
 		if(collidedWithGiraffe){
 			delayObstacleImage(delayOfTime);
 		}
-		
 		return cancollide;
 	}
 	public String toString(){
 		return "helicopter";
 	}
-	@Override
-	public ArrayList<HitBox> getHitBox() {
-		// TODO Auto-generated method stub
-		return this.hitBox;
-	}
-
 
 }
 

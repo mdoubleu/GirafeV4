@@ -1,35 +1,31 @@
 package org.Giraffe;
 
 import java.util.Random;
-
 import android.content.Context;
-import android.content.res.Resources;
 
-public class Fruit extends Entity 
+public class Fruit extends Enemy 
 {
 
 	Context context;
 	public Fruit(Context context, long time, float width, float height) {
 		super(context, time, width, height);
 		this.context=context;
-		Resources res = context.getResources();
 		 
-		horizontalSpeed=modelToViewX(7f);
+		speed=modelToViewX(7f, width)*(width/800);
 		Random rand = new Random();
-		this.x1=modelToViewX(1600);
-		this.x2=modelToViewX(1620);
+		this.x1=modelToViewX(1600, width);
+		this.x2=modelToViewX(1620, width);
 		//These should be random
 		int r = rand.nextInt(200)+100;
-		
-		this.y1= r;
-		this.y2= r+35;
+		this.y1= modelToViewX(r, height);;
+		this.y2= modelToViewX(r+35, height);;
 		this.image=context.getResources().getDrawable(
                 R.drawable.fruit);
 		this.hitBox.add(new HitBox("fruit",x1,y1,x2,y2));
 	}	
 	public void move() {
-		this.x1=this.x1-(int)horizontalSpeed;
-		this.x2=this.x2-(int)horizontalSpeed;
+		x1=moveLeft(x1, (int)speed, 5);
+		x2=moveLeft(x2, (int)speed, 5);
 		this.hitBox.get(0).changePosition(x1,y1,x2,y2);
 	}
 	public String toString(){
@@ -38,9 +34,8 @@ public class Fruit extends Entity
 	@Override
 	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		if(otherHitBox.toString().equals("head")){
-			this.setDraw(false);
+			setImage(false);
 			this.cancollide=false;
 		}
-		
 	}
 }

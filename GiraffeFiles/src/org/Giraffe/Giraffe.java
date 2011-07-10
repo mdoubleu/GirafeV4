@@ -47,6 +47,7 @@ public class Giraffe extends Activity implements OnClickListener
 
 				Intent x=new Intent(this, GameCall.class);
 				startActivity(x);
+				
 				Log.d("Far", "Do i get this far?");
 
 				break;

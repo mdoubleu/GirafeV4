@@ -1,12 +1,12 @@
 package org.Giraffe;
-
-import java.util.ArrayList;
-
-
-//Defines objects that can collide with each other
+/**
+ * Defines objects that can collide with each other
+ * @author mikedoubleyouu
+ *
+ */
 	public interface Collidable {
 
-		boolean collidesWith(Entity thisE,Entity other);
+		void collidesWithGiraffe(Enemy enemy,GiraffeEntity giraffe);
 		void collided(HitBox thisHitBox, HitBox otherHitBox);
 		boolean canCollide();
 

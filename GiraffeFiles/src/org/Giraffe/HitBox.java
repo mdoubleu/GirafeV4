@@ -15,8 +15,7 @@ public class HitBox{
 		this.y2=y2;
 		this.name=name;
 	}
-	
-	
+
 	public String toString(){return name;}
 	public float x1(){return x1;}
 	public float x2(){return x2;}
@@ -28,6 +27,23 @@ public class HitBox{
 		this.x2=x2;
 		this.y1=y1;
 		this.y2=y2;
+	}
+
+	
+	public boolean collidesWith(HitBox other){
+		
+		if(!this.toString().equals(other.toString())){
+			int otherx1=(int)other.x1();
+			int otherx2=(int)other.x2();
+			int othery2=(int)other.y2();
+			int othery1=(int)other.y1();	
+			
+			 if((x1<otherx2 && x2>otherx1) && (y1<othery2 && y2>othery1)){
+				 return true;
+			 }
+		}
+		return false;
+		
 	}
 
 
