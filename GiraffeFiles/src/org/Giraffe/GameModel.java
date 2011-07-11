@@ -102,6 +102,7 @@ public class GameModel {
 			//updateLevel();
 			levelOver=false;
 			((Activity) context).finish();
+			Music.stop(context);
 			Intent winScreen = new Intent(context, WinScreen.class);
 			winScreen.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			context.startActivity(winScreen);
