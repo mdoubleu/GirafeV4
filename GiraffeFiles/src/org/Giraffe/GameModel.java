@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -78,14 +80,20 @@ public class GameModel {
 	}
 	public void gameOver(long t){
 		if(levelLose){
-			//evelObjects.clear();
-			//background=new Backgrounds(2,context.getResources());
-			//loadLevel(act+1);
-			
-			updateLevel();
+			levelOver=false;
+			((Activity) context).finish();
+			Intent gameOverScreen = new Intent(context, GameOver.class);
+			gameOverScreen.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			context.startActivity(gameOverScreen);
+			//updateLevel();
 		}else{
 			//background=new Backgrounds(3,context.getResources());
-			updateLevel();
+			//updateLevel();
+			levelOver=false;
+			((Activity) context).finish();
+			Intent winScreen = new Intent(context, WinScreen.class);
+			winScreen.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			context.startActivity(winScreen);
 		}
 		
 	}
@@ -93,6 +101,7 @@ public class GameModel {
 		
 		this.searchForCollision();
 		this.alternateBackground();
+		Log.d("Nets","objects: "+levelObjects.size());
 		
 		if(ourGiraffe.getJump()){ourGiraffe.jump();}
 		
@@ -113,8 +122,9 @@ public class GameModel {
 			levelOver=true;
 			
 		}
+		//hard coded 500...=bad...best change to height later.... or something...after we 
 		for(int f=0; f<levelObjects.size(); f++){
-			if(levelObjects.get(f).X2()<-10 || levelObjects.get(f).Y2()<-10){
+			if(levelObjects.get(f).X2()<-10 || levelObjects.get(f).Y2()>500){
 				levelObjects.remove(f);
 			}
 		}

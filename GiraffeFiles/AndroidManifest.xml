@@ -6,7 +6,7 @@
     <uses-sdk android:minSdkVersion="8" />
     <application android:icon="@drawable/giraffe" android:theme="@android:style/Theme.NoTitleBar" android:label="@string/app_name">
              
-             <activity android:name=".Giraffe"
+             <activity android:name="MainMenu"
                   android:label="@string/app_name"
                   android:screenOrientation="landscape" 
                    android:configChanges="keyboardHidden|orientation"
@@ -26,6 +26,10 @@
 			
 		</activity>
 		  <activity android:name="GameOver"
+			android:screenOrientation="landscape" >
+			
+		</activity>
+			<activity android:name="WinScreen"
 			android:screenOrientation="landscape" >
 			
 		</activity>
