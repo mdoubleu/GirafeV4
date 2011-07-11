@@ -13,7 +13,7 @@ public class NetV extends Enemy
 		y1=modelToViewY(70, height);
 		y2=modelToViewY(118, height);
 		
-		speed=modelToViewX(-4, width)*(width/800f);
+		speed=modelToViewX(-3, width)*(width/800f);
 		
 		this.hitBox.add(new HitBox("netv", x1, y1, x2, y2,true));
 		this.image=context.getResources().getDrawable(
