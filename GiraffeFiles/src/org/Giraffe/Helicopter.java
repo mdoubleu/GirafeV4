@@ -13,7 +13,7 @@ public class Helicopter extends Enemy{
 		
 		speed=modelToViewX(14, width)*(width/800f);
 
-		this.hitBox.add(new HitBox("helicopter",x1,y1,x2,y2));
+		this.hitBox.add(new HitBox("helicopter",x1,y1,x2,y2,true));
 		this.image=context.getResources().getDrawable(
                 R.drawable.helicopter);
 	}	

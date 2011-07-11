@@ -30,7 +30,7 @@ public abstract class Enemy extends Effects{
 	public void collidesWithGiraffe(Enemy enemy, GiraffeEntity giraffe){//<----giraffe here 
 		for (HitBox thisHitBox: enemy.getHitBox()){
 			for(HitBox otherHitBox:giraffe.getHitBox()){
-				if(thisHitBox.collidesWith(otherHitBox)){
+				if(thisHitBox.collidesWith(otherHitBox)&&thisHitBox.collide==true&&otherHitBox.collide){
 					collided(thisHitBox, otherHitBox);
 					giraffe.collided(otherHitBox, thisHitBox);
 				}
@@ -48,8 +48,8 @@ public abstract class Enemy extends Effects{
 	 * Delay of image to dissapear after collision. EX: helicopter to kapow to nothing.
 	 */
 	public void delayObstacleImage(long timeIn){
-		if(System.currentTimeMillis()-timeIn>300){
-			//this.setDraw(false);
+		if(System.currentTimeMillis()-timeIn>400){
+			setImage(false);
 		}
 	}
 	

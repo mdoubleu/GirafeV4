@@ -7,13 +7,15 @@ public class HitBox{
 	private float y1;
 	private float x2;
 	private float y2;
+	protected boolean collide;
 	
-	public HitBox(String name,float x1, float y1, float x2, float y2){
+	public HitBox(String name,float x1, float y1, float x2, float y2, boolean collide){
 		this.x1=x1;
 		this.x2=x2;
 		this.y1=y1;
 		this.y2=y2;
 		this.name=name;
+		this.collide=collide;
 	}
 
 	public String toString(){return name;}
@@ -28,7 +30,9 @@ public class HitBox{
 		this.y1=y1;
 		this.y2=y2;
 	}
-
+	public void collide(boolean collide){
+		this.collide=collide;
+	}
 	
 	public boolean collidesWith(HitBox other){
 		
@@ -45,6 +49,7 @@ public class HitBox{
 		return false;
 		
 	}
+
 
 
 }

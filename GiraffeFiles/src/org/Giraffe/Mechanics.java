@@ -1,12 +1,19 @@
 package org.Giraffe;
 
+import java.util.LinkedList;
+
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 /**
  * Mechanics allows entites to use different states. 
  */
 public abstract class Mechanics {
 	
 	private boolean imageDraw=true;
-	private long timeFroze=System.currentTimeMillis()+0;
+	private long moveLeftTime=System.currentTimeMillis()+0;
+	private long animationTime=System.currentTimeMillis()+0;
+	private int animationCount=-1;
 	/**
 	 * Enemies can shoot objects to the left
 	 */
@@ -14,8 +21,8 @@ public abstract class Mechanics {
 	
 	public int moveLeft(int value, int moveBy, int timeToWait){
 		
-		if(System.currentTimeMillis()-timeFroze>timeToWait){
-			timeFroze=System.currentTimeMillis();
+		if(System.currentTimeMillis()-moveLeftTime>timeToWait){
+			moveLeftTime=System.currentTimeMillis();
 		}
 		return value-moveBy;
 	}
@@ -50,7 +57,25 @@ public abstract class Mechanics {
 	public void changeImage(){}
 	public boolean drawImage(){	return imageDraw;}
 	public void setImage(boolean imageCheck){imageDraw=imageCheck;}
-	public void animation(){}
+	
+	public Drawable animation(LinkedList<Drawable> images, int timeToWait){
+		
+		
+		if(System.currentTimeMillis()-animationTime>timeToWait){
+			if(animationCount+1==images.size()){
+				animationCount=-1;
+			}
+			if(animationCount+1<images.size()){
+				animationCount++;
+			}
+			animationTime=System.currentTimeMillis();
+		}
+		
+		if(animationCount<0){
+			animationCount=0;
+		}
+		return images.get(animationCount);
+	}
 	
 	public int modelToViewX(float x, float width){
 		float gx=((x/800f)*width);

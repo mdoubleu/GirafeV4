@@ -30,11 +30,14 @@ public class GiraffeEntity extends Effects{
 	private int doubleJumpCount;
 	
 	//pictures of giraffes
-	public ArrayList <Drawable> cuteGiraffePics = new ArrayList <Drawable>();
+	private ArrayList <Drawable> cuteGiraffePics = new ArrayList <Drawable>();
+	private LinkedList<Drawable>giraffeRun=new LinkedList<Drawable>();
    /**Controls the jump*/
 	long jumpTimeFrozen;
    /**Controls the neck-attack*/
 	long NeckTimeFrozen;
+	
+	int score;
 
 	private Drawable getDrawable(String d)
 	{
@@ -50,12 +53,15 @@ public class GiraffeEntity extends Effects{
 		/**
 		 * Sets the giraffe's pictures that will be used for the neck movement.
 		 */
-		for (int i =1; i<=5; i++){
-			String s = "g"+i;
-			cuteGiraffePics.add(getDrawable(s));
-		}
-		x1=modelToViewX(1, width);
-		x2=modelToViewX(150, width);
+
+		cuteGiraffePics.add(getDrawable("giraffe"));
+		cuteGiraffePics.add(getDrawable("giraffe90b"));
+		cuteGiraffePics.add(getDrawable("giraffe90f"));
+		giraffeRun.add(getDrawable("giraffe"));
+		giraffeRun.add(getDrawable("grunear"));
+		
+		x1=modelToViewX(.3f, width);
+		x2=modelToViewX(420, width);
 		y1=modelToViewY(140, height);
 		y2=modelToViewY(280, height);
 		
@@ -70,18 +76,25 @@ public class GiraffeEntity extends Effects{
 		/**
 		 * adds 3 hitboxes, head body and killbox.
 		 */
-		hitBox.add(new HitBox("body",x1,modelToViewY(230, height),x2,y2));
-		hitBox.add(new HitBox("head",modelToViewX(70, width), modelToViewY(150, height),
-				modelToViewX(140, width), modelToViewY(190, height)));
-		hitBox.add(new HitBox("killbox",0,0, 0, 0));
+		hitBox.add(new HitBox("body",modelToViewX(120, width),modelToViewY(230, height),modelToViewX(240, width),y2, true));
+		hitBox.add(new HitBox("head",modelToViewX(240, width), modelToViewY(150, height),
+				modelToViewX(310, width), modelToViewY(170, height), true));
+		hitBox.add(new HitBox("killbox",x1,y1,x2,y2,false));
+		
 		
 		setPic();
 		doubleJumpCount=0;
 		
 		
 	}
-
-	public void move(){}
+	/**
+	 * Animates leg movement
+	 */
+	public void move(){
+		if(myState==gState.NORMAL){
+			image=animation(giraffeRun, 400);
+		}
+	}
 	
 
 	/**
@@ -133,11 +146,10 @@ public class GiraffeEntity extends Effects{
 			y1= y1-gVel;
 			y2= y2-gVel;
 					
-			if(this.hitBox.get(2).x1()!=0){
-				this.hitBox.get(2).changePosition(1, Y()-gVel, 230, Y2()-gVel);
-			}
-			this.hitBox.get(0).changePosition(1, hitBox.get(0).y1()-gVel, modelToViewX(125, canvasWidth), hitBox.get(0).y2()-gVel);
-			this.hitBox.get(1).changePosition(modelToViewX(70, canvasWidth), hitBox.get(1).y1()-gVel,modelToViewX(140, canvasWidth), hitBox.get(1).y2()-gVel);
+			
+			this.hitBox.get(0).changePosition(modelToViewX(120, canvasWidth), hitBox.get(0).y1()-gVel, modelToViewX(240, canvasWidth), hitBox.get(0).y2()-gVel);
+			this.hitBox.get(1).changePosition(modelToViewX(240, canvasWidth), hitBox.get(1).y1()-gVel,modelToViewX(310, canvasWidth), hitBox.get(1).y2()-gVel);
+			this.hitBox.get(2).changePosition(1, Y()-gVel, 230, Y2()-gVel);
 			
 			/**
 			 * This occurs when the Giraffe gets back to the bottom of the screen and stops moving*/
@@ -145,6 +157,12 @@ public class GiraffeEntity extends Effects{
 				doubleJumpCount=0;
 				setJump(false);
 				this.setCurrentJump(false);
+				//resets giraffe coordinates
+				y1=modelToViewY(140, canvasHeight);
+				y2=modelToViewY(280, canvasHeight);
+				this.hitBox.get(0).changePosition(modelToViewX(120, canvasWidth),modelToViewY(230, canvasHeight),modelToViewX(240, canvasWidth),y2);
+				this.hitBox.get(1).changePosition(modelToViewX(240, canvasWidth), modelToViewY(150, canvasHeight),
+						modelToViewX(310, canvasWidth), modelToViewY(170, canvasHeight));
 			}
 	}
 	public void updateJumpCount(){
@@ -186,22 +204,21 @@ public class GiraffeEntity extends Effects{
 		updateTime();
 		switch(myState) {
 		case ATTACKING:
-				this.image=cuteGiraffePics.get(4);
-				this.hitBox.get(2).changePosition(1,230, 230, 490);
-				myState=gState.NORMAL;
+				image=cuteGiraffePics.get(2);
+				hitBox.get(2).collide(true);
+				if (difference>=600 || difference==0){
+					myState=gState.NORMAL;
+				}
 			
 		break;
 		case ATTACKING2:
-				this.image=cuteGiraffePics.get(3);
+				//this.image=cuteGiraffePics.get(3);
 		case NORMAL:
-			if(this.hitBox.size()>2 &&difference>500){
-				this.hitBox.get(2).changePosition(0,0, 0, 0);
-			}
-			if (difference>=600 || difference==0) 
-				this.image=cuteGiraffePics.get(2);
+			hitBox.get(2).collide(false);
+			image=cuteGiraffePics.get(0);
 		break;
 		case PRIMED:
-			this.image=cuteGiraffePics.get(0);
+			this.image=cuteGiraffePics.get(1);
 			break;
 		}
 	}
@@ -213,6 +230,7 @@ public class GiraffeEntity extends Effects{
 	public void setTime () {primeTime = System.currentTimeMillis()+0;}
 	public void updateTime() {difference=System.currentTimeMillis()-primeTime;}
 	public String toString(){return "giraffe";}
+	public String getScore(){return ""+score;}
 
 	public void collidesWithGiraffe(Enemy enemy, GiraffeEntity giraffe) {
 		
@@ -222,6 +240,9 @@ public class GiraffeEntity extends Effects{
 	 */
 	public void collided(HitBox thisHitBox, HitBox otherHitBox) {
 		if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("killbox")){
+			score+=10;
+		}else if(otherHitBox.toString().equals("helicopter")&&thisHitBox.toString().equals("killbox")){
+			score+=20;
 		}
 		else if(otherHitBox.toString().equals("icecream")&&thisHitBox.toString().equals("body")
 				){

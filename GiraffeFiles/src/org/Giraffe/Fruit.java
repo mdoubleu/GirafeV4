@@ -11,17 +11,17 @@ public class Fruit extends Enemy
 		super(context, time, width, height);
 		this.context=context;
 		 
-		speed=modelToViewX(7f, width)*(width/800);
+		speed=modelToViewX(5f, width)*(width/800);
 		Random rand = new Random();
 		this.x1=modelToViewX(1600, width);
-		this.x2=modelToViewX(1620, width);
+		this.x2=modelToViewX(1625, width);
 		//These should be random
-		int r = rand.nextInt(200)+100;
+		int r = rand.nextInt(100)+150;
 		this.y1= modelToViewX(r, height);;
 		this.y2= modelToViewX(r+35, height);;
 		this.image=context.getResources().getDrawable(
                 R.drawable.fruit);
-		this.hitBox.add(new HitBox("fruit",x1,y1,x2,y2));
+		this.hitBox.add(new HitBox("fruit",x1,y1,x2,y2,true));
 	}	
 	public void move() {
 		x1=moveLeft(x1, (int)speed, 5);

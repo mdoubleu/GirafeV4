@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.widget.ImageSwitcher;
+import android.widget.TextView;
 
 
 
@@ -28,6 +29,7 @@ public class GameView implements Callback{
 	private LinkedList<Bitmap> background;
 	private float width;
 	private float height;
+	private TextView textview;
 
 	
 	public GameView(GameController controller,SurfaceHolder holder,GameModel model, Context context){
@@ -36,7 +38,8 @@ public class GameView implements Callback{
 		this.model=model;
 		this.context=context;
 		Gres=context.getResources();
-		
+
+
 		
 	}
 	
@@ -105,9 +108,10 @@ public class GameView implements Callback{
 		canvas.drawBitmap(background1, model.bLocation2, 0, null);
 		*/
 		Paint v = new Paint();
-		v.setColor(Color.BLACK);
-		//canvas.drawRect(1,230, 230, 490, v);
-		
+		v.setColor(Color.WHITE);
+		v.setTextSize(30);
+		v.setUnderlineText(true);
+
 		
 		//giraffeStuff
 		GiraffeEntity graff=(GiraffeEntity) model.allEffects().get(0);
@@ -135,7 +139,12 @@ public class GameView implements Callback{
 					for(int h=0; h<graff.getHealth(); h++){
 						Drawable health=graff.healthImage();
 						health.setBounds((int)width-(40 * (h+1)), 0, (int)width-(40 * h), 40);
+						canvas.drawText(graff.getScore(), width-65,70, v);
+						
+						//textview.setText(graff.getScore());
+						//textview.draw(canvas);
 						health.draw(canvas);
+						
 					}
 				}
 				Drawable f=e.getImage();

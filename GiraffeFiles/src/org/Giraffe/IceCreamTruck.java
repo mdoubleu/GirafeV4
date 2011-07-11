@@ -18,7 +18,7 @@ public class IceCreamTruck extends Enemy{
 		
 		speed=modelToViewX(16, width)*(width/800f);
 		
-		this.hitBox.add(new HitBox("icecream", x1, y1, x2, y2));
+		this.hitBox.add(new HitBox("icecream", x1, y1, x2, y2, true));
 		this.image=context.getResources().getDrawable(
                 R.drawable.creamtruck);
 	}	
