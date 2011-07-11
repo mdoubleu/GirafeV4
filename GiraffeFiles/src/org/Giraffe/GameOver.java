@@ -21,7 +21,8 @@ public class GameOver extends Activity implements OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+		Music.stop(this);
+
         setContentView(R.layout.gameover);
   
         //View settingsButton = findViewById(R.id.settings_button);
@@ -73,6 +74,7 @@ public class GameOver extends Activity implements OnClickListener
 	public void onBackPressed()
     {
     	super.onBackPressed();
+    	this.finish();
     	Intent mainmenu = new Intent(this, MainMenu.class);
 		startActivity(mainmenu);
     	return;

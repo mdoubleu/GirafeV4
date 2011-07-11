@@ -44,10 +44,10 @@ public class MainMenu extends Activity implements OnClickListener
 		switch (v.getId())
 		{
 			case R.id.startButton:
-
+				
+				Music.stop(this);
 				Intent x=new Intent(this, GameCall.class);
 				startActivity(x);
-				
 				Log.d("Far", "Do i get this far?");
 
 				break;
@@ -78,14 +78,16 @@ public class MainMenu extends Activity implements OnClickListener
     protected void onResume()
     {
     	super.onResume();
-    	Music.start(this);
-    	
+    	  setVolumeControlStream(AudioManager.STREAM_MUSIC);
+          Music.create(this, R.raw.jeremythegiraffetheme);
+          Music.setLooping(this, R.raw.jeremythegiraffetheme);
+          Music.start(this);
     }
     @Override
     protected void onPause()
     {
     	super.onPause();
-    	//Music.stop(this);
+    	Music.stop(this);
     }
     @Override
     protected void onDestroy()

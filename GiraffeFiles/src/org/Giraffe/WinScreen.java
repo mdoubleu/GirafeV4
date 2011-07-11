@@ -15,14 +15,15 @@
 	import android.view.View.OnClickListener;
 
 	import android.app.Activity;
-	import android.view.View.OnClickListener;
+import android.view.View.OnClickListener;
 
 	public class WinScreen extends Activity implements OnClickListener {	
 		 /** Called when the activity is first created. */
 	    @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        
+			Music.stop(this);
+
 	        setContentView(R.layout.win);
 	  
 	        //View settingsButton = findViewById(R.id.settings_button);

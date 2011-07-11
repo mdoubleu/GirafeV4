@@ -90,6 +90,7 @@ public class GameCall extends Activity{
             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                 	mPaused=false;
+                	Music.stop(context);
                     GameCall.this.finish();
                }
            }).setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.util.Log;
 
 public class GameModel {
@@ -39,6 +40,7 @@ public class GameModel {
 	private boolean levelOver=false;
 	private boolean levelLose=false;
 	private boolean laugh=false;
+	private boolean mPlaying = false;
 	
 	public GameModel(Context context){
 		this.context=context;
@@ -74,6 +76,14 @@ public class GameModel {
 		levelObjects=level.getLevelObjects();
 		ourGiraffe=(GiraffeEntity)levelObjects.get(0);
 		ourGiraffe.setHealth(3);
+		//Changed
+		if(act == 1 && mPlaying == false)
+		{
+				Music.create((Activity)context, R.raw.newcentralpark);
+				Music.start((Activity)context);
+				Music.setLooping((Activity)context, R.raw.newcentralpark);
+				mPlaying = true;
+		}
         
 	}
 	public ArrayList<Backgrounds2> getBkround(){
@@ -105,6 +115,7 @@ public class GameModel {
 		if(ourGiraffe.getJump()){ourGiraffe.jump();}
 		
 		if(ourGiraffe.getHealth()==0){
+			//Changed
 			if(laugh==false){
 				SoundManager.playSound(2);  
 				laugh=true;
@@ -119,6 +130,8 @@ public class GameModel {
 		if(levelObjects.size()<2){
 			//levelWin=true;//this is winning the level
 			levelOver=true;
+			//Changed
+			mPlaying = false;
 			
 		}
 		for(int f=0; f<levelObjects.size(); f++){
