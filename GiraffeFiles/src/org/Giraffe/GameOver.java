@@ -39,7 +39,7 @@ public class GameOver extends Activity implements OnClickListener
 		{
 		//Continues from the last end point
 			case R.id.continueButton:
-
+				this.finish();
 		    	Music.stop(this);
 				Intent x=new Intent(this, GameCall.class);
 				startActivity(x);
@@ -47,18 +47,11 @@ public class GameOver extends Activity implements OnClickListener
 				break;
 		//Quits the game		
 			case R.id.quitButton:
-				Intent f= new Intent(this, Giraffe.class);
-		    	Music.stop(this);
-		        startActivity(f);
+				//finish();
+			onBackPressed();
 		        break;
 		}
 	}
-    public void onBackPressed() 
-    {
-    	Music.stop(this);
-    	Intent f= new Intent(this, Giraffe.class);
-        startActivity(f);    	
-    } 
     @Override
     protected void onResume()
     {
@@ -74,6 +67,14 @@ public class GameOver extends Activity implements OnClickListener
     protected void onDestroy()
     {
     	super.onDestroy();
-    	Music.stop(this);
+    	//Music.stop(this);
+    }	
+    @Override
+	public void onBackPressed()
+    {
+    	super.onBackPressed();
+    	Intent mainmenu = new Intent(this, MainMenu.class);
+		startActivity(mainmenu);
+    	return;
     }
 }

@@ -57,7 +57,12 @@ public abstract class Mechanics {
 	public void changeImage(){}
 	public boolean drawImage(){	return imageDraw;}
 	public void setImage(boolean imageCheck){imageDraw=imageCheck;}
-	
+
+	public int moveDown(int value, int moveBy, int timeToWait)
+	{
+		return moveLeft(value,moveBy,timeToWait);
+	}
+
 	public Drawable animation(LinkedList<Drawable> images, int timeToWait){
 		
 		

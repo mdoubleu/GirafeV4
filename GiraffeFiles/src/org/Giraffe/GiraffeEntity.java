@@ -5,12 +5,13 @@ import java.util.LinkedList;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class GiraffeEntity extends Effects{
 	
 	public final float ACCELERATION=-.0075f;
 	public float INITVELOCITY;
-	private enum gState {NORMAL, JUMPING, PRIMED, ATTACKING, ATTACKING2}
+	private enum gState {NORMAL, JUMPING, PRIMED, ATTACKING, TOUNGE}
 	/**
 	 * Jumptime occuring while jump happens/
 	 */
@@ -57,6 +58,7 @@ public class GiraffeEntity extends Effects{
 		cuteGiraffePics.add(getDrawable("giraffe"));
 		cuteGiraffePics.add(getDrawable("giraffe90b"));
 		cuteGiraffePics.add(getDrawable("giraffe90f"));
+		cuteGiraffePics.add(getDrawable("giraffetounge"));
 		giraffeRun.add(getDrawable("giraffe"));
 		giraffeRun.add(getDrawable("grunear"));
 		
@@ -211,8 +213,13 @@ public class GiraffeEntity extends Effects{
 				}
 			
 		break;
-		case ATTACKING2:
-				//this.image=cuteGiraffePics.get(3);
+		case TOUNGE:
+			image=cuteGiraffePics.get(3);
+			Log.d("TOUNG", "CHECK");
+			if(difference>400){
+				myState=gState.NORMAL;
+			}
+			break;
 		case NORMAL:
 			hitBox.get(2).collide(false);
 			image=cuteGiraffePics.get(0);
@@ -262,8 +269,18 @@ public class GiraffeEntity extends Effects{
 			delayOneSecond=System.currentTimeMillis()+0;
 			delayCollideOneSecond(delayOneSecond);
 					}
+		else if(otherHitBox.toString().equals("netv")&&thisHitBox.toString().equals("body")
+				||otherHitBox.toString().equals("netv")&&thisHitBox.toString().equals("head"))
+				{
+		health=loseHealth(health, 1);
+		this.cancollide=false;
+		delayOneSecond=System.currentTimeMillis()+0;
+		delayCollideOneSecond(delayOneSecond);
+				}
 		else if(otherHitBox.toString().equals("fruit")&&thisHitBox.toString().equals("head")){
 			health=addHealth(health, 1);
+			primeTime=System.currentTimeMillis();
+			myState=gState.TOUNGE;
 		}
 
 	}

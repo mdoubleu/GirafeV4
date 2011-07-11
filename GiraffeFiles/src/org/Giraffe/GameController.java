@@ -64,8 +64,6 @@ public GameController(GameModel gameModel){
 	    	   }
 	    	   return true;
 	       }
-	       
-	      
 	       return false;
 		}
 	}
