@@ -262,6 +262,14 @@ public class GiraffeEntity extends Effects{
 			delayOneSecond=System.currentTimeMillis()+0;
 			delayCollideOneSecond(delayOneSecond);
 					}
+		else if(otherHitBox.toString().equals("netv")&&thisHitBox.toString().equals("body")
+				||otherHitBox.toString().equals("netv")&&thisHitBox.toString().equals("head"))
+				{
+		health=loseHealth(health, 1);
+		this.cancollide=false;
+		delayOneSecond=System.currentTimeMillis()+0;
+		delayCollideOneSecond(delayOneSecond);
+				}
 		else if(otherHitBox.toString().equals("fruit")&&thisHitBox.toString().equals("head")){
 			health=addHealth(health, 1);
 		}

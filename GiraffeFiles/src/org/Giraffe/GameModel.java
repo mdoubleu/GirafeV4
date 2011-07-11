@@ -2,21 +2,24 @@ package org.Giraffe;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 public class GameModel {
 	/**list of enenmies and images +giraffe+background*/
-	LinkedList<Effects>levelObjects=new LinkedList<Effects>();
-	LinkedList<Effects>objectsToDraw=new LinkedList<Effects>();
+	static LinkedList<Effects>levelObjects=new LinkedList<Effects>();
 	
+	LinkedList<Effects>objectsToDraw=new LinkedList<Effects>();
+
+	static Random r = new Random();
 	private ArrayList<Backgrounds2> backgrounds=new ArrayList<Backgrounds2>();
 	
 	//creates level
 	LevelMaker level;
 	Context context;
-	Backgrounds background;
 	/**this checks when enemies or obstacles appear and disapear.*/
 	long timeIn;
 	
@@ -60,7 +63,6 @@ public class GameModel {
 	
 	public void loadLevel(int act){
 		LevelBuilder levels=new LevelBuilder(act);
-		background= new Backgrounds(levels.getNumForBackground(),context.getResources());
 		backgroundSpeed=8*(width/800);
 		
 		level= new LevelMaker(levels.getLevel(), context, height, width);
@@ -112,7 +114,7 @@ public class GameModel {
 			
 		}
 		for(int f=0; f<levelObjects.size(); f++){
-			if(levelObjects.get(f).X2()<-10){
+			if(levelObjects.get(f).X2()<-10 || levelObjects.get(f).Y2()<-10){
 				levelObjects.remove(f);
 			}
 		}

@@ -2,6 +2,12 @@ package org.Giraffe;
 
 import android.content.Context;
 public class Helicopter extends Enemy{
+	
+	
+	private int hasNet;
+	private boolean payload;
+	
+	
 	public Helicopter(Context context, long time, float width, float height){
 		super(context, time, width, height);
 		cancollide=true;
@@ -16,11 +22,25 @@ public class Helicopter extends Enemy{
 		this.hitBox.add(new HitBox("helicopter",x1,y1,x2,y2,true));
 		this.image=context.getResources().getDrawable(
                 R.drawable.helicopter);
+		
+		this.hasNet = GameModel.r.nextInt(2);
+		
+		if(hasNet > 0)
+		{
+			 payload = true;
+		}
 	}	
 	public void move() {
 		x1=moveLeft(x1, (int)speed, 3);
 		x2=moveLeft(x2, (int)speed, 3);
 		this.hitBox.get(0).changePosition(this.x1, y1, x2, y2);
+		
+		if(x1 < 110 && payload == true && this.cancollide==true)
+		{
+			NetV netv = new NetV(context, delayOfTime, canvasHeight, canvasHeight);
+			GameModel.levelObjects.add(netv);
+			payload = false;
+		}
 	}
 
 	@Override

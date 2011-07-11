@@ -28,7 +28,12 @@ public abstract class Mechanics {
 	}
 	public  void moveRight(){}
 	public  void moveUp(){}
-	public  void moveDown(){}
+	
+	public int moveDown(int value, int moveBy, int timeToWait)
+	{
+		return moveLeft(value,moveBy,timeToWait);
+	}
+	
 	public  void moveParabola(){}
 	
 	public  void speedUp(){}
