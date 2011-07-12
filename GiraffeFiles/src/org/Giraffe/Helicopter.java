@@ -46,8 +46,10 @@ public class Helicopter extends Enemy{
 		x1=moveLeft(x1, (int)speed, 3);
 		x2=moveLeft(x2, (int)speed, 3);
 		
-		image = animation(helicopterPics,100);
-		//image=animation(helicopter2, 400);
+		if(collidedWithGiraffe == false)
+		{
+			image = animation(helicopterPics,100);
+		}
 		
 		this.hitBox.get(0).changePosition(this.x1, y1, x2, y2);
 
