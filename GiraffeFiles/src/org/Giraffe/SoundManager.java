@@ -2,6 +2,9 @@ package org.Giraffe;
 
 import java.util.HashMap;
 
+import org.Giraffe.R;
+import org.Giraffe.R.raw;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
