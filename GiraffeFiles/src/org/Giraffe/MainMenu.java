@@ -15,14 +15,14 @@ import android.view.View.OnClickListener;
 
 public class MainMenu extends Activity implements OnClickListener
 {
-
+	//since main menu never dies I should keep the game state, which stores the progress of the game here....I think
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
-  
+        //game state should never die essentially
         //View settingsButton = findViewById(R.id.settings_button);
         //settingsButton.setOnClickListener(this);
         View mStartButton = findViewById(R.id.startButton);

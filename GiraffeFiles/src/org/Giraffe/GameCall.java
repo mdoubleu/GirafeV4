@@ -23,6 +23,7 @@ public class GameCall extends Activity{
 	GameController controller;
 	GameModel model;
 	Context context;
+	GameState gamestate;
 	private static boolean mPaused=false;
 	static final int DIALOG_PAUSED_ID = 0;
 	static final int DIALOG_GAMEOVER_ID = 1;
@@ -32,7 +33,7 @@ public class GameCall extends Activity{
         
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.game);
-        
+        //gamestate=new GameState();
         surface=(SurfaceView)findViewById(R.id.gSurface);
         context=surface.getContext();
         model=new GameModel(context);

@@ -42,8 +42,11 @@ public class GameModel {
 	private boolean laugh=false;
 	private boolean mPlaying = false;
 	
+	
+	//need progress
 	public GameModel(Context context){
 		this.context=context;
+		
         timeFrozen=System.currentTimeMillis()+0;
         SoundManager.initSounds(context);
 		SoundManager.addSound(1,R.raw.boing);  
@@ -53,15 +56,23 @@ public class GameModel {
         /*LOADS LEVEL 1 AS DEFUALT*/
 		
 		//this gets called twice and needs to be fixed
-        loadLevel(1);
+        loadLevel(GameState.getLevel());
         
 	}
+	//next level method!
+	/*
+	 * reload the contents of the game model wit hthe next scene???!?Cutscene or a playble level \
+	 * Calls either load level or or load cutsceen 1
+	 */
+
+	
 	public void setSize(float width, float height){
 		this.width=width;
 		this.height=height;
 		bLocation1=0;
 		bLocation2=(int)width;
-		loadLevel(1);
+		Log.d("GameLevel: ","This is the gameLevel #: "+GameState.getLevel());
+		loadLevel(GameState.getLevel());
 		
 	}
 	
@@ -100,9 +111,9 @@ public class GameModel {
 		}else{
 			//background=new Backgrounds(3,context.getResources());
 			//updateLevel();
+			Music.stop(context);
 			levelOver=false;
 			((Activity) context).finish();
-			Music.stop(context);
 			Intent winScreen = new Intent(context, WinScreen.class);
 			winScreen.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			context.startActivity(winScreen);
