@@ -43,7 +43,6 @@ public class GameView implements Callback{
 		
 	}
 	
-	@Override
 	public void surfaceChanged(SurfaceHolder holdr, int format, int width, int height) {
 		this.width=width;
 		this.height=height;
@@ -51,7 +50,7 @@ public class GameView implements Callback{
 		
 	}
 
-	@Override
+
 	public void surfaceCreated(SurfaceHolder holder) {
 		if (thread == null) {
 			thread = new GameThread(model,this,controller);
@@ -154,7 +153,7 @@ public class GameView implements Callback{
 		}
 		
 	}
-	@Override
+
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		try {
 			thread.isRunning(false);

@@ -23,8 +23,7 @@ public GameController(GameModel gameModel){
 		state=1;
 	}
 
-	
-	@Override
+
 	public boolean onTouch(View v, MotionEvent event) {
 		synchronized(gameModel){
 		int action = event.getAction();

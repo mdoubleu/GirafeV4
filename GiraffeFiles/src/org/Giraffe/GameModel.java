@@ -77,7 +77,7 @@ public class GameModel {
 	}
 	
 	public void loadLevel(int act){
-		LevelBuilder levels=new LevelBuilder(act);
+		LevelBuilder levels=new LevelBuilder(act, context);
 		background= new Backgrounds(levels.getNumForBackground(),context.getResources());
 		backgroundSpeed=8*(width/800);
 		

@@ -1,37 +1,42 @@
 package org.Giraffe;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.Log;
+
 public class LevelBuilder {
-	String levels;
+	String readLine = null;
 	int numberForBackground;
-	public LevelBuilder(int level){
+	Context c;
+	GameView g;
+	public LevelBuilder(int level, Context c){
+		this.c = c;
+		String levelsource = "level" + level;
+		Integer levelid = this.c.getResources().getIdentifier(levelsource, "raw", "org.Giraffe");
+		InputStream is = c.getResources().openRawResource(levelid);
+        Scanner br = new Scanner(new InputStreamReader(is));
+        
 		
-		switch(level){
-		
-		case(1):
-			
-			levels="0%0#0%2#1300%1#1800%2" + 
-   "3000%1#800%2#1500%1#3000%2#1400%3#1700%2#1500%2#800%1#1400%2#" + 
-   "2700%1#800%1#800%1#800%1#1400%2#3000%2#1400%3" +
-   "3000%1#1800%2#1800%2#1200%2#1400%2#1500%1#800%2";
-			
-			//this number refers to what picture set should be loaded for a given level.
+		while (br.hasNextLine()) {
+			//Log.d("BEFORE READING", readLine);
+			readLine = br.nextLine();
+			Log.d("THIS SHOULD BE A LEVEL STRING", readLine);
 			numberForBackground=1;
-			break;
-		case(2):
-			levels="0%0#0%2#1300%1#1800%2" + 
-			   "3000%1";
-			//this number refers to what picture set should be loaded for a given level.
-			numberForBackground=1;
-			break;
-		case(3):
 		}
+		
 	}
 	
 	public int getNumForBackground(){
 		return numberForBackground;
 	}
 	public String getLevel(){
-		return levels;
+		return readLine;
 	}
 	
 }
