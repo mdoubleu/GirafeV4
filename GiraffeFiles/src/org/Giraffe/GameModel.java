@@ -85,7 +85,7 @@ public class GameModel {
 		backgrounds=level.getBacks();
         
 		levelObjects=level.getLevelObjects();
-		ourGiraffe=(GiraffeEntity)levelObjects.get(0);
+		ourGiraffe=new GiraffeEntity(context, 0, width, height);
 		ourGiraffe.setHealth(3);
 		//Changed
 		if(act == 1 && mPlaying == false)

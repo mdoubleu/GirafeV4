@@ -30,6 +30,7 @@ public class GameView implements Callback{
 	private float width;
 	private float height;
 	private TextView textview;
+	public Scaling scale;
 
 	
 	public GameView(GameController controller,SurfaceHolder holder,GameModel model, Context context){
@@ -85,15 +86,14 @@ public class GameView implements Callback{
 	public void doDraw(Canvas canvas){
 		float width=canvas.getWidth();
 		float height=canvas.getHeight();
+		scale =  new Scaling (width,height);
 		
     	for (Backgrounds2 backround : model.getBkround()) {
     		if(backround.coordinate.getX()<=-width){
     			backround.coordinate.setX((int)width);
     			
     		}
-    		canvas.drawBitmap(backround.getBackground(), 
-    				backround.coordinate.getX(),
-    				backround.coordinate.getY(), null);
+    		canvas.drawBitmap(scale.scaleImg(backround), scale.scaledX(backround), scale.scaledY(backround), null);
     		
     		backround.coordinate.x-=backround.speed;
     		 
@@ -113,7 +113,11 @@ public class GameView implements Callback{
 
 		
 		//giraffeStuff
-		GiraffeEntity graff=(GiraffeEntity) model.allEffects().get(0);
+		GiraffeEntity graff=model.ourGiraffe;
+		Drawable g=graff.getImage();
+		g.setBounds(graff.X(), graff.Y(), graff.X2(), graff.Y2());
+		g.draw(canvas);
+		graff.move();
 		
 		/*if(graff.getHitBox().size()>2){
 			canvas.drawRect(graff.getHitBox().get(2).x1(),graff.getHitBox().get(2).y1(),
@@ -135,14 +139,14 @@ public class GameView implements Callback{
 			//model.getEntities().get(x).doDraw()&&
 			if(e.drawImage()){
 				if(e.toString().equals("giraffe")){
-					for(int h=0; h<graff.getHealth(); h++){
-						Drawable health=graff.healthImage();
-						health.setBounds((int)width-(40 * (h+1)), 0, (int)width-(40 * h), 40);
-						canvas.drawText(graff.getScore(), width-65,70, v);
+				//	for(int h=0; h<graff.getHealth(); h++){
+					//	Drawable health=graff.healthImage();
+						//health.setBounds((int)width-(40 * (h+1)), 0, (int)width-(40 * h), 40);
+						//canvas.drawText(graff.getScore(), width-65,70, v);
 						
 						//textview.setText(graff.getScore());
 						//textview.draw(canvas);
-						health.draw(canvas);
+						//health.draw(canvas);
 						
 					}
 				}
@@ -152,7 +156,7 @@ public class GameView implements Callback{
 			}
 		}
 		
-	}
+	//}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		try {

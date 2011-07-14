@@ -36,7 +36,6 @@ public class LevelMaker {
    int type = Integer.parseInt(objel[1]);
    //int speed = Integer.parseInt(objel[2]);
    switch(type){
-   case(0):levelLoad.add(new GiraffeEntity(context, time, Cwidth, Cheight)); break;
    case(1):levelLoad.add(new IceCreamTruck(context, time, Cwidth, Cheight)); break;
    case(2):levelLoad.add(new Helicopter(context,time, Cwidth, Cheight)); break;
    case(3):levelLoad.add(new Fruit(context,time, Cwidth, Cheight)); break;

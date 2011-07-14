@@ -32,4 +32,14 @@ public class Backgrounds2 {
 	public void checkChangeBackground(){
 		
 	}
+	
+	
+	public int getX () {
+		return coordinate.getX();
+	}
+	
+	public int getY () {
+		return coordinate.getY();
+	}
+	
 }

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 public class Graphic {
 	Bitmap img;
 	
+	
 	public Graphic (Bitmap b){
 		this.img=b;
 	}

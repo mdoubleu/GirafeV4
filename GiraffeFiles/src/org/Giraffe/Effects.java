@@ -48,14 +48,32 @@ public abstract class Effects extends Mechanics implements Collidable {
 	
 	protected boolean cancollide;
 
-	public int X(){return x1;}
-	public int X2(){return x2;}
-	public int Y(){return y1;}
-	public int Y2(){return y2;}
-	public  long getTime(){return timeIn;}
-	public  Drawable getImage(){return image;}	
-	public  LinkedList<HitBox> getHitBox(){return hitBox;}
-	public void setHealth(int h){health=h;}
-	public int getHealth(){return health;}
+	public int X() {
+		return x1;
+	}
+	public int X2() {
+		return x2;
+	}
+	public int Y() {
+		return y1;
+	}
+	public int Y2() {
+		return y2;
+		}
+	public  long getTime() {
+		return timeIn;
+	}
+	public  Drawable getImage() {
+		return image;
+		}	
+	public  LinkedList<HitBox> getHitBox() {
+		return hitBox;
+		}
+	public void setHealth(int h) {
+		health=h;
+		}
+	public int getHealth() {
+		return health;
+	}
 	public abstract void move();
 }
