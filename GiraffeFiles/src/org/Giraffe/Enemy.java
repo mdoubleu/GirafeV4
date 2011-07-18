@@ -16,6 +16,7 @@ public class Enemy extends Mechanics{
 	protected boolean moveRight=false;
 	protected boolean moveUp=false;
 	protected boolean moveDown=false;
+	private boolean canLandOn=false;
 	
 	protected boolean canShoot = false;
 	
@@ -44,6 +45,12 @@ public class Enemy extends Mechanics{
 	}
 	public boolean canCollide(){
 		return canCollide;
+	}
+	public void setLandOn(boolean canLandOn){
+		this.canLandOn=canLandOn;
+	}
+	public boolean canLandOn(){
+		return canLandOn;
 	}
 	
 	/**

@@ -15,6 +15,5 @@
 35 ; StaticImage ; road % 3, 0, 330
 10 ; StaticImage ; metalfence % 3, 0, 260
 0 ; StaticImage ; trashcan % 3, 400, 260
-2 ; Enemy ; netv ; kapow ; kapow2 % 5, 800, 120 ; 8, 1200, 120
 3 ; Enemy ; helicopter ; helicopter2 ; kapow ; kapow2 % 5, 800, 100 ; 8, 1200, 80 ; 6, 1800, 50 ; 6, 2300, 120 ; 6, 3000, 100
-3 ; Enemy ; icecream1 ; icecream2 ; kapow ; kapow2 % 7, 800, 360 ; 6, 1200, 360 ; 6, 1800, 360 ; 6, 2300, 360 ; 6, 3000, 360
+3 ; Enemy ; icecream1 ; icecream2 ; kapow ; kapow2 % 3, 800, 360 ; 3, 1200, 360 ; 3, 1800, 360 ; 3, 2300, 360 ; 3, 3000, 360

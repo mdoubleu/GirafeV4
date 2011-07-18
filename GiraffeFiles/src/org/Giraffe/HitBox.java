@@ -29,6 +29,19 @@ public class HitBox{
 		this.collide=collide;
 	}
 	
+	public boolean landsOn(HitBox other){
+		int otherX=(int)other.getX();
+		int otherX2=(int)other.getX2();
+		int otherY2=(int)other.getY2();
+		int otherY1=(int)other.getY();	
+		
+		if((getX()<otherX2 && getX2()>otherX) && Math.abs(getY2()-otherY1)<6){
+			return true;
+		}
+		
+		
+		return false;
+	}
 	public boolean collidesWith(HitBox other){
 		
 		if(!this.toString().equals(other.toString())){

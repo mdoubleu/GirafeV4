@@ -87,6 +87,9 @@ public class GameView implements Callback{
 		
 		Paint v = new Paint();
 		v.setColor(Color.BLACK);
+		v.setTextSize(40);
+		v.setUnderlineText(true);
+		
 		
 		for(Background b:model.getBackgrounds()){
 			
@@ -103,13 +106,25 @@ public class GameView implements Callback{
 			//canvas.drawRect(e.getHitBox().get(0).getX(), e.getHitBox().get(0).getY(), e.getHitBox().get(0).getX2(),
 			//		e.getHitBox().get(0).getY2(), v);
 			
-			e.move();
+			//e.move();
 		}
 		if(model.getGiraffe().drawImage()){
 			canvas.drawBitmap(model.getGiraffe().getImageToDraw(), model.getGiraffe().coordinate.getX(), model.getGiraffe().coordinate.getY(), null);
+			
 		}
+		canvas.drawText(model.getScore(), width-65,100, v);
 		
-		/*	
+		for(int h=0; h<model.getGiraffe().getHealth(); h++){
+			Bitmap health=model.getGiraffe().healthImage();
+			canvas.drawBitmap(health, width-(40 * (h+1)), (30), null);
+				
+		}
+				
+				
+			
+		
+		
+		/*
 		canvas.drawRect(model.getGiraffe().getHitBox().get(0).getX(),model.getGiraffe().getHitBox().get(0).getY(),
 				model.getGiraffe().getHitBox().get(0).getX2(),model.getGiraffe().getHitBox().get(0).getY2(), v);
 	

@@ -103,6 +103,7 @@ public class LevelBuilder {
 				}else if(imageName.equals("icecream1")){
 					hold.moveLeft(true);
 					hold.getHitBox().add(new HitBox("icecream", coordinate, true));
+					hold.setLandOn(true);
 				}
 				
 				 enemies.add(hold); 

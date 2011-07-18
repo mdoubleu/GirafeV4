@@ -26,11 +26,11 @@
 			android:screenOrientation="landscape" >
 			
 		</activity>
-		  <activity android:name="GameOver"
+		  <activity android:name=".GameOver"
 			android:screenOrientation="landscape" >
 			
 		</activity>
-			<activity android:name="WinScreen"
+			<activity android:name=".WinScreen"
 			android:screenOrientation="landscape" >
 			
 		</activity>

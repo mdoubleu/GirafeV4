@@ -44,7 +44,7 @@ public class GameController implements OnTouchListener{
 		    				// model.getGiraffe().autoAttack=true;
 		    				  
 		    				  
-		    				  if(model.getGiraffe().getHitBox().get(0).getX()>100){
+		    				  if(model.getGiraffe().getHitBox().get(0).getX()>90){
 		    				  model.getGiraffe().headBack();
 		    			  }
 		    			  

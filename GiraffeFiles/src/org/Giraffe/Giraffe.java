@@ -21,8 +21,6 @@ public class Giraffe extends Mechanics{
 	Context context;
 	gState myState;
 	
-	int score;
-	
 	/**State for giraffes neck position */
 	private enum gState {NORMAL, JUMPING, PRIMED, ATTACKING, TOUNGE}
 	
@@ -47,6 +45,8 @@ public class Giraffe extends Mechanics{
 	private int killStopCoordinate;
 	private float headHoldX;
 	
+	private int health;
+	
 	public Giraffe(Context context)
 	{
 		this.context = context;
@@ -64,11 +64,11 @@ public class Giraffe extends Mechanics{
 		coordinate = new Coordinate(0,280,imageToDraw.getWidth(), imageToDraw.getHeight());
 		
 		
-		Coordinate head=new Coordinate(130, 260, 60, 50);
+		Coordinate head=new Coordinate(100, 310, 60, 50);
 		hitBox.add(new HitBox("head", head, true));
 		Coordinate body=new Coordinate(50, 370, 100, 70);
 		hitBox.add(new HitBox("body", body, true));
-		Coordinate killbox=new Coordinate(130, 330, 185, 120);
+		Coordinate killbox=new Coordinate(130, 330, 100, 120);
 		hitBox.add(new HitBox("killbox", killbox, false));
 		
 		
@@ -78,6 +78,7 @@ public class Giraffe extends Mechanics{
 		killStopCoordinate=hitBox.get(2).getY();
 		headHoldX=hitBox.get(0).getX();
 		
+		addHealth(3);
 		setPic();
 	}
 	public Bitmap getDrawable(String d)
@@ -88,6 +89,9 @@ public class Giraffe extends Mechanics{
 	
 	public boolean canCollide(){
 		return canCollide;
+	}
+	public void setCollide(boolean canCollide){
+		this.canCollide=canCollide;
 	}
 	public ArrayList<HitBox> getHitBox(){
 		return hitBox;
@@ -149,12 +153,27 @@ public class Giraffe extends Mechanics{
 	public void setCooldownTime() {cooldownTime = System.currentTimeMillis()+0;}
 	public void updateTime() {difference=System.currentTimeMillis()-primeTime;}
 	public String toString(){return "giraffe";}
-	public String getScore(){return ""+score;}
 	
+	public boolean fall(Enemy enemyLandOn){
+		if(getHitBox().get(1).getX()>enemyLandOn.getHitBox().get(0).getX2() && !getJump()){
+			coordinate.setY(jump(getY(),stopJumpCoordinate, -1f, -.0075f, jumpTime));
+			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, -1f, -.0075f, jumpTime));
+			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, -1f, -.0075f, jumpTime));
+			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, -1f, -.0075f, jumpTime));
+			if(getY()==stopJumpCoordinate){
+				doubleJumpCount=0;
+				hitBox.get(0).setY(headStopCoordinate);
+				hitBox.get(1).setY(bodyStopCoordinate);
+				hitBox.get(2).setY(killStopCoordinate);
+				return false;
+			}
+		}
+		return true;
+	}
 	public void setPic() {		
 		updateTime();
 		if(getJump()){
-			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, jumpTime);
+			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, 7f, -.0075f, jumpTime);
 			if(holdYJump==stopJumpCoordinate){
 				setJump(false);
 				doubleJumpCount=0;
@@ -164,20 +183,20 @@ public class Giraffe extends Mechanics{
 				
 			}
 			coordinate.setY(holdYJump);
-			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, jumpTime));
-			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, jumpTime));
-			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, jumpTime));
+			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, 7f, -.0075f, jumpTime));
+			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, 7f, -.0075f, jumpTime));
+			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, 7f, -.0075f, jumpTime));
 			
 		}
 		switch(myState) {
 		case ATTACKING:
-			
 			setImageToDraw(states.get(2));
 			hitBox.get(0).collide(false);
 				hitBox.get(2).collide(true);
 				if (difference>=400){
 					hitBox.get(0).collide(true);
 					hitBox.get(2).collide(false);
+					hitBox.get(0).setY(this.getY());
 					//autoAttack=false;
 					myState=gState.NORMAL;
 					setCooldownTime();
@@ -234,6 +253,9 @@ public class Giraffe extends Mechanics{
 	public Bitmap healthImage(){
 		return getDrawable("strawberry");
 	}
+	public void addHealth(int health){this.health+=health;}
+	public void loseHealth(int health){this.health-=health;}
+	public int getHealth(){return health;}
 	
 	public void setCooldown (boolean attacking) {
 		this.attacking = attacking;

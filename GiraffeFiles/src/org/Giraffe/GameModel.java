@@ -2,7 +2,9 @@ package org.Giraffe;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 public class GameModel {
@@ -10,10 +12,17 @@ public class GameModel {
 	Giraffe jeremy;
 	
 	public boolean levelOver=false;
+	private boolean levelLose=false;
 	protected boolean projectileDraw = true;
+	private boolean checkFall=false;
+	private Enemy enemyLandOn;
+
+	
+	private int score;
 	
 	ArrayList<Enemy>enemies=new ArrayList<Enemy>();
 	ArrayList<Enemy>enemiesToDraw=new ArrayList<Enemy>();
+	ArrayList<Enemy>enemiesCollide=new ArrayList<Enemy>();
 	
 	ArrayList<Background>backgrounds=new ArrayList<Background>();
 	ArrayList<Background>backgroundsToDraw=new ArrayList<Background>();
@@ -24,21 +33,63 @@ public class GameModel {
 		enemies=level.getEnemies();
 		backgrounds=level.getBackgrounds();
 		jeremy = new Giraffe(context);
+		score=0;
 	}
 	
 	public void updateLevel()
 	{
+		enemiesToDraw.clear();
 		jeremy.setPic();
 		searchForCollision();
+		if(checkFall){
+			checkFall();
+		}
+		
+		if(jeremy.getHealth()==0){
+			/*if(laugh==false){
+				SoundManager.playSound(2);  
+				laugh=true;
+			}*/
+			levelLose=true;
+			levelOver=true;
+		}
+		
 		
 		for(Enemy enemy: enemies){
-			if(enemy.toString().equals("netv") && enemy.getX() < 300 && projectileDraw)
-			{	
+			enemy.move();
+			if(enemy.toString().equals("netv") && enemy.getX() < 300 && projectileDraw){	
 					enemy.setImage(true);
 					enemy.moveDown = true;
 			}
+			if(enemies.isEmpty()){
+				levelOver=true;
+			}
+			if(enemy.getX()<810 && !(enemy.getX2()<-5)){
+				enemiesToDraw.add(enemy);
+			}
+			
 		}
 		
+	}
+	
+	public void gameOver(){
+		if(levelLose){
+			levelOver=false;
+			((Activity) context).finish();
+			Intent gameOverScreen = new Intent(context, GameOver.class);
+			gameOverScreen.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			context.startActivity(gameOverScreen);
+		}else{
+			Music.stop(context);
+			levelOver=false;
+			((Activity) context).finish();
+			Intent winScreen = new Intent(context, WinScreen.class);
+			winScreen.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			context.startActivity(winScreen);
+			}
+		}
+	public void checkFall(){
+		checkFall=jeremy.fall(enemyLandOn);
 	}
 	
 	public void searchForCollision() {
@@ -47,23 +98,34 @@ public class GameModel {
 		//then one loop for enemies v giraffe
 		
 		for(Enemy enemy: enemies){
+			if(enemy.getX()<810 && !(enemy.getX2()<-5)){
 			if(enemy.canCollide()&&jeremy.canCollide()){
-				
-				if(enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(0))
-				|| enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(1))){
+				if(jeremy.getHitBox().get(1).landsOn(enemy.getHitBox().get(0)) && enemy.canLandOn()){
+					enemyLandOn=enemy;
+					jeremy.jumpTime=System.currentTimeMillis()+0;
+					jeremy.setJump(false);
+					checkFall=true;
+				}
+				else if((enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(0)) && jeremy.getHitBox().get(0).collide)
+				|| (enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(1))&& jeremy.getHitBox().get(1).collide)){
 					enemy.collided();
 					enemy.delayOfTime=System.currentTimeMillis()+0;
 					enemy.delayImage=true;
 					enemy.canCollideSet(false);
+					jeremy.loseHealth(1);
 					if(enemy.toString().equals("netv")){
 						projectileDraw = false;
 					}
-					
-					
 					jeremy.delayCollideTime=System.currentTimeMillis()+0;
 					jeremy.delayCollide=true;
+					jeremy.setCollide(false);
 				}else if(enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(2))
 						&&jeremy.getHitBox().get(2).collide){
+					if(enemy.getY2()<240){
+						score+=20;
+					}else{
+						score+=10;
+					}
 					enemy.collidedWithKillbox();
 					enemy.delayOfTime=System.currentTimeMillis()+0;
 					enemy.delayImage=true;
@@ -74,19 +136,17 @@ public class GameModel {
 				}
 			}
 		}
+		}
 	  
 	}
 	public ArrayList<Background> getBackgrounds(){
 		return backgrounds;
 	}
 	public ArrayList<Enemy> getEnemies(){
-		return enemies;
+		return enemiesToDraw;
 	}
-	public void gameOver(){
-		
-	}
-	public Giraffe getGiraffe()
-	{
-		return jeremy;
+	public Giraffe getGiraffe(){	return jeremy;}
+	public String getScore(){
+		return ""+score;
 	}
 }

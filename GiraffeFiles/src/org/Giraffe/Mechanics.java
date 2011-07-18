@@ -15,9 +15,6 @@ public abstract class Mechanics {
 	private int animationCount=-1;
 	
 	private long delayOneSecond;
-	
-	public final float ACCELERATION=-.0075f;
-	public float INITVELOCITY=7f;
 
 	/**
 	 * Enemies/The Giraffe uses velocity used for physics jump
@@ -25,8 +22,10 @@ public abstract class Mechanics {
 	private int gVel;
 	
 	public float getX(){return coordinate.getX();}
+	public float getX2(){return coordinate.getX()+coordinate.getWidth();}
 	public int getWidth(){return coordinate.getWidth();}
 	public int getY(){return coordinate.getY();}
+	public int getY2(){return coordinate.getY()+coordinate.getHeight();}
 	public int getHeight(){return coordinate.getHeight();}
 	
 	public Bitmap getImageToDraw(){
@@ -72,11 +71,11 @@ public abstract class Mechanics {
 	public boolean drawImage(){	return imageDraw;}
 	public void setImage(boolean imageCheck){imageDraw=imageCheck;}
 	
-	public int jump(int y, int yStop, long staticTime)
+	public int jump(int y, int yStop, float velocity, float acceleration,  long staticTime)
 	{
 		long timeMil=System.currentTimeMillis()-staticTime;
 		
-		gVel=(int)(INITVELOCITY+(ACCELERATION*timeMil));
+		gVel=(int)(velocity+(acceleration*timeMil));
 		if(y>=yStop+1){
 			
 			return yStop;
