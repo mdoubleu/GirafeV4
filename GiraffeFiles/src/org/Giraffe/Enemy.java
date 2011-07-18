@@ -1,48 +1,50 @@
 package org.Giraffe;
 
+import java.util.ArrayList;
+
 import android.content.Context;
-/**
- * The enemy class allows for an object other than the giraffe who can negatively affect the giraffe 
- * to be created
- * @author mikedoubleyouu
- *
- */
-public abstract class Enemy extends Effects{
-	/**
-	 * Delay of time from hitting giraffe to disapearing 
-	 */
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+public class Enemy extends Mechanics{
+	protected boolean canCollide=true;
+	protected int health;
+	protected ArrayList<HitBox> hitBox=new ArrayList<HitBox>();
+	protected ArrayList<Bitmap> deathImages=new ArrayList<Bitmap>();
+	protected String name;
+	protected boolean moveLeft=false;
+	protected boolean moveRight=false;
+	protected boolean moveUp=false;
+	protected boolean moveDown=false;
+	
+	protected boolean canShoot = false;
+	
 	protected long delayOfTime;
-	/**
-	 * checks if object collided with giraffe and delays
-	 */
-	public boolean collidedWithGiraffe=false;
-	
-	public Enemy (Context context, long timeIn, float canvasWidth, float canvasHeight){
-		this.context=context;
-		this.timeIn=timeIn;
-		this.canvasWidth=canvasWidth;
-		this.canvasHeight=canvasHeight;
-		cancollide=true;
-	}
-	/**
-	 * Just going to compare enemy and giraffe's hitboxes
-	 */
-	public void collidesWithGiraffe(Enemy enemy, GiraffeEntity giraffe){//<----giraffe here 
-		for (HitBox thisHitBox: enemy.getHitBox()){
-			for(HitBox otherHitBox:giraffe.getHitBox()){
-				if(thisHitBox.collidesWith(otherHitBox)&&thisHitBox.collide==true&&otherHitBox.collide){
-					collided(thisHitBox, otherHitBox);
-					giraffe.collided(otherHitBox, thisHitBox);
-				}
-			}
-		}
+	protected boolean delayImage=false;
+		
+	public Enemy (ArrayList<Bitmap> images, ArrayList<Bitmap> deathImages,
+			Coordinate coordinate, float speed, String name) {
+		super.images = images;
+		this.deathImages=deathImages;
+		super.coordinate=coordinate;
+		super.speed=speed;
+		this.name=name;
+		setImageToDraw(images.get(0));
+
 	}
 	
-	/**
-	 * Collision elements of enemy
-	 */
-	public abstract void collided(HitBox thisHitBox, HitBox otherHitBox); 
-	public boolean canCollide() {return cancollide;}
+	public void collided(){
+		setImageToDraw(deathImages.get(0));
+	}
+	public void collidedWithKillbox(){
+		setImageToDraw(deathImages.get(1));
+	}
+	public void canCollideSet(boolean canCollide){
+		this.canCollide=canCollide;
+	}
+	public boolean canCollide(){
+		return canCollide;
+	}
 	
 	/**
 	 * Delay of image to dissapear after collision. EX: helicopter to kapow to nothing.
@@ -53,5 +55,58 @@ public abstract class Enemy extends Effects{
 		}
 	}
 	
+	public void move(){
+		if(delayImage){
+			delayObstacleImage(delayOfTime);
+		}else{
+			setImageToDraw(animation(images, 200));
+			if(moveLeft){
+				coordinate.setX(moveLeft(coordinate.getX(), speed));
+				for(int x=0; x<hitBox.size(); x++){
+					hitBox.get(x).setX(coordinate.getX());
+				}
+			}if(moveRight){
+			
+			}if(moveDown){
+				coordinate.setY((int)moveDown(coordinate.getY(), -speed));
+				for(int x=0; x<hitBox.size(); x++){
+					hitBox.get(x).setY(coordinate.getY());
+				}
+			}if (moveUp){
+			
+			}
+		}
+	}
+	public void rangeAttack(){
+		
+	}
+	public void moveHitBox(){
+		for(int x=0; x<hitBox.size(); x++){
+			hitBox.get(x);
+		}
+	}
+	
+	public  ArrayList<HitBox> getHitBox() {
+		return hitBox;
+		}
+	public void setHealth(int h) {
+		health=h;
+		}
+	public int getHealth() {
+		return health;
+	}
+	public int loseHealth(int health, int minus){
+		return health-minus;
+	}
+	public int addHealth(int health, int add){
+		return health+add;
+	}
+	public  void shoot(String image, Coordinate c, float speed, int angle)
+	{		
+		
+	}
+	public  void moveParabola(){}
+	public void fling(){}
+	public void fall(){}
 	
 }

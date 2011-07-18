@@ -1,0 +1,245 @@
+package org.Giraffe;
+
+import java.util.ArrayList;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+public class Giraffe extends Mechanics{
+
+	ArrayList<Bitmap> images = new ArrayList <Bitmap>();
+	ArrayList<Bitmap> states = new ArrayList <Bitmap>();
+	protected ArrayList<HitBox> hitBox=new ArrayList<HitBox>();
+	
+	private boolean canCollide=true;
+	private boolean attacking=false;
+	protected long cooldownTime;
+	
+	protected boolean delayCollide=false;
+	protected long delayCollideTime=System.currentTimeMillis();
+	
+	Context context;
+	gState myState;
+	
+	int score;
+	
+	/**State for giraffes neck position */
+	private enum gState {NORMAL, JUMPING, PRIMED, ATTACKING, TOUNGE}
+	
+	long difference=0;
+	long primeTime=0;
+	long jumpTime=0;
+	long autoAttackTime=0;
+	
+	boolean autoAttack=false;
+	
+	private int doubleJumpCount=0;
+
+	
+	 /**Controls the neck-attack*/
+	long NeckTimeFrozen;
+	
+	private boolean canJump=false;
+	
+	private int stopJumpCoordinate;
+	private int bodyStopCoordinate;
+	private int headStopCoordinate;
+	private int killStopCoordinate;
+	private float headHoldX;
+	
+	public Giraffe(Context context)
+	{
+		this.context = context;
+		states.add(getDrawable("giraffe"));
+		states.add(getDrawable("giraffe90b"));
+		states.add(getDrawable("giraffe90f"));
+		states.add(getDrawable("giraffetounge"));
+		images.add(getDrawable("giraffe"));
+		images.add(getDrawable("grunear"));
+		
+		setImageToDraw(states.get(0));
+		
+		myState = gState.NORMAL;
+		
+		coordinate = new Coordinate(0,280,imageToDraw.getWidth(), imageToDraw.getHeight());
+		
+		
+		Coordinate head=new Coordinate(130, 260, 60, 50);
+		hitBox.add(new HitBox("head", head, true));
+		Coordinate body=new Coordinate(50, 370, 100, 70);
+		hitBox.add(new HitBox("body", body, true));
+		Coordinate killbox=new Coordinate(130, 330, 185, 120);
+		hitBox.add(new HitBox("killbox", killbox, false));
+		
+		
+		stopJumpCoordinate=coordinate.getY();
+		headStopCoordinate=hitBox.get(0).getY();
+		bodyStopCoordinate=hitBox.get(1).getY();
+		killStopCoordinate=hitBox.get(2).getY();
+		headHoldX=hitBox.get(0).getX();
+		
+		setPic();
+	}
+	public Bitmap getDrawable(String d)
+	 {
+	  Integer identifier = this.context.getResources().getIdentifier(d, "drawable", "org.Giraffe");
+	  return BitmapFactory.decodeResource(context.getResources(),identifier);
+	 }
+	
+	public boolean canCollide(){
+		return canCollide;
+	}
+	public ArrayList<HitBox> getHitBox(){
+		return hitBox;
+	}
+	
+	/**
+	 * This method makes the giraffe disapear and reapear for 1.5 seconds only when it gets hit by an 
+	 * enemy. After 1.5 seconds, the giraffe can collide again/can get hit.
+	 * @param timeIn is used to check when the delay should start and end.
+	 */
+	public void delayCollideOneSecond(long timeIn){
+		
+		if(System.currentTimeMillis()-timeIn>1500){
+			canCollide=true;
+			setImage(true);
+			delayCollide=false;
+		}else if(System.currentTimeMillis()-timeIn>1250){
+			setImage(false);
+		}else if(System.currentTimeMillis()-timeIn>1000){
+			setImage(true);	
+		}else if(System.currentTimeMillis()-timeIn>600){
+			setImage(false);
+		}else if(System.currentTimeMillis()-timeIn>300){
+			setImage(true);
+		}else if(System.currentTimeMillis()-timeIn>0){
+			setImage(false);
+		}
+	}
+	
+	public void move() {		
+		if(myState==gState.NORMAL){
+			setImageToDraw(animation(images, 400));
+		}
+		
+		if(delayCollide){
+			delayCollideOneSecond(delayCollideTime);
+		}
+
+	}
+	public void updateJumpCount(){
+		if(doubleJumpCount==2){
+			doubleJumpCount=0;
+		}
+		doubleJumpCount++;
+	}
+	public int getDoubleJump(){return doubleJumpCount;}
+	
+	public void setToAttack() {
+		
+			myState = gState.ATTACKING;
+		}
+	public void setToJump() {myState = gState.JUMPING;}
+	public void setToPrime () {
+		 
+			myState = gState.PRIMED;
+		}
+	public void setToNormal () {myState = gState.NORMAL;}
+	public void setTime () {primeTime = System.currentTimeMillis()+0;}
+	public void setCooldownTime() {cooldownTime = System.currentTimeMillis()+0;}
+	public void updateTime() {difference=System.currentTimeMillis()-primeTime;}
+	public String toString(){return "giraffe";}
+	public String getScore(){return ""+score;}
+	
+	public void setPic() {		
+		updateTime();
+		if(getJump()){
+			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, jumpTime);
+			if(holdYJump==stopJumpCoordinate){
+				setJump(false);
+				doubleJumpCount=0;
+				hitBox.get(0).setY(headStopCoordinate);
+				hitBox.get(1).setY(bodyStopCoordinate);
+				hitBox.get(2).setY(killStopCoordinate);
+				
+			}
+			coordinate.setY(holdYJump);
+			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, jumpTime));
+			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, jumpTime));
+			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, jumpTime));
+			
+		}
+		switch(myState) {
+		case ATTACKING:
+			
+			setImageToDraw(states.get(2));
+			hitBox.get(0).collide(false);
+				hitBox.get(2).collide(true);
+				if (difference>=400){
+					hitBox.get(0).collide(true);
+					hitBox.get(2).collide(false);
+					//autoAttack=false;
+					myState=gState.NORMAL;
+					setCooldownTime();
+					
+			
+				}
+			
+		break;
+		case TOUNGE:
+			setImageToDraw(states.get(3));		
+			if(difference>400){
+				myState=gState.NORMAL;
+			}
+			break;
+		case NORMAL:
+			if (System.currentTimeMillis() - cooldownTime > 300) {
+				setCooldown(false);
+			}
+			
+			move();
+		break;
+		case PRIMED:
+			if(System.currentTimeMillis()-autoAttackTime>1000){
+				myState=gState.ATTACKING;
+			}
+			setImageToDraw(states.get(1));	
+			
+			
+			break;
+		}
+	}
+	public void headBack(){
+		hitBox.get(0).setX((hitBox.get(0).getX()-110));
+		hitBox.get(0).setY((hitBox.get(0).getY()+15));
+	}
+	public void headBackToNormal(){
+		hitBox.get(0).setX(headHoldX);
+		hitBox.get(0).setY(headStopCoordinate);
+	}
+	public void setJump(boolean canJ){
+		jumpTime=System.currentTimeMillis()+0;
+		canJump=canJ;
+	}
+	/**
+	 * checks if the giraffe can jump.
+	 * @return
+	 */
+	public boolean getJump(){return canJump;}
+	
+	/**
+	 * This returns the image for the health to appear on screen and control gameover 
+	 * @return strawberry image for health
+	 */
+	public Bitmap healthImage(){
+		return getDrawable("strawberry");
+	}
+	
+	public void setCooldown (boolean attacking) {
+		this.attacking = attacking;
+		
+	}
+	public boolean getCooldown () {
+		return attacking;
+	}
+}

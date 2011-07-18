@@ -2,14 +2,12 @@ package org.Giraffe;
 
 public class Coordinate {
 	
-	public int x;
+	public float x;
 	public int y;
 	private int width;
 	private int height;
 	
-	
-	
-	public Coordinate (int x, int y, int width, int height) {
+	public Coordinate (float x, int y, int width, int height) {
 		this.x=x;
 		this.y=y;
 		this.width=width;
@@ -17,27 +15,31 @@ public class Coordinate {
 		
 	}
 	
-	
 	public void setWidth (int width) {
-			
 		this.width = width;
-		
 	}
 	
 	public void setHeight (int height) {
 		this.height = height;
 	}
-	
-	public int getX () {
+	public int getWidth(){
+		return width;
+	}
+	public int getHeight(){
+		return height;
+	}
+	public float getX () {
 		return this.x;
 	}
 	public int getY() {
 		return this.y;
 	}
-	public void setX(int x){
+	public void setX(float x){
 		this.x=x;
 	}
-	
+	public void setY(int y){
+		this.y=y;
+	}
 	
 
 }

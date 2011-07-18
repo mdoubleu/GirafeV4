@@ -17,25 +17,21 @@ public class Scaling {
 		deltaY = height/480;
 	}
 	
-	
-	
-	
-	public Bitmap scaleImg (Backgrounds2 b) {
-		return b.getBackground().createScaledBitmap(b.getBackground(),
-				(int)(b.getBackground().getWidth()*deltaY),
-				(int)(b.getBackground().getHeight()*deltaY), 
+	public Bitmap scaleImg (Background b) {
+		return b.getImageToDraw().createScaledBitmap(b.getImageToDraw(),
+				(int)(b.getImageToDraw().getWidth()*deltaY),
+				(int)(b.getImageToDraw().getHeight()*deltaY), 
 				true);
-		
 	}
 	
 	
-	public float scaledX (Backgrounds2 b) {
-		scaledX=deltaX*b.getX();
+	public float scaledX (Background b) {
+		scaledX=deltaX*b.coordinate.getX();
 		return scaledX;
 	}
 	
-	public float scaledY (Backgrounds2 b) {
-		scaledY=deltaY*b.getY();
+	public float scaledY (Background b) {
+		scaledY=deltaY*b.coordinate.getY();
 		return scaledY;
 	}
 	

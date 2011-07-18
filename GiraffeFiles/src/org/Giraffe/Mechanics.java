@@ -1,69 +1,57 @@
 package org.Giraffe;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import android.graphics.Bitmap;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-
-/**
- * Mechanics allows entites to use different states. 
- */
 public abstract class Mechanics {
-	
+	protected Coordinate coordinate;
+	protected float speed;
+	/**This is the way images will be drawn and animated if necessary**/
+	protected ArrayList<Bitmap> images;
+	protected Bitmap imageToDraw;
 	private boolean imageDraw=true;
-	private long moveLeftTime=System.currentTimeMillis()+0;
+	
 	private long animationTime=System.currentTimeMillis()+0;
 	private int animationCount=-1;
-	/**
-	 * Enemies can shoot objects to the left
-	 */
-	public  void shoot(){}
 	
-	public int moveLeft(int value, int moveBy, int timeToWait){
-		
-		if(System.currentTimeMillis()-moveLeftTime>timeToWait){
-			moveLeftTime=System.currentTimeMillis();
-		}
-		return value-moveBy;
+	private long delayOneSecond;
+	
+	public final float ACCELERATION=-.0075f;
+	public float INITVELOCITY=7f;
+
+	/**
+	 * Enemies/The Giraffe uses velocity used for physics jump
+	 */
+	private int gVel;
+	
+	public float getX(){return coordinate.getX();}
+	public int getWidth(){return coordinate.getWidth();}
+	public int getY(){return coordinate.getY();}
+	public int getHeight(){return coordinate.getHeight();}
+	
+	public Bitmap getImageToDraw(){
+		return imageToDraw;
 	}
+	public void setImageToDraw(Bitmap imageToDraw){
+		this.imageToDraw=imageToDraw;
+	}
+	public abstract void move();
+	
+	public float moveLeft(float x, float speed){
+		return x-speed;
+		}
+	
 	public  void moveRight(){}
 	public  void moveUp(){}
-	public  void moveDown(){}
-	public  void moveParabola(){}
+	public float moveDown(float y, float speed)
+	{
+		return moveLeft(y,speed);
+	}
 	
 	public  void speedUp(){}
 	public  void slowDown(){}
 	public  void setSpeed(){}
-	
-	/**
-	 * controls health level
-	 * @param h health level
-	 */
-	public int loseHealth(int health, int minus){
-		return health-minus;
-	}
-	public int addHealth(int health, int add){
-		return health+add;
-	}
-	
-	/**
-	 * Fling is a melee attack similiar to a hammer 
-	 */
-	public void fling(){}
-	
-	/**
-	 * Transforms this object or enemy into something else via image
-	 */
-	public void changeImage(){}
-	public boolean drawImage(){	return imageDraw;}
-	public void setImage(boolean imageCheck){imageDraw=imageCheck;}
-
-	public int moveDown(int value, int moveBy, int timeToWait)
-	{
-		return moveLeft(value,moveBy,timeToWait);
-	}
-
-	public Drawable animation(LinkedList<Drawable> images, int timeToWait){
+	public Bitmap animation(ArrayList<Bitmap> images, int timeToWait){
 		
 		
 		if(System.currentTimeMillis()-animationTime>timeToWait){
@@ -81,14 +69,20 @@ public abstract class Mechanics {
 		}
 		return images.get(animationCount);
 	}
+	public boolean drawImage(){	return imageDraw;}
+	public void setImage(boolean imageCheck){imageDraw=imageCheck;}
 	
-	public int modelToViewX(float x, float width){
-		float gx=((x/800f)*width);
-		return (int)gx;
-	}
-	public int modelToViewY(float y, float height){
-		float gx=((y/480f)*height);
-		return (int)gx;
+	public int jump(int y, int yStop, long staticTime)
+	{
+		long timeMil=System.currentTimeMillis()-staticTime;
+		
+		gVel=(int)(INITVELOCITY+(ACCELERATION*timeMil));
+		if(y>=yStop+1){
+			
+			return yStop;
+		}
+		return (y-gVel);
+		
 	}
 
 }

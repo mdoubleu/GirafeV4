@@ -1,8 +1,5 @@
 package org.Giraffe;
 
-
-import org.Giraffe.GameCall;
-
 import android.app.Activity;
 import android.media.AudioManager;
 import android.os.Bundle;

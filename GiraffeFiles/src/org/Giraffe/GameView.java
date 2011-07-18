@@ -45,9 +45,6 @@ public class GameView implements Callback{
 	}
 	
 	public void surfaceChanged(SurfaceHolder holdr, int format, int width, int height) {
-		this.width=width;
-		this.height=height;
-		model.setSize(width, height);
 		
 	}
 
@@ -88,16 +85,43 @@ public class GameView implements Callback{
 		float height=canvas.getHeight();
 		scale =  new Scaling (width,height);
 		
-    	for (Backgrounds2 backround : model.getBkround()) {
-    		if(backround.coordinate.getX()<=-width){
-    			backround.coordinate.setX((int)width);
-    			
-    		}
-    		canvas.drawBitmap(scale.scaleImg(backround), scale.scaledX(backround), scale.scaledY(backround), null);
-    		
-    		backround.coordinate.x-=backround.speed;
-    		 
-    	}
+		Paint v = new Paint();
+		v.setColor(Color.BLACK);
+		
+		for(Background b:model.getBackgrounds()){
+			
+			canvas.drawBitmap(b.getImageToDraw(),b.coordinate.getX(), b.coordinate.getY(), null);
+			b.move();
+			if(b.coordinate.getX()<-150){
+				b.coordinate.setX(850);
+			}
+		}
+		for(Enemy e:model.getEnemies()){
+			if(e.drawImage()){
+				canvas.drawBitmap(e.getImageToDraw(),e.coordinate.getX(), e.coordinate.getY(), null);
+			}
+			//canvas.drawRect(e.getHitBox().get(0).getX(), e.getHitBox().get(0).getY(), e.getHitBox().get(0).getX2(),
+			//		e.getHitBox().get(0).getY2(), v);
+			
+			e.move();
+		}
+		if(model.getGiraffe().drawImage()){
+			canvas.drawBitmap(model.getGiraffe().getImageToDraw(), model.getGiraffe().coordinate.getX(), model.getGiraffe().coordinate.getY(), null);
+		}
+		
+		/*	
+		canvas.drawRect(model.getGiraffe().getHitBox().get(0).getX(),model.getGiraffe().getHitBox().get(0).getY(),
+				model.getGiraffe().getHitBox().get(0).getX2(),model.getGiraffe().getHitBox().get(0).getY2(), v);
+	
+		canvas.drawRect(model.getGiraffe().getHitBox().get(1).getX(),model.getGiraffe().getHitBox().get(1).getY(),
+				model.getGiraffe().getHitBox().get(1).getX2(),model.getGiraffe().getHitBox().get(1).getY2(), v);
+		
+		canvas.drawRect(model.getGiraffe().getHitBox().get(2).getX(),model.getGiraffe().getHitBox().get(2).getY(),
+				model.getGiraffe().getHitBox().get(2).getX2(),model.getGiraffe().getHitBox().get(2).getY2(), v);
+	*/
+	}
+	
+	
     	
 		/*Bitmap background1=background.get(0); 
 		 
@@ -106,7 +130,7 @@ public class GameView implements Callback{
 		canvas.drawBitmap(background1, model.bLocation1, 0, null);
 		canvas.drawBitmap(background1, model.bLocation2, 0, null);
 		*/
-		Paint v = new Paint();
+		/*Paint v = new Paint();
 		v.setColor(Color.WHITE);
 		v.setTextSize(30);
 		v.setUnderlineText(true);
@@ -117,9 +141,9 @@ public class GameView implements Callback{
 		Drawable g=graff.getImage();
 		g.setBounds(graff.X(), graff.Y(), graff.X2(), graff.Y2());
 		g.draw(canvas);
-		graff.move();
+		graff.move();*/
 		
-		/*if(graff.getHitBox().size()>2){
+		/*2if(graff.getHitBox().size()>2){
 			canvas.drawRect(graff.getHitBox().get(2).x1(),graff.getHitBox().get(2).y1(),
 					graff.getHitBox().get(2).x2(),graff.getHitBox().get(2).y2(), v);
 			
@@ -133,6 +157,7 @@ public class GameView implements Callback{
 		}*/
 		
 		//Obstacles Stuff
+		/*
 		for(Effects e: model.getObjects()){
 			e.move();
 			
@@ -154,7 +179,7 @@ public class GameView implements Callback{
 				f.setBounds(e.X(),e.Y(),e.X2(),e.Y2());
 				f.draw(canvas);
 			}
-		}
+		}*/
 		
 	//}
 

@@ -22,7 +22,6 @@ public class GameCall extends Activity{
 	GameController controller;
 	GameModel model;
 	Context context;
-	GameState gamestate;
 	private static boolean mPaused=false;
 	static final int DIALOG_PAUSED_ID = 0;
 	static final int DIALOG_GAMEOVER_ID = 1;
@@ -32,21 +31,23 @@ public class GameCall extends Activity{
         
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.game);
-        //gamestate=new GameState();
+
         surface=(SurfaceView)findViewById(R.id.gSurface);
         context=surface.getContext();
         model=new GameModel(context);
         
         holder=surface.getHolder();
         
+        view=new GameView(controller, holder, model, context);
+        surface.getHolder().addCallback(view);
+        
         controller= new GameController(model);
         surface.setOnTouchListener(controller);
         
-        view=new GameView(controller, holder, model, context);
-        surface.getHolder().addCallback(view);
+        
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
        
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
        
     }
     //overrides the back button
@@ -84,7 +85,6 @@ public class GameCall extends Activity{
     	Dialog dialog;
     	
 		if (id == DIALOG_PAUSED_ID) {
-			//Log.d("OnDialog", "Dialog is totally called right now.");
 			dialog = new AlertDialog.Builder(this)
             .setMessage("Would you like to quit?")
             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -96,7 +96,6 @@ public class GameCall extends Activity{
            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int id) {
             	   mPaused=false;
-            	  // Log.d("WTF", "It's totally never gettign here.");
             	   dialog.dismiss();
             	   
               }

@@ -17,7 +17,6 @@ public class GameThread extends Thread{
 		running=true;
 	}
 
-
 	public void run() {
 		while(running){
 			if(GameCall.getmPaused()==true)
@@ -28,13 +27,13 @@ public class GameThread extends Thread{
 					synchronized(view){
 						view.draw();
 					}
-				 if (!model.levelOver()){
+				 if (!model.levelOver){
 					synchronized(model){
 					     model.updateLevel();
 					}
 				 }else{
 					 synchronized(model){
-					 model.gameOver(System.currentTimeMillis()+0);
+					 model.gameOver();
 					 }
 				 }
 			}
