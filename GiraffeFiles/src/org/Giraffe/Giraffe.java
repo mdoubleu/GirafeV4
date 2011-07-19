@@ -61,7 +61,7 @@ public class Giraffe extends Mechanics{
 		
 		myState = gState.NORMAL;
 		
-		coordinate = new Coordinate(0,280,imageToDraw.getWidth(), imageToDraw.getHeight());
+		coordinate = new Coordinate(0,260,imageToDraw.getWidth(), imageToDraw.getHeight());
 		
 		
 		Coordinate head=new Coordinate(100, 310, 60, 50);
@@ -123,7 +123,7 @@ public class Giraffe extends Mechanics{
 	
 	public void move() {		
 		if(myState==gState.NORMAL){
-			setImageToDraw(animation(images, 400));
+			setImageToDraw(animation(images, 250));
 		}
 		
 		if(delayCollide){
@@ -143,13 +143,7 @@ public class Giraffe extends Mechanics{
 		
 			myState = gState.ATTACKING;
 		}
-	//this does fucking nothing!!!
-	public void setToJump() 
-	{
-		 
-		myState = gState.JUMPING;
-	}
-	
+	public void setToJump() {myState = gState.JUMPING;}
 	public void setToPrime () {
 		 
 			myState = gState.PRIMED;
@@ -162,6 +156,7 @@ public class Giraffe extends Mechanics{
 	
 	public boolean fall(Enemy enemyLandOn){
 		if(getHitBox().get(1).getX()>enemyLandOn.getHitBox().get(0).getX2() && !getJump()){
+			doubleJumpCount=0;
 			coordinate.setY(jump(getY(),stopJumpCoordinate, -1f, -.0075f, jumpTime));
 			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, -1f, -.0075f, jumpTime));
 			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, -1f, -.0075f, jumpTime));
@@ -179,7 +174,7 @@ public class Giraffe extends Mechanics{
 	public void setPic() {		
 		updateTime();
 		if(getJump()){
-			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, 7f, -.0075f, jumpTime);
+			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, 11f, -.02f, jumpTime);
 			if(holdYJump==stopJumpCoordinate){
 				setJump(false);
 				doubleJumpCount=0;
@@ -189,9 +184,9 @@ public class Giraffe extends Mechanics{
 				
 			}
 			coordinate.setY(holdYJump);
-			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, 7f, -.0075f, jumpTime));
-			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, 7f, -.0075f, jumpTime));
-			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, 7f, -.0075f, jumpTime));
+			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, 11f, -.02f, jumpTime));
+			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, 11f, -.02f, jumpTime));
+			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, 11f, -.02f, jumpTime));
 			
 		}
 		switch(myState) {
@@ -245,11 +240,7 @@ public class Giraffe extends Mechanics{
 	public void setJump(boolean canJ){
 		jumpTime=System.currentTimeMillis()+0;
 		canJump=canJ;
-		if(canJump==true)
-		{
-			SoundManager.playSound(1);
-			
-		}
+		SoundManager.playSound(1);
 	}
 	/**
 	 * checks if the giraffe can jump.
