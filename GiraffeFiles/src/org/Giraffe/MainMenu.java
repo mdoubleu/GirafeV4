@@ -42,17 +42,18 @@ public class MainMenu extends Activity implements OnClickListener
 			case R.id.startButton:
 				
 				Music.stop(this);
-				Intent x=new Intent(this, GameCall.class);
+				Intent x=new Intent(this, OpeningCutSceen.class);
 				startActivity(x);
 				Log.d("Far", "Do i get this far?");
 
 				break;
+				
 			case R.id.extrasButton:
-				Intent f=new Intent(this, SavedGameState.class);
-		        startActivity(f);
+				//Intent f=new Intent(this, OptionsMenu.class);
+		        //startActivity(f);
 		        break;
 			case R.id.optionButton:
-				Intent k=new Intent(this, GiraffeScores.class);
+				Intent k=new Intent(this, OptionsMenu.class);
 		        startActivity(k);
 		        break;
 			/*

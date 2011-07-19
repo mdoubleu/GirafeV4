@@ -41,13 +41,16 @@ public class SoundManager {
 	 *
 	 * @param theContext The Application context
 	 */
-	public static  void initSounds(Context theContext)
-	{
-		 mContext = theContext;
-	     mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
-	     mSoundPoolMap = new HashMap();
-	     mAudioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-	} 
+		public static  void initSounds(Context theContext)
+		{
+			
+				
+				 mContext = theContext;
+			     mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
+			     mSoundPoolMap = new HashMap();
+			     mAudioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+			
+		} 
 
 	/**
 	 * Add a new Sound to the SoundPool
@@ -57,7 +60,10 @@ public class SoundManager {
 	 */
 	public static void addSound(int Index,int SoundID)
 	{
-		mSoundPoolMap.put(Index, mSoundPool.load(mContext, SoundID, 1));
+		if(OptionsMenu.getSounds(mContext)==true)
+		{
+			mSoundPoolMap.put(Index, mSoundPool.load(mContext, SoundID, 1));
+		}
 	}
 
 	/**
@@ -78,10 +84,17 @@ public class SoundManager {
 	 */
 	public static void playSound(int index)
 	{
+		//it thinks context is alsways true
+		//the problem is not the context, but the problem is the the getSound is always true but 
+		//get music isn't!
+		if(OptionsMenu.getSounds(mContext)==true)
+		{
+		
 		     float streamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		     streamVolume = streamVolume / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		     Object x=(mSoundPoolMap).get(index);
 		     mSoundPool.play(index, streamVolume, streamVolume, 1, 0,1f);
+		}
 	}
 
 	/**

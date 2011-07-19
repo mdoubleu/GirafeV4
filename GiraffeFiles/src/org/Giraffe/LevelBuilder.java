@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.lang.ClassLoader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -32,6 +33,12 @@ public class LevelBuilder {
 		InputStream is = context.getResources().openRawResource(levelid);
         Scanner br = new Scanner(new InputStreamReader(is));
         levelMaker(br);
+        if(level==1)
+        {
+        	Music.create((Activity)context, R.raw.newcentralpark);
+			Music.start((Activity)context);
+			Music.setLooping((Activity)context, R.raw.newcentralpark);
+        }
 
 	}
 	

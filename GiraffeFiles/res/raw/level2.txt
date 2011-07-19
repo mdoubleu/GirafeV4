@@ -1,2 +1,19 @@
+20 ; StaticImage ; backgroundcolor % 0, 0, 0
+0 ; StaticImage ; cloud1 % 0, 100, 50
+0 ; StaticImage ; building1 % .04, 20, 80
+0 ; StaticImage ; buildingclump1 % .04, 80, 160
+0 ; StaticImage ; building2 % .04, 200, 110
+0 ; StaticImage ; buildingclump2 % .04, 350, 120
+0 ; StaticImage ; buildingclump3 % .04, 500, 150
+0 ; StaticImage ; buildingclump4 % .04, 700, 80
+11 ; StaticImage ; grass2 % 1, 0, 220
+0 ; StaticImage ; btreeg % 1, 0, 100
+0 ; StaticImage ; btreeg % 1, 200, 100
+0 ; StaticImage ; btreeg % 1, 400, 100
+0 ; StaticImage ; bpinetreeg1 % 1, 480, 115
+0 ; StaticImage ; bpinetreeg1 % 1, 680, 115
+35 ; StaticImage ; road % 3, 0, 330
+10 ; StaticImage ; metalfence % 3, 0, 260
+0 ; StaticImage ; trashcan % 3, 400, 260
 3 ; Enemy ; helicopter ; helicopter2 ; kapow ; kapow2 % 5, 800, 100 ; 8, 1200, 80 ; 6, 1800, 50 ; 6, 2300, 120 ; 6, 3000, 100
-2 ; Enemy ; netv ; kapow ; kapow2 % 5, 800, 120 ; 8, 1200, 120
+3 ; Enemy ; icecream1 ; icecream2 ; kapow ; kapow2 % 

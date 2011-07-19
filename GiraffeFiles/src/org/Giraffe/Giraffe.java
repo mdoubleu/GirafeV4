@@ -143,7 +143,13 @@ public class Giraffe extends Mechanics{
 		
 			myState = gState.ATTACKING;
 		}
-	public void setToJump() {myState = gState.JUMPING;}
+	//this does fucking nothing!!!
+	public void setToJump() 
+	{
+		 
+		myState = gState.JUMPING;
+	}
+	
 	public void setToPrime () {
 		 
 			myState = gState.PRIMED;
@@ -239,6 +245,11 @@ public class Giraffe extends Mechanics{
 	public void setJump(boolean canJ){
 		jumpTime=System.currentTimeMillis()+0;
 		canJump=canJ;
+		if(canJump==true)
+		{
+			SoundManager.playSound(1);
+			
+		}
 	}
 	/**
 	 * checks if the giraffe can jump.

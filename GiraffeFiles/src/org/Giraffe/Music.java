@@ -2,6 +2,8 @@ package org.Giraffe;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.util.Log;
 
 public class Music {
 	private static MediaPlayer mp= null;
@@ -9,14 +11,23 @@ public class Music {
 	/** Stop old song and start playing new one */
 	public static void create(Context context, int resource)
 	{
+		stop(context);
 		//stop(context);
-		mp = MediaPlayer.create(context, resource);
+		if(OptionsMenu.getMusic(context))
+		{
+			mp = MediaPlayer.create(context, resource);
+			
+			
+		}
 		//mp.setLooping(true);
 		//mp.start();
 	}
 	public static void setLooping(Context context, int resource)
 	{
-		mp.setLooping(true);
+		if(OptionsMenu.getMusic(context))
+		{
+			mp.setLooping(true);
+		}
 	}
 	public static void stop(Context context)
 	{
@@ -33,7 +44,13 @@ public class Music {
 	}
 	public static void start(Context context)
 	{
-		mp.start();
+		//stop(context);
+		if(OptionsMenu.getMusic(context))
+		{
+			mp.start();	
+		}
+		
+		
 	}
 	
 }

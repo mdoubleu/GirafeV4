@@ -1,0 +1,2 @@
+3 ; Enemy ; helicopter ; helicopter2 ; kapow ; kapow2 % 5, 800, 100 ; 8, 1200, 80 ; 6, 1800, 50 ; 6, 2300, 120 ; 6, 3000, 100
+2 ; Enemy ; netv ; kapow ; kapow2 % 5, 800, 120 ; 8, 1200, 120

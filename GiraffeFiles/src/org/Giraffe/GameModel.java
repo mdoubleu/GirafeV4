@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GameModel {
@@ -15,6 +17,7 @@ public class GameModel {
 	private boolean levelLose=false;
 	protected boolean projectileDraw = true;
 	private boolean checkFall=false;
+	private boolean laugh=false;
 	private Enemy enemyLandOn;
 
 	
@@ -29,7 +32,12 @@ public class GameModel {
 	
 	public GameModel(Context context){
 		this.context=context;
-		LevelBuilder level=new LevelBuilder(1, context);
+		SoundManager.initSounds(context);
+		SoundManager.addSound(1,R.raw.boing);  
+		SoundManager.addSound(2,R.raw.laugh2); 
+		SoundManager.addSound(3,R.raw.ow);  
+		SoundManager.addSound(4,R.raw.psh); 
+		LevelBuilder level=new LevelBuilder(GameState.getLevel(context), context);
 		enemies=level.getEnemies();
 		backgrounds=level.getBackgrounds();
 		jeremy = new Giraffe(context);
@@ -46,10 +54,11 @@ public class GameModel {
 		}
 		
 		if(jeremy.getHealth()==0){
-			/*if(laugh==false){
+			if(laugh==false){
 				SoundManager.playSound(2);  
 				laugh=true;
-			}*/
+			}
+			
 			levelLose=true;
 			levelOver=true;
 		}
@@ -108,6 +117,7 @@ public class GameModel {
 				}
 				else if((enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(0)) && jeremy.getHitBox().get(0).collide)
 				|| (enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(1))&& jeremy.getHitBox().get(1).collide)){
+					SoundManager.playSound(3);
 					enemy.collided();
 					enemy.delayOfTime=System.currentTimeMillis()+0;
 					enemy.delayImage=true;
@@ -121,10 +131,29 @@ public class GameModel {
 					jeremy.setCollide(false);
 				}else if(enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(2))
 						&&jeremy.getHitBox().get(2).collide){
+					SoundManager.playSound(4);
 					if(enemy.getY2()<240){
 						score+=20;
+						if(score>Integer.parseInt(OptionsMenu.SCORE))
+						{
+						SharedPreferences.Editor editor = 
+							PreferenceManager.getDefaultSharedPreferences(context)
+								.edit();
+								editor.putString("highscore", score+"");
+								editor.commit();
+						}
+
+						
 					}else{
 						score+=10;
+						if(score>Integer.parseInt(OptionsMenu.SCORE))
+						{
+						SharedPreferences.Editor editor = 
+							PreferenceManager.getDefaultSharedPreferences(context)
+								.edit();
+								editor.putString("highscore", score+"");
+								editor.commit();
+						}
 					}
 					enemy.collidedWithKillbox();
 					enemy.delayOfTime=System.currentTimeMillis()+0;

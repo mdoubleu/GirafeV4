@@ -40,7 +40,7 @@ import android.view.View.OnClickListener;
 			{
 			//Continues from the last end point
 				case R.id.continueButton:
-					GameState.nextLevel();
+					GameState.nextLevel(v.getContext());
 					this.finish();
 			    	Music.stop(this);
 					Intent x=new Intent(this, GameCall.class);
