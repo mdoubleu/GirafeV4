@@ -1,22 +1,22 @@
-20 ; StaticImage ; csky % 0, 0, 0
-0 ; StaticImage ; csun % 0, 0, 0
-10 ; StaticImage ; cwall % 1, 0, 320
-0 ; StaticImage ; cbuild2 % 1, 0, 70
-0 ; StaticImage ; cbuild3 % 1, 320, 60
-0 ; StaticImage ; cbuild2 % 1, 680, 70
-0 ; StaticImage ; cbuild3 % 1, 870, 60
-0 ; StaticImage ; cbuild4 % 1, 555, 85
-0 ; StaticImage ; cbuild1 % 1, 560, 160 ; 1, 120, 160
-0 ; StaticImage ; cbuild5 % 1, 195, 150 ; 1, 760, 150 ; 1, 415, 150
-50 ; StaticImage ; croad % 3, 0, 330
-0 ; StaticImage ; lamppost2s % 3, 0, 220 ; 3, 200, 220 ; 3, 400, 220 ; 3, 600, 220 ; 3, 800, 220
-0 ; StaticImage ; cbanner % 3, -40, 195 ; 3, 350, 200
-0 ; StaticImage ; ctreer % 3, 30, 175 ; 3, 450, 180
-0 ; StaticImage ; ctreeg % 3, 250, 140 ; 3, 650, 145
-4 ; Enemy ; ninja ; ninja2 ; ninja3 ; ninja4 % 7, 2500, 340 ; 7, 2000, 340
-3 ; Enemy ; ninjaglide ; ninjaglide1 ; ninjaglide3 % 7, 6000, 120
-3 ; Enemy ; ninjaglide2 ; ninjaglide5 ; ninjaglide3 % 7, 6000, 120
-3 ; Enemy ; nstar1 ; nstar2 ; poof % 7, 6000, 120
-3 ; Enemy ; cbus ; cbus2 ; cbus4 % 7, 200, 340 ; 7, 3000, 340
-4 ; Enemy ; cdragon ; cdragon2 ; cdragon3 ; kapow2 % 10, 6000, 340 ; 7, 3000, 340
-2 ; Enemy ; kapow ; kapow % 7, 6200, 100
+fill:true ; type:StaticImage ; res:csky ; data:[1,0,0]
+fill:false ; type:StaticImage ; res:csun ; data:[1,0,0]
+fill:false ; type:StaticImage ; res:cwall ; data:[10,0,320]
+fill:false ; type:StaticImage ; res:cbuild2 ; data:[10,0,70]
+fill:false ; type:StaticImage ; res:cbuild3 ; data:[10,320,60]
+fill:false ; type:StaticImage ; res:cbuild2 ; data:[10,680,70]
+fill:false ; type:StaticImage ; res:cbuild3 ; data:[10,870,60]
+fill:false ; type:StaticImage ; res:cbuild4 ; data:[10,555,85]
+fill:false ; type:StaticImage ; res:cbuild1 ; data:[10,560,160,10,120,160]
+fill:false ; type:StaticImage ; res:cbuild5 ; data:[10,195,150,10,760,150,10,415,150]
+fill:true ; type:StaticImage ; res:croad ; data:[30,0,330]
+fill:false ; type:StaticImage ; res:lamppost2s ; data:[30,0,220,30,200,220,30,400,220,30,600,220,30,800,220]
+fill:false ; type:StaticImage ; res:cbanner ; data:[30,-40,195,30,350,200]
+fill:false ; type:StaticImage ; res:ctreer ; data:[30,30,175,30,450,180]
+fill:false ; type:StaticImage ; res:ctreeg ; data:[30,250,140,30,650,145]
+fill:false ; type:Enemy ; res:[ninja,ninja2,ninja3 ; deathres:ninja4 ; data:[70,2500,340,70,2000,340]
+fill:false ; type:Enemy ; res:[ninjaglide,ninjaglide1] ; deathres:ninjaglide3 ; data:[70,6000,120]
+fill:false ; type:Enemy ; res:[ninjaglide2,ninjaglide5] ; deathres:ninjaglide3 ; data:[70,6000,120]
+fill:false ; type:Enemy ; res:[nstar1,nstar2] ;  deathres:poof ; data:[70,6000,120]
+fill:false ; type:Enemy ; res:[cbus,cbus2] ; deathres:cbus4 ; data:[70,200,340,70,3000,340]
+fill:false ; type:Enemy ; res:[cdragon,cdragon2,cdragon3] ; deathres:kapow2 ; data:[100,6000,340,70,3000,340]
+fill:false ; type:Enemy ; res:kapow ; deathres:kapow ; data:[70,6200,100]

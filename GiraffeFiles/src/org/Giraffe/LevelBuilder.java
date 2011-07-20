@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.lang.ClassLoader;
@@ -28,128 +29,226 @@ public class LevelBuilder {
 	public LevelBuilder(int level, Context context){
 
 		this.context = context;
-		String levelsource = "level" + level;
-		Integer levelid = context.getResources().getIdentifier(levelsource, "raw", "org.Giraffe");
-		InputStream is = context.getResources().openRawResource(levelid);
-        Scanner br = new Scanner(new InputStreamReader(is));
-        levelMaker(br);
+		try
+		{
+			levelMaker(getLevelResource(level, context));
+		}
+		catch(IOException e)
+		{
+			//do funny stuff
+		}
+		
+		//bad code here!
         if(level==1)
         {
         	Music.create((Activity)context, R.raw.newcentralpark);
 			Music.start((Activity)context);
 			Music.setLooping((Activity)context, R.raw.newcentralpark);
         }
-        if(level==2)
-        {
-        	Music.create((Activity)context, R.raw.chinatown);
-			Music.start((Activity)context);
-			Music.setLooping((Activity)context, R.raw.chinatown);
-        }
-
 	}
 	
-	public void levelMaker(Scanner level){
-		while (level.hasNextLine()) {
-			readLine = level.nextLine();
+	/**
+	 * 
+	 * @param level integer for level number
+	 * @param context current context
+	 * @return Scanner for level file
+	 * Finds an returns a Scanner handle for level file
+	 */
+	private Scanner getLevelResource(int level, Context context) throws IOException
+	{
+		String levelsource = "level" + level;
+		Integer levelid = context.getResources().getIdentifier(levelsource, "raw", "org.Giraffe");
+		if(levelid == 0)
+			throw new IOException();
+		InputStream is = context.getResources().openRawResource(levelid);
+        return new Scanner(new InputStreamReader(is));
+	}
+	
+	/**
+	 * 
+	 * @param file Scanner handle for the level file
+	 * Goes through the file and process each line.
+	 */
+	private void levelMaker(Scanner file){
+		while (file.hasNextLine()) {
+			readLine = file.nextLine();
 			processLine(readLine);
 		}
 	}
 	
-	public void processLine(String levelstring){
-		 String[] categories = levelstring.split(" % ");
-		 String rstring = categories[0];
-		 String[] resource = rstring.split(" ; ");
-		/**This integer represents the number that the resource must be repeated for creation **/
-		 int repeat = Integer.parseInt(resource[0]);
-		 /**Name to create a class**/
-		 String classname = resource[1];
-		 ArrayList<Bitmap> images=new ArrayList<Bitmap>();
-		 ArrayList<Bitmap> deathImages=new ArrayList<Bitmap>();
-		 
-		 /**This is the first image file, and its name will be the string for the enemy**/
-		 String imageName=resource[2];
-		 Bitmap image=getDrawable(resource[2]);
-		 
-		 if(classname.equals("Enemy")){
-			 /**this loop adds images for the animation work**/
-			 for(int v=2; v<resource.length; v++){
-				 if(v>repeat){
-					 deathImages.add(getDrawable(resource[v]));
-				 }else{
-					 images.add(getDrawable(resource[v]));
-				 }
-			 }
-		 }else{
-			 for(int v=2; v<resource.length; v++){
-				 images.add(getDrawable(resource[v]));
-			 }
+	/**
+	 * 
+	 * @param s String formatted with key:data
+	 * @return key
+	 */
+	private String getKey(String s)
+	{
+		String[] results =  s.split(":");
+		return results[0];
+	}
+	
+	/**
+	 * 
+	 * @param s String formatted with key:data
+	 * @return data
+	 */	
+	private String getRawData(String s)
+	{
+		String[] results =  s.split(":");
+		return results[1];
+	}
+	
+	/**
+	 * 
+	 * @param s either image or [image1, image2, image3, ...]
+	 * @return an ArrayList of Bitmaps where imageX refers to a drawable
+	 */
+	private ArrayList<Bitmap> getRes(String s)
+	{
+		ArrayList<Bitmap> results = new ArrayList<Bitmap>();
+		if(s.contains("["))
+		{
+			//multiple images
+			//clean up []
+			String cleaned = s.substring(1, s.length()-1);
+			String[] images = cleaned.split(",");
+			for(String image:images)
+			{
+				results.add(getDrawable(image));
+			}
+		}
+		else
+		{
+			//single image
+			results.add(getDrawable(s));
+		}
+		return results;
+	}
+
+	/**
+	 * 
+	 * @param s either "speed, x, y" or [speed1, x1, y1, speed2, x2, y2 ...]
+	 * @return an ArrayList of all strings in s split with ","
+	 */
+	private ArrayList<String> getData(String s)
+	{
+		ArrayList<String> results = new ArrayList<String>();
+		if(s.contains("["))
+		{
+			//multiple data points
+			//clean up []
+			String cleaned = s.substring(1, s.length()-1);
+			String[] items = cleaned.split(",");
+			for(String item:items)
+			{
+				results.add(item);
+			}
+		}
+		else
+		{
+			//single data point
+			results.add(s);
+		}
+		return results;
+	}	
+	
+	/**
+	 * 
+	 * @param levelstring String for a line read from the level file
+	 * Process the contents of the level file into backgrounds or enemies depending on type:
+	 * each line contains:
+	 * fill:boolean
+	 * type:String
+	 * res:String/[String, String, ...]
+	 * deathres:String/[String, String, ...] OPTIONAL
+	 * data:[int speed1, int x1, int y1, int speed2, int x2, int y2, ...]
+	 * These items are delmited by " ; "
+	 */
+	private void processLine(String levelstring){
+		 String[] items = levelstring.split(" ; ");
+		 HashMap<String, String> keyMap = new HashMap<String,String>();
+		 for(String item:items)
+		 {
+			 keyMap.put(getKey(item), getRawData(item));
 		 }
-		 int bitmapwidth=image.getWidth();
-		 int bitmapheight=image.getHeight();
+
+		 //process res and optional deathres
+		 ArrayList<Bitmap> images = getRes(keyMap.get("res"));
+		 ArrayList<Bitmap> deathImages = null;
+		 if(keyMap.containsKey("deathres"))
+		 {
+			 deathImages = getRes(keyMap.get("deathres"));
+		 }
 		 
-		 String istring = categories[1];
-		 String[] instances = istring.split(" ; ");
-		 for (String instance: instances){
-			 String[] instel = instance.split(", ");
-			 float speed = Float.parseFloat(instel[0]);
-			// int x = Integer.parseInt(instel[1]);
-			 int x=Integer.parseInt(instel[1]);
-			 int y = Integer.parseInt(instel[2]);
-			 Coordinate coordinate=new Coordinate(x,y,bitmapwidth,bitmapheight);
-			 if (classname.equals("StaticImage")){
-				 Background hold=new Background(images, coordinate,speed, repeat);
-				 backgrounds.add(hold); 
-				 if(repeat>0){
-					backgrounds.addAll(hold.getRepeats());
-				 }
+		 //create the object instances and add to background or enemy lists
+		 ArrayList<String> data = getData(keyMap.get("data"));
+		 for(int i=0; i<data.size(); i+=3)
+		 {
+			 float speed = Float.parseFloat(data.get(i));
+			 int x= Integer.parseInt(data.get(i+1));
+			 int y = Integer.parseInt(data.get(i+2));
+			 Coordinate coordinate=new Coordinate(x,y,images.get(0).getWidth(),images.get(0).getHeight());
+			 if (keyMap.get("type").equals("StaticImage")){
+				 Background bg=new Background(images, coordinate, speed, Boolean.parseBoolean(keyMap.get("fill")));
+				 backgrounds.add(bg); 
 			 }
-			 else if (classname.equals("Enemy")){
-				GenericEnemy hold =new GenericEnemy(images, deathImages,coordinate,speed,imageName);
-				if(imageName.equals("helicopter")||imageName.equals("bhelicopter1")){
-					hold.moveLeft(true);
-					hold.getHitBox().add(new HitBox("helicopter", coordinate, true));
+			 else if (keyMap.get("type").equals("Enemy")){
+				GenericEnemy enemy =new GenericEnemy(images, deathImages,coordinate,speed,getData(keyMap.get("res")).get(0));
+				if(keyMap.get("res").contains("helicopter")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("helicopter", coordinate, true));
 				}
-				else if(imageName.equals("netv")){
-					hold.moveLeft(true);
-					hold.setImage(false);
-					hold.getHitBox().add(new HitBox("netv", coordinate, true));
-				}else if(imageName.equals("vender") || imageName.equals("cbus") ||imageName.equals("icecream1") ){
-					hold.moveLeft(true);
-					hold.getHitBox().add(new HitBox("vender", coordinate, true));
-					hold.setLandOn(true);
-				}else if(imageName.equals("ninja") || imageName.equals("ninjaglide") || imageName.equals("nstar1")
-						|| imageName.equals("ninjaglide2")){
-					hold.moveLeft(true);
-					hold.getHitBox().add(new HitBox(imageName, coordinate, true));
-					hold.jumping(true);
-					if(imageName.equals("ninjaglide2") || imageName.equals("nstar1") ){
-						hold.setImage(false);
-					}
-					
-				}else if(imageName.equals("cdragon")){
-					hold.moveLeft(true);
-					hold.getHitBox().add(new HitBox("cdragon", coordinate, true));
-					hold.setLandOn(true);
-					
-				}else if(imageName.equals("kapow")){
-					hold.moveLeft(true);
-					hold.getHitBox().add(new HitBox("kapow", coordinate, true));
-					hold.canCollide=false;
-					hold.setImage(false);	
+				else if(keyMap.get("res").contains("netv")){
+					enemy.moveLeft(true);
+					enemy.setImage(false);
+					enemy.getHitBox().add(new HitBox("netv", coordinate, true));
+				}else if(keyMap.get("res").contains("icecream1")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("icecream", coordinate, true));
+					enemy.setLandOn(true);
 				}
-				
-				 enemies.add(hold); 
+				else if(keyMap.get("res").contains("ninja")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("ninja", coordinate, true));
+				}
+				else if(keyMap.get("res").contains("ninjaglide")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("ninjaglide", coordinate, true));
+				}
+				else if(keyMap.get("res").contains("nstar")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("nstar", coordinate, true));
+				}
+				else if(keyMap.get("res").contains("cbus")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("cbus", coordinate, true));
+					enemy.setLandOn(true);
+				}
+				else if(keyMap.get("res").contains("cdragon")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("cdragon", coordinate, true));
+					enemy.setLandOn(true);
+				}
+				else if(keyMap.get("res").contains("kapow")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("kapow", coordinate, true));
+					
+				}
+				enemies.add(enemy); 
 			 }
 		 }
 	}
+	
 	public Bitmap getDrawable(String d)
-	 {
-	  Integer identifier = this.context.getResources().getIdentifier(d, "drawable", "org.Giraffe");
-	  return BitmapFactory.decodeResource(context.getResources(),identifier);
-	 }
+	{
+		Integer identifier = this.context.getResources().getIdentifier(d, "drawable", "org.Giraffe");
+		return BitmapFactory.decodeResource(context.getResources(),identifier);
+	}
+	
 	public ArrayList<Background> getBackgrounds(){
 		return backgrounds;
 	}
+	
 	public ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}

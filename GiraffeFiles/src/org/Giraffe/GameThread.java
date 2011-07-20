@@ -29,7 +29,7 @@ public class GameThread extends Thread{
 					}
 				 if (!model.levelOver){
 					synchronized(model){
-					     model.updateLevel();
+					     model.updateLevel(System.currentTimeMillis());
 					}
 				 }else{
 					 synchronized(model){

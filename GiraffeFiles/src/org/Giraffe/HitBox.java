@@ -18,6 +18,8 @@ public class HitBox{
 	public int getHeight(){return coordinate.getHeight();}
 	public float getX2(){return coordinate.getX()+coordinate.getWidth();}
 	public int getY2(){return coordinate.getY()+coordinate.getHeight();}
+	public void setWidth(int w){coordinate.setWidth(w);}
+	public void setHeight(int h){coordinate.setHeight(h);}
 	public void setY(int y){
 		coordinate.setY(y);
 	}
@@ -35,7 +37,7 @@ public class HitBox{
 		int otherY2=(int)other.getY2();
 		int otherY1=(int)other.getY();	
 		
-		if((getX()<otherX2 && getX2()>otherX) && Math.abs(getY2()-otherY1)<3){
+		if((getX()<otherX2 && getX2()>otherX) && Math.abs(getY2()-otherY1)<6){
 			return true;
 		}
 		
@@ -56,6 +58,11 @@ public class HitBox{
 		}
 		return false;
 		
+	}
+	
+	public String toString()
+	{
+		return name;
 	}
 
 

@@ -17,8 +17,6 @@ import android.view.SurfaceHolder.Callback;
 import android.widget.ImageSwitcher;
 import android.widget.TextView;
 
-
-
 public class GameView implements Callback{
 	private GameController controller;
 	private SurfaceHolder holder;
@@ -90,13 +88,11 @@ public class GameView implements Callback{
 		v.setTextSize(40);
 		v.setUnderlineText(true);
 		
-		
-		for(Background b:model.getBackgrounds()){
-			
-			canvas.drawBitmap(b.getImageToDraw(),b.coordinate.getX(), b.coordinate.getY(), null);
-			b.move();
-			if(b.coordinate.getX()<-150){
-				b.coordinate.setX(850);
+		long now = System.currentTimeMillis();
+		for(Background bType:model.getBackgrounds()){
+			for(Background b:bType.getToDraw(width))
+			{
+				canvas.drawBitmap(b.getImageToDraw(),b.coordinate.getX(), b.coordinate.getY(), null);
 			}
 		}
 		for(Enemy e:model.getEnemies()){
