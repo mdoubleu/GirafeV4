@@ -39,6 +39,12 @@ public class LevelBuilder {
 			Music.start((Activity)context);
 			Music.setLooping((Activity)context, R.raw.newcentralpark);
         }
+        if(level==2)
+        {
+        	Music.create((Activity)context, R.raw.chinatown);
+			Music.start((Activity)context);
+			Music.setLooping((Activity)context, R.raw.chinatown);
+        }
 
 	}
 	

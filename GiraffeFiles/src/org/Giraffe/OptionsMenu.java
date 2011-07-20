@@ -20,6 +20,9 @@ public class OptionsMenu extends PreferenceActivity implements OnClickListener
 	private static final boolean OPT_SOUNDS_DEF = true;
 	private static final String LVL_SLCT = "levelselect";
 	private static final String LVL ="1";
+	private static final String TOTAL_PROGRESS = "totalprogress";
+	private static final String TP ="1";
+	
 	private static final String HSCORE="highscore";
 	static final String SCORE="20";
 		
@@ -30,7 +33,11 @@ public class OptionsMenu extends PreferenceActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.optionsmenu);
 	}
-	
+	public static String getTotalProgress(Context context)
+	{
+		return PreferenceManager.getDefaultSharedPreferences(context)
+			.getString(TOTAL_PROGRESS, TP);
+	}
 	/** Get the current value of the music option */
 	public static boolean getMusic(Context context)
 	{
@@ -65,7 +72,9 @@ public class OptionsMenu extends PreferenceActivity implements OnClickListener
 	}
 	
 	//public static String getScore(Context context)
-	public void setLevel(Context context,String number)
+	
+	
+	public static void setLevel(Context context,String number)
 	{
 		//getting the editor ot change the shared preference and then committing that change 
 		//returns an editor.....

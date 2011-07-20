@@ -29,11 +29,19 @@
 	     	android:orientation="vertical"
 	     	android:gravity="bottom"
 	     	android:id="@+id/mainSectionMenu">
-	       <ImageView android:layout_height="wrap_content" android:src="@drawable/start" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:id="@+id/startButton" android:clickable="true"></ImageView>
+	    
+	    
+	    <ImageView 
+	        android:id="@+id/continuebutton"
+	        android:src="@drawable/continuebutton"
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:layout_gravity="center_horizontal"
+	        android:clickable="true" />
 	
 	    <ImageView 
-	        android:id="@+id/extrasButton"
-	        android:src="@drawable/extras"
+	        android:id="@+id/levelselect"
+	        android:src="@drawable/levelselect"
 	        android:layout_width="wrap_content" 
 	        android:layout_height="wrap_content" 
 	        android:layout_gravity="center_horizontal"
@@ -44,13 +52,12 @@
 	        
 		<ImageView 
 		    android:id="@+id/optionButton"
-		    android:src="@drawable/options"
+		    android:src="@drawable/invisble"
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content" 
 		    android:layout_gravity="center_horizontal"
-		    
-		    android:clickable="true" />
-	       
+		    android:clickable="false" />
+	     
 		
 	 
 		

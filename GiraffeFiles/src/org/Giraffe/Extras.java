@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 
-public class MainMenu extends Activity implements OnClickListener
+public class Extras extends Activity implements OnClickListener
 {
 	//since main menu never dies I should keep the game state, which stores the progress of the game here....I think
     /** Called when the activity is first created. */
@@ -17,16 +17,16 @@ public class MainMenu extends Activity implements OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.main);
+        setContentView(R.layout.extras);
         //game state should never die essentially
         //View settingsButton = findViewById(R.id.settings_button);
         //settingsButton.setOnClickListener(this);
-        View mStartButton = findViewById(R.id.startButton);
+        View mStartButton = findViewById(R.id.levelselect);
         mStartButton.setOnClickListener(this);
-        View mExtrasButton = findViewById(R.id.extrasButton);
+        View mExtrasButton = findViewById(R.id.creditsbutton);
         mExtrasButton.setOnClickListener(this);
         View mOptionsButton = findViewById(R.id.optionButton);
-        mOptionsButton.setOnClickListener(this);
+        
         View mBackground = findViewById(R.id.mainMenuBackground);
         
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -39,24 +39,32 @@ public class MainMenu extends Activity implements OnClickListener
 	{
 		switch (v.getId())
 		{
-			case R.id.startButton:
+			case R.id.levelselect:
 				
 				Music.stop(this);
-				Intent x=new Intent(this, Start.class);
+				Intent x=new Intent(this, OpeningCutSceen.class);
 				startActivity(x);
 				Log.d("Far", "Do i get this far?");
 
 				break;
 				
-			case R.id.extrasButton:
-				Intent f=new Intent(this, Extras.class);
-		        startActivity(f);
+			case R.id.creditsbutton:
+				Intent f=new Intent(this, Credits.class);
+				startActivity(f);
 		        break;
 			case R.id.optionButton:
-				Intent k=new Intent(this, OptionsMenu.class);
-		        startActivity(k);
 		        break;
-			
+			/*
+			case R.id.about_button:
+			Intent a = new Intent(this, About.class);
+
+			startActivity(a);
+			break;
+			case R.id.how_to_play_button:
+			Intent b= new Intent(this, HTP.class);
+			startActivity(b);
+			break;
+			*/
 		}
 		//more buttons go here(if any)
 

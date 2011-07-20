@@ -22,6 +22,22 @@
 			android:screenOrientation="landscape" >
 			
 		</activity>
+		<activity android:name=".Credits"
+			android:screenOrientation="landscape" >
+			
+		</activity>
+		<activity android:name=".Extras"
+			android:screenOrientation="landscape" >
+			
+		</activity>
+		<activity android:name=".LevelSelect"
+			android:screenOrientation="landscape" >
+			
+		</activity>
+		<activity android:name=".Start"
+			android:screenOrientation="landscape" >
+			
+		</activity>
 		<activity android:name=".OpeningCutSceen"
 			android:screenOrientation="landscape" >
 			
