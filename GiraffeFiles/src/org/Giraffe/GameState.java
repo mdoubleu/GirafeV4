@@ -25,14 +25,22 @@ public class GameState
 	//total progress needs to be saved in the preferences 
 	public static void nextLevel(Context context)
 	{
-		progress+=1;
-		totalProgress+=1;
-		SharedPreferences.Editor editor = 
-			PreferenceManager.getDefaultSharedPreferences(context)
-				.edit();
-				editor.putString("levelselect", progress+"");
-				editor.putString("totalprogress",totalProgress+"");
-				
-				editor.commit();
+		if(progress>=2)
+		{
+			progress=1; 
+			
+		}
+		else
+		{
+			progress+=1;
+			totalProgress+=1;
+			SharedPreferences.Editor editor = 
+				PreferenceManager.getDefaultSharedPreferences(context)
+					.edit();
+					editor.putString("levelselect", progress+"");
+					editor.putString("totalprogress",totalProgress+"");
+					
+					editor.commit();
+		}
 	}
 }
