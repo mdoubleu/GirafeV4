@@ -104,17 +104,16 @@ public class Giraffe extends Mechanics{
 	 */
 	public void delayCollideOneSecond(long timeIn){
 		
-		if(System.currentTimeMillis()-timeIn>1500){
-			canCollide=true;
+		if(System.currentTimeMillis()-timeIn>1000){
 			setImage(true);
 			delayCollide=false;
-		}else if(System.currentTimeMillis()-timeIn>1250){
+		}else if(System.currentTimeMillis()-timeIn>800){
 			setImage(false);
-		}else if(System.currentTimeMillis()-timeIn>1000){
-			setImage(true);	
 		}else if(System.currentTimeMillis()-timeIn>600){
+			setImage(true);
+		}else if(System.currentTimeMillis()-timeIn>400){
 			setImage(false);
-		}else if(System.currentTimeMillis()-timeIn>300){
+		}else if(System.currentTimeMillis()-timeIn>200){
 			setImage(true);
 		}else if(System.currentTimeMillis()-timeIn>0){
 			setImage(false);
@@ -125,13 +124,10 @@ public class Giraffe extends Mechanics{
 		if(myState==gState.NORMAL){
 			setImageToDraw(animation(images, 250));
 		}
-		
-		if(delayCollide){
-			delayCollideOneSecond(delayCollideTime);
-		}
 
 	}
 	public void updateJumpCount(){
+		SoundManager.playSound(1);
 		if(doubleJumpCount==2){
 			doubleJumpCount=0;
 		}
@@ -173,6 +169,9 @@ public class Giraffe extends Mechanics{
 	}
 	public void setPic() {		
 		updateTime();
+		if(delayCollide){
+			delayCollideOneSecond(delayCollideTime);
+		}
 		if(getJump()){
 			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, 11f, -.02f, jumpTime);
 			if(holdYJump==stopJumpCoordinate){
@@ -240,7 +239,7 @@ public class Giraffe extends Mechanics{
 	public void setJump(boolean canJ){
 		jumpTime=System.currentTimeMillis()+0;
 		canJump=canJ;
-		SoundManager.playSound(1);
+		
 	}
 	/**
 	 * checks if the giraffe can jump.

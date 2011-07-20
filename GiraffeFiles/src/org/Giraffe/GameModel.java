@@ -19,6 +19,7 @@ public class GameModel {
 	private boolean checkFall=false;
 	private boolean laugh=false;
 	private Enemy enemyLandOn;
+	private float lastEnemy=0;
 
 	
 	private int score;
@@ -33,7 +34,7 @@ public class GameModel {
 	public GameModel(Context context){
 		this.context=context;
 		SoundManager.initSounds(context);
-		SoundManager.addSound(1,R.raw.boing);  
+		SoundManager.addSound(1,R.raw.boing);
 		SoundManager.addSound(2,R.raw.laugh2); 
 		SoundManager.addSound(3,R.raw.ow);  
 		SoundManager.addSound(4,R.raw.psh); 
@@ -66,12 +67,14 @@ public class GameModel {
 		
 		for(Enemy enemy: enemies){
 			enemy.move();
-			if(enemy.toString().equals("netv") && enemy.getX() < 300 && projectileDraw){	
+			if((enemy.toString().equals("netv") || enemy.toString().equals("nstar1") 
+					||enemy.toString().equals("ninjaglide2") )&& enemy.getX() < 300 && projectileDraw){	
 					enemy.setImage(true);
-					enemy.moveDown = true;
-			}
-			if(enemies.isEmpty()){
-				levelOver=true;
+					if(enemy.toString().equals("nstar1")||enemy.toString().equals("netv")){
+						((GenericEnemy)enemy).jumping(false);
+						enemy.moveDown = true;
+					}
+					
 			}
 			if(enemy.getX()<810 && !(enemy.getX2()<-5)){
 				enemiesToDraw.add(enemy);
@@ -107,6 +110,9 @@ public class GameModel {
 		//then one loop for enemies v giraffe
 		
 		for(Enemy enemy: enemies){
+			if(enemy.toString().equals("kapow") && enemy.getX2()<0){
+				levelOver=true;
+			}
 			if(enemy.getX()<810 && !(enemy.getX2()<-5)){
 			if(enemy.canCollide()&&jeremy.canCollide()){
 				if(jeremy.getHitBox().get(1).landsOn(enemy.getHitBox().get(0)) && enemy.canLandOn()){
@@ -117,21 +123,30 @@ public class GameModel {
 				}
 				else if((enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(0)) && jeremy.getHitBox().get(0).collide)
 				|| (enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(1))&& jeremy.getHitBox().get(1).collide)){
-					SoundManager.playSound(3);
-					enemy.collided();
-					enemy.delayOfTime=System.currentTimeMillis()+0;
-					enemy.delayImage=true;
-					enemy.canCollideSet(false);
-					jeremy.loseHealth(1);
-					if(enemy.toString().equals("netv")){
+					
+					/**This checks for the dragon and makes it so he cant disapear**/
+					if(!enemy.toString().equals("cdragon")){
+						enemy.delayOfTime=System.currentTimeMillis()+0;
+						enemy.delayImage=true;
+						enemy.canCollideSet(false);
+					}
+					if(!jeremy.delayCollide){
+						SoundManager.playSound(3);
+						jeremy.loseHealth(1);
+						jeremy.delayCollideTime=System.currentTimeMillis()+0;
+						jeremy.delayCollide=true;
+					}
+					if(enemy.toString().equals("netv")||enemy.toString().equals("nstar1")){
 						projectileDraw = false;
 					}
-					jeremy.delayCollideTime=System.currentTimeMillis()+0;
-					jeremy.delayCollide=true;
-					jeremy.setCollide(false);
+						
+					
+
+					
 				}else if(enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(2))
 						&&jeremy.getHitBox().get(2).collide){
 					SoundManager.playSound(4);
+					if(!enemy.toString().equals("cdragon")){
 					if(enemy.getY2()<240){
 						score+=20;
 						if(score>Integer.parseInt(OptionsMenu.SCORE))
@@ -155,11 +170,13 @@ public class GameModel {
 								editor.commit();
 						}
 					}
+					
 					enemy.collidedWithKillbox();
 					enemy.delayOfTime=System.currentTimeMillis()+0;
 					enemy.delayImage=true;
 					enemy.canCollideSet(false);
-					if(enemy.toString().equals("netv")){
+					}
+					if(enemy.toString().equals("netv")||enemy.toString().equals("nstar1")){
 						projectileDraw = false;
 					}
 				}

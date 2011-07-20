@@ -10,6 +10,7 @@ public class GenericEnemy extends Enemy {
 	public GenericEnemy(ArrayList<Bitmap> images, ArrayList<Bitmap> deathImages,
 			Coordinate coordinate, float speed, String name) {
 		super(images, deathImages,coordinate, speed, name);
+		super.stopYCoordinate=coordinate.getY();
 		
 	}
 	
@@ -21,6 +22,9 @@ public class GenericEnemy extends Enemy {
 		super.moveUp=move;
 	}public void moveDown(boolean move){
 		super.moveDown=move;
+	}public void jumping(boolean jumping){
+		super.jumping=jumping;
+		jumpTime=System.currentTimeMillis()+0;
 	}
 	
 	

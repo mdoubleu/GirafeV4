@@ -99,7 +99,7 @@ public class LevelBuilder {
 			 }
 			 else if (classname.equals("Enemy")){
 				GenericEnemy hold =new GenericEnemy(images, deathImages,coordinate,speed,imageName);
-				if(imageName.equals("helicopter")){
+				if(imageName.equals("helicopter")||imageName.equals("bhelicopter1")){
 					hold.moveLeft(true);
 					hold.getHitBox().add(new HitBox("helicopter", coordinate, true));
 				}
@@ -107,10 +107,29 @@ public class LevelBuilder {
 					hold.moveLeft(true);
 					hold.setImage(false);
 					hold.getHitBox().add(new HitBox("netv", coordinate, true));
-				}else if(imageName.equals("icecream1")){
+				}else if(imageName.equals("vender") || imageName.equals("cbus") ||imageName.equals("icecream1") ){
 					hold.moveLeft(true);
-					hold.getHitBox().add(new HitBox("icecream", coordinate, true));
+					hold.getHitBox().add(new HitBox("vender", coordinate, true));
 					hold.setLandOn(true);
+				}else if(imageName.equals("ninja") || imageName.equals("ninjaglide") || imageName.equals("nstar1")
+						|| imageName.equals("ninjaglide2")){
+					hold.moveLeft(true);
+					hold.getHitBox().add(new HitBox(imageName, coordinate, true));
+					hold.jumping(true);
+					if(imageName.equals("ninjaglide2") || imageName.equals("nstar1") ){
+						hold.setImage(false);
+					}
+					
+				}else if(imageName.equals("cdragon")){
+					hold.moveLeft(true);
+					hold.getHitBox().add(new HitBox("cdragon", coordinate, true));
+					hold.setLandOn(true);
+					
+				}else if(imageName.equals("kapow")){
+					hold.moveLeft(true);
+					hold.getHitBox().add(new HitBox("kapow", coordinate, true));
+					hold.canCollide=false;
+					hold.setImage(false);	
 				}
 				
 				 enemies.add(hold); 

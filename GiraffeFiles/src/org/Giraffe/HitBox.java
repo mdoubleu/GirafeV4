@@ -35,7 +35,7 @@ public class HitBox{
 		int otherY2=(int)other.getY2();
 		int otherY1=(int)other.getY();	
 		
-		if((getX()<otherX2 && getX2()>otherX) && Math.abs(getY2()-otherY1)<6){
+		if((getX()<otherX2 && getX2()>otherX) && Math.abs(getY2()-otherY1)<3){
 			return true;
 		}
 		

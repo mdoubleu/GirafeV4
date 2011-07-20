@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 public class Enemy extends Mechanics{
 	protected boolean canCollide=true;
 	protected int health;
+	protected int stopYCoordinate;
 	protected ArrayList<HitBox> hitBox=new ArrayList<HitBox>();
 	protected ArrayList<Bitmap> deathImages=new ArrayList<Bitmap>();
 	protected String name;
@@ -17,6 +18,8 @@ public class Enemy extends Mechanics{
 	protected boolean moveUp=false;
 	protected boolean moveDown=false;
 	private boolean canLandOn=false;
+	protected boolean jumping=false;
+	protected long jumpTime;
 	
 	protected boolean canShoot = false;
 	
@@ -38,7 +41,7 @@ public class Enemy extends Mechanics{
 		setImageToDraw(deathImages.get(0));
 	}
 	public void collidedWithKillbox(){
-		setImageToDraw(deathImages.get(1));
+		setImageToDraw(deathImages.get(0));
 	}
 	public void canCollideSet(boolean canCollide){
 		this.canCollide=canCollide;
@@ -81,6 +84,12 @@ public class Enemy extends Mechanics{
 				}
 			}if (moveUp){
 			
+			}
+			if(jumping){
+				coordinate.setY(jump(getY(), stopYCoordinate, speed, -.02f, jumpTime));
+				if(getY()==stopYCoordinate){
+					jumpTime=System.currentTimeMillis()+0;
+				}
 			}
 		}
 	}

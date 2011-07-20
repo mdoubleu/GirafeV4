@@ -1,19 +1,36 @@
 20 ; StaticImage ; backgroundcolor % 0, 0, 0
-0 ; StaticImage ; cloud1 % 0, 100, 50
+0 ; StaticImage ; csun % 0, 0, 0
+0 ; StaticImage ; cloud1 % .04, 100, 40
+0 ; StaticImage ; cloud2 % .04, 550, 20
+0 ; StaticImage ; cloud3 % .04, 800, 20
 0 ; StaticImage ; building1 % .04, 20, 80
-0 ; StaticImage ; buildingclump1 % .04, 80, 160
-0 ; StaticImage ; building2 % .04, 200, 110
-0 ; StaticImage ; buildingclump2 % .04, 350, 120
-0 ; StaticImage ; buildingclump3 % .04, 500, 150
+0 ; StaticImage ; buildingclump1 % .04, 80, 80
+0 ; StaticImage ; building2 % .04, 200, 80
+0 ; StaticImage ; buildingclump2 % .04, 350, 80
+0 ; StaticImage ; buildingclump3 % .04, 500, 80
 0 ; StaticImage ; buildingclump4 % .04, 700, 80
-11 ; StaticImage ; grass2 % 1, 0, 220
-0 ; StaticImage ; btreeg % 1, 0, 100
-0 ; StaticImage ; btreeg % 1, 200, 100
-0 ; StaticImage ; btreeg % 1, 400, 100
-0 ; StaticImage ; bpinetreeg1 % 1, 480, 115
-0 ; StaticImage ; bpinetreeg1 % 1, 680, 115
-35 ; StaticImage ; road % 3, 0, 330
-10 ; StaticImage ; metalfence % 3, 0, 260
-0 ; StaticImage ; trashcan % 3, 400, 260
+8 ; StaticImage ; grass5 % 1, 0, 220
+0 ; StaticImage ; streeor % 1, 100, 130
+0 ; StaticImage ; streeg % 1, 300, 130
+0 ; StaticImage ; streeg % 1, 500, 130
+0 ; StaticImage ; streelg % 1, 700, 130
+0 ; StaticImage ; streeor % 1, 900, 130
+0 ; StaticImage ; streelg % 1, 150, 170
+0 ; StaticImage ; streeg % 1, 350, 160
+0 ; StaticImage ; streeor % 1, 550, 175
+0 ; StaticImage ; streeg % 1, 750, 165
+0 ; StaticImage ; streelg % 1, 950, 170
+0 ; StaticImage ; btreeg % 1, 0, 150
+0 ; StaticImage ; btreeor % 1, 200, 140
+0 ; StaticImage ; btreelg % 1, 400, 150
+0 ; StaticImage ; btreeg % 1, 600, 140
+0 ; StaticImage ; btreelg % 1, 800, 150
+35 ; StaticImage ; road % 3, 0, 350
+10 ; StaticImage ; metalfence % 3, 0, 280
+0 ; StaticImage ; trashcan % 3, 400, 280 ; 3, 600, 280
+0 ; StaticImage ; bench % 3, 0, 280 ; 3, 710, 280
 3 ; Enemy ; helicopter ; helicopter2 ; kapow ; kapow2 % 5, 800, 100 ; 8, 1200, 80 ; 6, 1800, 50 ; 6, 2300, 120 ; 6, 3000, 100
-3 ; Enemy ; icecream1 ; icecream2 ; kapow ; kapow2 % 3, 800, 360 ; 3, 1200, 360 ; 3, 1800, 360 ; 3, 2300, 360 ; 3, 3000, 360
+2 ; Enemy ; vender ; kapow2 % 3, 800, 300 ; 3, 1200, 300
+3 ; Enemy ; icecream1 ; icecream2 ; icecream3 % 5, 2000, 310 ; 5, 6000, 310
+3 ; Enemy ; bhelicopter1 ; bhelicopter2 ; kapow ; kapow2 % 5, 1000, 100
+2 ; Enemy ; kapow ; kapow % 5, 6200, 100
