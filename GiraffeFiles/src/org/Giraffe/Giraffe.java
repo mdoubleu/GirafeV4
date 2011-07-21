@@ -63,14 +63,12 @@ public class Giraffe extends Mechanics{
 		
 		coordinate = new Coordinate(0,260,imageToDraw.getWidth(), imageToDraw.getHeight());
 		
-		
 		Coordinate head=new Coordinate(100, 310, 60, 50);
 		hitBox.add(new HitBox("head", head, true));
 		Coordinate body=new Coordinate(50, 370, 100, 70);
 		hitBox.add(new HitBox("body", body, true));
 		Coordinate killbox=new Coordinate(130, 330, 100, 120);
 		hitBox.add(new HitBox("killbox", killbox, false));
-		
 		
 		stopJumpCoordinate=coordinate.getY();
 		headStopCoordinate=hitBox.get(0).getY();
@@ -110,7 +108,7 @@ public class Giraffe extends Mechanics{
 		}else if(System.currentTimeMillis()-timeIn>800){
 			setImage(false);
 		}else if(System.currentTimeMillis()-timeIn>600){
-			setImage(true);
+			setImage(true);	
 		}else if(System.currentTimeMillis()-timeIn>400){
 			setImage(false);
 		}else if(System.currentTimeMillis()-timeIn>200){
@@ -120,7 +118,7 @@ public class Giraffe extends Mechanics{
 		}
 	}
 	
-	public void move() {		
+	public void move(float timePassed) {		
 		if(myState==gState.NORMAL){
 			setImageToDraw(animation(images, 250));
 		}
@@ -168,12 +166,12 @@ public class Giraffe extends Mechanics{
 		return true;
 	}
 	public void setPic() {		
-		updateTime();
 		if(delayCollide){
 			delayCollideOneSecond(delayCollideTime);
 		}
+		updateTime();
 		if(getJump()){
-			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, 11f, -.02f, jumpTime);
+			int holdYJump=jump(coordinate.getY(), stopJumpCoordinate, 12f, -.02f, jumpTime);
 			if(holdYJump==stopJumpCoordinate){
 				setJump(false);
 				doubleJumpCount=0;
@@ -183,9 +181,9 @@ public class Giraffe extends Mechanics{
 				
 			}
 			coordinate.setY(holdYJump);
-			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, 11f, -.02f, jumpTime));
-			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, 11f, -.02f, jumpTime));
-			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, 11f, -.02f, jumpTime));
+			hitBox.get(0).setY(jump(hitBox.get(0).getY(), headStopCoordinate, 12f, -.02f, jumpTime));
+			hitBox.get(1).setY(jump(hitBox.get(1).getY(), bodyStopCoordinate, 12f, -.02f, jumpTime));
+			hitBox.get(2).setY(jump(hitBox.get(2).getY(), killStopCoordinate, 12f, -.02f, jumpTime));
 			
 		}
 		switch(myState) {
@@ -200,8 +198,6 @@ public class Giraffe extends Mechanics{
 					//autoAttack=false;
 					myState=gState.NORMAL;
 					setCooldownTime();
-					
-			
 				}
 			
 		break;
@@ -216,7 +212,7 @@ public class Giraffe extends Mechanics{
 				setCooldown(false);
 			}
 			
-			move();
+			move(System.currentTimeMillis());
 		break;
 		case PRIMED:
 			if(System.currentTimeMillis()-autoAttackTime>1000){
@@ -239,7 +235,6 @@ public class Giraffe extends Mechanics{
 	public void setJump(boolean canJ){
 		jumpTime=System.currentTimeMillis()+0;
 		canJump=canJ;
-		
 	}
 	/**
 	 * checks if the giraffe can jump.
@@ -264,5 +259,20 @@ public class Giraffe extends Mechanics{
 	}
 	public boolean getCooldown () {
 		return attacking;
+	}
+	@Override
+	public void setToScale(float xScale, float yScale) {
+		coordinate.x = coordinate.x * xScale;
+		coordinate.y = (int)(coordinate.y * yScale);
+		coordinate.setHeight((int)(coordinate.getHeight()*xScale));
+		coordinate.setWidth((int)(coordinate.getWidth()*xScale));
+		
+		for(HitBox hb:hitBox)
+		{
+			hb.setX(hb.getX()*xScale);
+			hb.setY((int)(hb.getY()*yScale));
+			hb.setWidth((int)(hb.getWidth()*xScale));
+			hb.setHeight((int)(hb.getHeight()*yScale));
+		}
 	}
 }

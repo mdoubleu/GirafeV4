@@ -24,7 +24,7 @@ public class GenericEnemy extends Enemy {
 		super.moveDown=move;
 	}public void jumping(boolean jumping){
 		super.jumping=jumping;
-		jumpTime=System.currentTimeMillis()+0;
+		super.jumpTime=System.currentTimeMillis()+0;
 	}
 	
 	

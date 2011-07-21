@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 public class Enemy extends Mechanics{
 	protected boolean canCollide=true;
 	protected int health;
-	protected int stopYCoordinate;
 	protected ArrayList<HitBox> hitBox=new ArrayList<HitBox>();
 	protected ArrayList<Bitmap> deathImages=new ArrayList<Bitmap>();
 	protected String name;
@@ -18,13 +17,14 @@ public class Enemy extends Mechanics{
 	protected boolean moveUp=false;
 	protected boolean moveDown=false;
 	private boolean canLandOn=false;
-	protected boolean jumping=false;
-	protected long jumpTime;
 	
 	protected boolean canShoot = false;
 	
 	protected long delayOfTime;
 	protected boolean delayImage=false;
+	public int stopYCoordinate;
+	public boolean jumping;
+	public long jumpTime;
 		
 	public Enemy (ArrayList<Bitmap> images, ArrayList<Bitmap> deathImages,
 			Coordinate coordinate, float speed, String name) {
@@ -65,32 +65,33 @@ public class Enemy extends Mechanics{
 		}
 	}
 	
-	public void move(){
+	public void move(float timePassed){
+		float currentSpeed = speed*timePassed;
 		if(delayImage){
 			delayObstacleImage(delayOfTime);
 		}else{
 			setImageToDraw(animation(images, 200));
 			if(moveLeft){
-				coordinate.setX(moveLeft(coordinate.getX(), speed));
-				for(int x=0; x<hitBox.size(); x++){
-					hitBox.get(x).setX(coordinate.getX());
+				coordinate.setX(moveLeft(coordinate.getX(), currentSpeed));
+				for(HitBox hb:hitBox){
+					hb.setX(coordinate.getX());
 				}
 			}if(moveRight){
 			
 			}if(moveDown){
-				coordinate.setY((int)moveDown(coordinate.getY(), -speed));
-				for(int x=0; x<hitBox.size(); x++){
-					hitBox.get(x).setY(coordinate.getY());
+				coordinate.setY((int)moveDown(coordinate.getY(), -currentSpeed));
+				for(HitBox hb:hitBox){
+					hb.setY(coordinate.getY());
 				}
 			}if (moveUp){
 			
-			}
-			if(jumping){
-				coordinate.setY(jump(getY(), stopYCoordinate, speed, -.02f, jumpTime));
+			}if(jumping){
+				coordinate.setY(jump(getY(), stopYCoordinate, speed/6, -.02f, jumpTime));
 				if(getY()==stopYCoordinate){
 					jumpTime=System.currentTimeMillis()+0;
 				}
 			}
+		
 		}
 	}
 	public void rangeAttack(){
@@ -124,5 +125,20 @@ public class Enemy extends Mechanics{
 	public  void moveParabola(){}
 	public void fling(){}
 	public void fall(){}
+
+	@Override
+	public void setToScale(float xScale, float yScale) {
+		super.coordinate.x = super.coordinate.x * xScale;
+		super.coordinate.y = (int)(super.coordinate.y * yScale);
+		super.coordinate.setHeight((int)(super.coordinate.getHeight()*xScale));
+		super.coordinate.setWidth((int)(super.coordinate.getWidth()*xScale));
+		for(HitBox hb:hitBox)
+		{
+			hb.setX(hb.getX()*xScale);
+			hb.setY((int)(hb.getY()*yScale));
+			hb.setWidth((int)(hb.getWidth()*xScale));
+			hb.setHeight((int)(hb.getHeight()*yScale));
+		}
+	}
 	
 }

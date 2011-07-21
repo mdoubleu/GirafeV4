@@ -27,6 +27,7 @@ public abstract class Mechanics {
 	public int getY(){return coordinate.getY();}
 	public int getY2(){return coordinate.getY()+coordinate.getHeight();}
 	public int getHeight(){return coordinate.getHeight();}
+	public abstract void setToScale(float xScale, float yScale);
 	
 	public Bitmap getImageToDraw(){
 		return imageToDraw;
@@ -34,7 +35,7 @@ public abstract class Mechanics {
 	public void setImageToDraw(Bitmap imageToDraw){
 		this.imageToDraw=imageToDraw;
 	}
-	public abstract void move();
+	public abstract void move(float timePassed);
 	
 	public float moveLeft(float x, float speed){
 		return x-speed;
@@ -51,8 +52,6 @@ public abstract class Mechanics {
 	public  void slowDown(){}
 	public  void setSpeed(){}
 	public Bitmap animation(ArrayList<Bitmap> images, int timeToWait){
-		
-		
 		if(System.currentTimeMillis()-animationTime>timeToWait){
 			if(animationCount+1==images.size()){
 				animationCount=-1;
