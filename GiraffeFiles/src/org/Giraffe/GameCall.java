@@ -53,14 +53,15 @@ public class GameCall extends Activity{
     //overrides the back button
     @Override
     public void onBackPressed() {
-    	
+    	Music.stop(context);
+        GameCall.this.finish();
     	// do something on back.
     	//setContentView(R.layout.pausescreen);
     	
     	//gameThread.setRunning(false);
     	//gameThread.run();
-    	mPaused=true;
-    	showDialog(0);
+    	//mPaused=true;
+    	//showDialog(0);
     	//gameThread.suspend();
     return;
     }

@@ -247,7 +247,10 @@ public class LevelBuilder {
 					
 				}else if(keyMap.get("res").contains("netguys")){
 					enemy.moveLeft(true);
-					enemy.getHitBox().add(new HitBox("kapow", coordinate, true));
+					enemy.getHitBox().add(new HitBox("netguys", 
+							new Coordinate((coordinate.getX()),coordinate.getY()+100,
+									coordinate.getWidth()/8,(coordinate.getHeight())), true));
+					enemy.getHitBox().get(0).setX(coordinate.getX()+100);
 				}
 				enemies.add(enemy); 
 			 }

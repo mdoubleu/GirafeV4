@@ -74,7 +74,7 @@ public class Enemy extends Mechanics{
 			if(moveLeft){
 				coordinate.setX(moveLeft(coordinate.getX(), currentSpeed));
 				for(HitBox hb:hitBox){
-					hb.setX(coordinate.getX());
+					hb.setX(moveLeft(hb.getX(), currentSpeed));
 				}
 			}if(moveRight){
 			

@@ -123,6 +123,7 @@ public class GameModel {
 				if(jeremy.getHitBox().get(1).landsOn(enemy.getHitBox().get(0)) && enemy.canLandOn()){
 					enemyLandOn=enemy;
 					jeremy.jumpTime=System.currentTimeMillis()+0;
+					jeremy.doubleJumpCount=0;
 					jeremy.setJump(false);
 					checkFall=true;
 				}

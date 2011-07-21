@@ -31,7 +31,7 @@ public class Giraffe extends Mechanics{
 	
 	boolean autoAttack=false;
 	
-	private int doubleJumpCount=0;
+	protected int doubleJumpCount=0;
 
 	
 	 /**Controls the neck-attack*/
