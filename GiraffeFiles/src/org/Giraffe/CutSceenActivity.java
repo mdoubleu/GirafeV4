@@ -29,12 +29,13 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class OpeningCutSceen extends Activity implements OnClickListener
+public class CutSceenActivity extends Activity implements OnClickListener
 {
-	private Button replay;
-	private Button skip;
+	private View replay;
+	private View skip;
 	long cTime;
 	long startTime;
+	Context context;
 	Intent o;
 	
 	 @Override
@@ -43,17 +44,25 @@ public class OpeningCutSceen extends Activity implements OnClickListener
 	        
 	        
 	        setContentView(R.layout.cutsceen1);
-	        replay= (Button) findViewById(R.id.replay);
+	        context=this;
+	        replay= findViewById(R.id.replaybutton);
 	        replay.setOnClickListener(this);
-	        skip= (Button) findViewById(R.id.skip);
+	        skip= findViewById(R.id.skipbutton);
 	        skip.setOnClickListener(this);
 	        //Fill view from resource
 			o=new Intent(this, GameCall.class);
-			
+			Uri videoPath=null;
 	        VideoView video = (VideoView) findViewById(R.id.videoView1);
 	        //video.setVideoPath("/raw/cutscene1.mp4");
-	        Uri videoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cutscene1);
-	       video.setVideoURI(videoPath);
+	        if(Integer.parseInt(OptionsMenu.getLevel(context))==1)
+	        {
+	        	videoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cutscene1);
+	        }
+	        if(Integer.parseInt(OptionsMenu.getLevel(context))==2)
+	        {
+	        	videoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.cutscene2);
+	        }
+	        video.setVideoURI(videoPath);
 	       video.requestFocus();
 	       //video.setOnCompletionListener(null); 
 	       video.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
@@ -66,12 +75,7 @@ public class OpeningCutSceen extends Activity implements OnClickListener
 			
 		} });
 	       video.start();
-	        /*
-	        if (!video.canSeekBackward())
-	        {
-	        	finish();
-	        }
-	        */
+	      
 	        //Music.create(this,R.raw.cutscene1);
 	        //mediaPlayer.start(); // no need to call prepare(); create() does that for you
 	       
@@ -80,6 +84,7 @@ public class OpeningCutSceen extends Activity implements OnClickListener
 	        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	        //Music.create(this, R.raw.jeremythegiraffetheme);
 	       // Music.setLooping(this, R.raw.jeremythegiraffetheme);
+	        
 	    }
 	
 	@Override
@@ -88,12 +93,12 @@ public class OpeningCutSceen extends Activity implements OnClickListener
 		
 		switch (v.getId())
 		{
-		case R.id.replay:
+		case R.id.replaybutton:
 			finish();
-			Intent x=new Intent(this, OpeningCutSceen.class);
+			Intent x=new Intent(this, CutSceenActivity.class);
 			startActivity(x);
 			break;
-		case R.id.skip:
+		case R.id.skipbutton:
 			finish();
 			Intent z=new Intent(this, GameCall.class);
 			startActivity(z);
