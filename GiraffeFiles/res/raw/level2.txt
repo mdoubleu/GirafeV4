@@ -17,6 +17,6 @@
 3 ; Enemy ; ninjaglide ; ninjaglide1 ; ninjaglide3 % 7, 6000, 120
 3 ; Enemy ; ninjaglide2 ; ninjaglide5 ; ninjaglide3 % 7, 6000, 120
 3 ; Enemy ; nstar1 ; nstar2 ; poof % 7, 6000, 120
-3 ; Enemy ; cbus ; cbus2 ; cbus4 % 7, 200, 340 ; 7, 3000, 340
+3 ; Enemy ; cbus ; cbus2 ; cbus4 % 7, 1000, 340 ; 7, 4000, 340
 4 ; Enemy ; cdragon ; cdragon2 ; cdragon3 ; kapow2 % 10, 6000, 340 ; 7, 3000, 340
 2 ; Enemy ; kapow ; kapow % 7, 6200, 100

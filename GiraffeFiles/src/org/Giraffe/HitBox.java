@@ -28,7 +28,7 @@ public class HitBox{
 	public void collide(boolean collide){
 		this.collide=collide;
 	}
-	
+ 	
 	public boolean landsOn(HitBox other){
 		int otherX=(int)other.getX();
 		int otherX2=(int)other.getX2();

@@ -28,7 +28,11 @@ public class GameState
 		if(progress>=2)
 		{
 			progress=1; 
-			
+			SharedPreferences.Editor editor = 
+				PreferenceManager.getDefaultSharedPreferences(context)
+					.edit();
+					editor.putString("levelselect", progress+"");		
+					editor.commit();
 		}
 		else
 		{

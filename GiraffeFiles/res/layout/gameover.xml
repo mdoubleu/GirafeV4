@@ -29,7 +29,7 @@
 	     	android:id="@+id/mainSectionMenu" android:layout_width="match_parent" android:layout_height="match_parent"> 
 	    <ImageView 
 	        android:id="@+id/continueButton"
-	        android:src="@drawable/ui_button_start"
+	        android:src="@drawable/continue2"
 	        android:layout_width="wrap_content" 
 	        android:layout_height="wrap_content" 
 	        android:layout_gravity="center_horizontal"
@@ -37,7 +37,7 @@
 	
 	    <ImageView 
 	        android:id="@+id/quitButton"
-	        android:src="@drawable/ui_button_extras"
+	        android:src="@drawable/mainmenu"
 	        android:layout_width="wrap_content" 
 	        android:layout_height="wrap_content" 
 	        android:layout_gravity="center_horizontal"
