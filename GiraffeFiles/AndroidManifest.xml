@@ -4,7 +4,7 @@
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="8" />
-    <application android:icon="@drawable/giraffe" android:theme="@android:style/Theme.NoTitleBar" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:theme="@android:style/Theme.NoTitleBar" android:label="@string/app_name">
              
              <activity android:name=".MainMenu"
                   android:label="@string/app_name"

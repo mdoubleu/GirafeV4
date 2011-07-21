@@ -16,7 +16,7 @@
   	android:defaultValue="true"
   />
    <EditTextPreference
-   android:title="Edit this bitch"
+   android:title="Level Select"
    android:name="levelselect" 
    android:key="levelselect" 
    android:defaultValue="1"  
@@ -24,7 +24,7 @@
    >
    </EditTextPreference>
    <EditTextPreference
-   android:title="HighScore bitch"
+   android:title="Highscore"
    android:name="highscore" 
    android:key="highscore" 
    android:defaultValue="300"  

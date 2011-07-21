@@ -15,7 +15,6 @@ public class GameModel {
 	
 	public boolean levelOver=false;
 	private boolean levelLose=false;
-	protected boolean projectileDraw = true;
 	private boolean checkFall=false;
 	private boolean laugh=false;
 	private Enemy enemyLandOn;
@@ -74,7 +73,7 @@ public class GameModel {
 		for(Enemy enemy: enemies){
 			enemy.move(timePassed);
 			if((enemy.toString().equals("netv") || enemy.toString().equals("nstar1") 
-					||enemy.toString().equals("ninjaglide2") )&& enemy.getX() < 300 && projectileDraw){	
+					||enemy.toString().equals("ninjaglide2") )&& enemy.getX() < 300 && enemy.projectileDraw){	
 					enemy.setImage(true);
 					if(enemy.toString().equals("nstar1")||enemy.toString().equals("netv")){
 						((GenericEnemy)enemy).jumping(false);
@@ -141,7 +140,7 @@ public class GameModel {
 						jeremy.delayCollide=true;
 					}
 					if(enemy.toString().equals("netv")||enemy.toString().equals("nstar1")){
-						projectileDraw = false;
+						enemy.projectileDraw = false;
 					}
 				}else if(enemy.hitBox.get(0).collidesWith(jeremy.getHitBox().get(2))
 						&&jeremy.getHitBox().get(2).collide){
@@ -174,7 +173,7 @@ public class GameModel {
 					enemy.delayImage=true;
 					enemy.canCollideSet(false);
 					if(enemy.toString().equals("netv")||enemy.toString().equals("nstar1")){
-						projectileDraw = false;
+						enemy.projectileDraw = false;
 					}
 				}
 			}

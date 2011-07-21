@@ -252,6 +252,10 @@ public class LevelBuilder {
 									coordinate.getWidth()/8,(coordinate.getHeight())), true));
 					enemy.getHitBox().get(0).setX(coordinate.getX()+100);
 				}
+				else if(keyMap.get("res").contains("fireball")){
+					enemy.moveLeft(true);
+					enemy.getHitBox().add(new HitBox("fireball", coordinate, true));
+				}
 				enemies.add(enemy); 
 			 }
 		 }

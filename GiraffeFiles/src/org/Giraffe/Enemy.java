@@ -17,7 +17,7 @@ public class Enemy extends Mechanics{
 	protected boolean moveUp=false;
 	protected boolean moveDown=false;
 	private boolean canLandOn=false;
-	
+	protected boolean projectileDraw=true;
 	protected boolean canShoot = false;
 	
 	protected long delayOfTime;

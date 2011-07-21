@@ -43,7 +43,7 @@ import android.view.View.OnClickListener;
 					GameState.nextLevel(v.getContext());
 					this.finish();
 			    	Music.stop(this);
-					Intent x=new Intent(this, GameCall.class);
+					Intent x=new Intent(this, CutSceenActivity.class);
 					startActivity(x);
 
 					break;
